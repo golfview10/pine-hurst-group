@@ -1,0 +1,97 @@
+รายการรูปภาพสำหรับหน้า Golf View (golf-view.html)
+==================================================
+
+ใช้สำหรับเตรียมไฟล์รูปภาพเพื่อนำมาเปลี่ยนแทนรูปตัวอย่าง
+กรุณาตั้งชื่อไฟล์และวางให้ตรงตามโฟลเดอร์ที่ระบุ
+** รับเฉพาะไฟล์ .png เท่านั้น (ตั้งชื่อไฟล์ให้ตรงตามรายการ) **
+
+1. ภาพหลัก (Header)
+------------------
+- ตำแหน่ง: Background Header (บนสุดของเว็บ)
+- ชื่อไฟล์: header-bg.png
+- ชื่อไฟล์: logo.png (Favicon)
+- โฟลเดอร์: image/
+
+2. ภาพปกห้องพัก (Thumbnail)
+------------------
+รูปที่โชว์หน้าแรกก่อนกดเข้าไปดูรายละเอียด
+- Standard: room-standard.png (ในโฟลเดอร์ image/)
+- Premium:  room-premium.png  (ในโฟลเดอร์ image/)
+- Deluxe:   room-deluxe.png   (ในโฟลเดอร์ image/)
+- VIP:      room-vip.png      (ในโฟลเดอร์ image/)
+- Paradise: room-paradise.png (ในโฟลเดอร์ image/)
+
+3. แกลเลอรี่ห้องพัก (Gallery)
+------------------
+รูปภาพสำหรับโชว์ตอนกดคลิกที่ห้องพักเพื่อดูรูปเพิ่มเติม
+แต่ละห้องต้องมี 3 รูป ตั้งชื่อเป็นตัวเลข 1.png ถึง 3.png
+
+ก) ห้อง Standard
+   โฟลเดอร์: image/standard/
+   ไฟล์: 1.png, 2.png, 3.png
+
+ข) ห้อง Premium
+   โฟลเดอร์: image/premium/
+   ไฟล์: 1.png, 2.png, 3.png
+
+ค) ห้อง Deluxe
+   โฟลเดอร์: image/deluxe/
+   ไฟล์: 1.png, 2.png, 3.png
+
+ง) ห้อง VIP
+   โฟลเดอร์: image/vip/
+   ไฟล์: 1.png, 2.png, 3.png
+
+จ) ห้อง Paradise
+   โฟลเดอร์: image/paradise/
+   ไฟล์: 1.png, 2.png, 3.png
+
+4. สิ่งอำนวยความสะดวก (Facilities)
+------------------
+รูปภาพสี่เหลี่ยมสำหรับแถบเลื่อนด้านล่าง
+โฟลเดอร์: image/facilities/
+
+1.png  = สระว่ายน้ำ
+2.png  = ฟิตเนส
+3.png  = รถตู้รับ-ส่ง
+4.png  = ร้านสะดวกซื้อ
+5.png  = บริการซักรีด
+
+6.png  = สวนหย่อม
+7.png  = Co-Working Space
+
+------------------
+MAPLE MANSION (เมเปิ้ลแมนชั่น)
+------------------
+1. รายเดือน 1 ห้องนอน (5,500 บาท)
+โฟลเดอร์: image/maple/monthly-1bed/
+ไฟล์: 1.png - 5.png
+
+2. รายเดือน 2 ห้องนอน (8,500 บาท)
+โฟลเดอร์: image/maple/monthly-2bed/
+ไฟล์: 1.png - 5.png
+
+3. รายวัน 1 เตียง (590 บาท)
+โฟลเดอร์: image/maple/daily-1bed/
+ไฟล์: 1.png - 5.png
+
+4. รายวัน 2 เตียง (890 บาท)
+โฟลเดอร์: image/maple/daily-2bed/
+ไฟล์: 1.png - 5.png
+โฟลเดอร์: image/maple/daily-2bed/5.png  | Room: Daily 2 Beds (Slide 5)
+
+# Maple Mansion Facilities
+image/maple/facilities/fitness/1.png | Facility: Fitness (Slide 1)
+image/maple/facilities/fitness/2.png | Facility: Fitness (Slide 2)
+image/maple/facilities/fitness/3.png | Facility: Fitness (Slide 3)
+image/maple/facilities/parking/1.png | Facility: Parking (Slide 1)
+image/maple/facilities/parking/2.png | Facility: Parking (Slide 2)
+image/maple/facilities/parking/3.png | Facility: Parking (Slide 3)
+image/maple/facilities/lounge/1.png  | Facility: Lounge (Slide 1)
+image/maple/facilities/lounge/2.png  | Facility: Lounge (Slide 2)
+image/maple/facilities/lounge/3.png  | Facility: Lounge (Slide 3)
+
+# Maple Mansion Header
+image/maple/header-bg.png | Maple Mansion Header Background.png
+
+กอล์ฟวิว เรสซิเด้นท์ - Golf View Resident

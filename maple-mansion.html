@@ -1,0 +1,517 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เมเปิลแมนชั่น</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+</head>
+<script>
+    // Global Image Error Handler to support both PNG and JPG
+    document.addEventListener('error', function (e) {
+        if (e.target.tagName === 'IMG') {
+            const src = e.target.src;
+            if (src.endsWith('.png')) {
+                // If PNG fails, try JPG
+                e.target.src = src.replace('.png', '.jpg');
+            } else if (src.endsWith('.jpg')) {
+                // Optional: If JPG fails, we could try PNG (if default was JPG)
+                // but currently default is PNG, so this prevents infinite loops.
+                console.error('Image load failed for both PNG and JPG:', src);
+            }
+        }
+    }, true); // Capture phase to catch error events
+</script>
+
+<body class="bg-slate-50 text-slate-800">
+
+    <nav class="bg-white/90 backdrop-blur fixed w-full z-50 border-b border-gray-200">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-slate-800 tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> MAPLE <span class="text-blue-600">MANSION</span>
+            </a>
+            <span class="text-sm text-slate-500 uppercase tracking-widest hidden md:inline">หอพักสไตล์คอนโด <span
+                    class="text-xs ml-1 opacity-70">ระดับพรีเมียม</span></span>
+        </div>
+    </nav>
+
+    <!-- Luxury Hero -->
+    <div class="relative pt-20">
+        <div class="h-[60vh] w-full overflow-hidden relative">
+            <img src="image/maplemansion/header-bg.png" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div class="text-center text-white p-8 bg-black/40 backdrop-blur-sm rounded-lg border border-white/20">
+                    <h1 class="text-4xl md:text-5xl font-light mb-4 tracking-wide">MAPLEMANSION ระยอง <div
+                            class="text-lg font-light mt-2 opacity-80 font-sans">EXECUTIVE LIVING</div>
+                    </h1>
+                    <p class="text-lg font-light tracking-wider">หอพักเปิดใหม่สไตล์คอนโด <span
+                            class="block text-sm opacity-70 mt-1 font-normal font-sans">ครบครัน สะดวก สะบาย
+                            ทันสมัย</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-16 max-w-5xl space-y-16">
+
+        <!-- Room Details & Rates (Zig-Zag Layout) -->
+        <section class="space-y-16">
+            <h3 class="text-3xl font-bold mb-12 text-center uppercase tracking-widest text-slate-800">รูปแบบห้องพัก
+                <span class="block text-lg text-slate-500 font-normal mt-2 capitalize font-sans">Room Collection</span>
+            </h3>
+
+            <!-- 1. Monthly 1 Bedroom -->
+            <div
+                class="flex flex-col md:flex-row gap-8 items-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500">
+                <div class="w-full md:w-1/2 h-[350px] relative group cursor-pointer"
+                    onclick="openGallery('monthly-1bed')">
+                    <div id="carousel-monthly-1bed" class="w-full h-full relative">
+                        <img src="image/maplemansion/monthly-1bed/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/maplemansion/monthly-1bed/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-1bed/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-1bed/4.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-1bed/5.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <span class="text-white font-bold border border-white px-6 py-2 rounded-full tracking-wider"><i
+                                class="fa-solid fa-images mr-2"></i>VIEW GALLERY</span>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 p-8 md:p-12">
+                    <div class="flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm mb-2"><i
+                            class="fa-solid fa-moon"></i> รายเดือน <span
+                            class="text-xs font-normal ml-1 font-sans">MONTHLY</span></div>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้อง 1 ห้องนอน <span
+                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">1 Bedroom Suite</span></h4>
+                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักแบบ 1 ห้องนอน ตกแต่งสไตล์ Modern
+                        Luxury ให้ความรู้สึกอบอุ่นเหมือนอยู่บ้าน พร้อมพื้นที่ใช้สอยที่ลงตัว
+                        <span class="block text-sm text-slate-400 mt-2">1 Bedroom suite decorated in Modern Luxury
+                            style, offering a warm, home-like feeling with perfectly allocated living space.</span>
+                    </p>
+                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง King Size 5 ฟุต <span
+                                class="text-xs text-slate-400 ml-1">King Size Bed (5ft)</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> โต๊ะทำงานส่วนตัว <span
+                                class="text-xs text-slate-400 ml-1">Private Work Desk</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> ระเบียงส่วนตัว <span
+                                class="text-xs text-slate-400 ml-1">Private Balcony</span></li>
+                    </ul>
+                    <div class="text-3xl font-bold text-blue-900">5,500 <span
+                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                </div>
+            </div>
+
+            <!-- 2. Monthly 2 Bedroom -->
+            <div
+                class="flex flex-col md:flex-row-reverse gap-8 items-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500">
+                <div class="w-full md:w-1/2 h-[350px] relative group cursor-pointer"
+                    onclick="openGallery('monthly-2bed')">
+                    <div id="carousel-monthly-2bed" class="w-full h-full relative">
+                        <img src="image/maplemansion/monthly-2bed/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/maplemansion/monthly-2bed/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-2bed/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-2bed/4.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/monthly-2bed/5.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <span class="text-white font-bold border border-white px-6 py-2 rounded-full tracking-wider"><i
+                                class="fa-solid fa-images mr-2"></i>VIEW GALLERY</span>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 p-8 md:p-12">
+                    <div class="flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm mb-2"><i
+                            class="fa-solid fa-moon"></i> รายเดือน <span
+                            class="text-xs font-normal ml-1 font-sans">MONTHLY</span>
+                    </div>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้อง 2 ห้องนอน <span
+                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">2 Bedroom Suite</span></h4>
+                    <p class="text-slate-600 mb-6 font-light leading-relaxed">กว้างขวางเป็นพิเศษกับ 2 ห้องนอน
+                        แยกสัดส่วนชัดเจน เหมาะสำหรับการพักผ่อนอย่างแท้จริง
+                        <span class="block text-sm text-slate-400 mt-2">Extra spacious with 2 separate bedrooms, clearly
+                            divided zones, perfect for true relaxation.</span>
+                    </p>
+                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 2 ห้องนอนแยกส่วน <span
+                                class="text-xs text-slate-400 ml-1">2 Separate Bedrooms</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> โซนนั่งเล่นขนาดใหญ่ <span
+                                class="text-xs text-slate-400 ml-1">Large Living Zone</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> ห้องน้ำแยกโซนเปียกแห้ง <span
+                                class="text-xs text-slate-400 ml-1">Separate Wet/Dry Bathroom</span></li>
+                    </ul>
+                    <div class="text-3xl font-bold text-blue-900">8,500 <span
+                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                </div>
+            </div>
+
+            <!-- 3. Daily 1 Bed -->
+            <div
+                class="flex flex-col md:flex-row gap-8 items-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500">
+                <div class="w-full md:w-1/2 h-[350px] relative group cursor-pointer"
+                    onclick="openGallery('daily-1bed')">
+                    <div id="carousel-daily-1bed" class="w-full h-full relative">
+                        <img src="image/maplemansion/daily-1bed/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/maplemansion/daily-1bed/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-1bed/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-1bed/4.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-1bed/5.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <span class="text-white font-bold border border-white px-6 py-2 rounded-full tracking-wider"><i
+                                class="fa-solid fa-images mr-2"></i>VIEW GALLERY</span>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 p-8 md:p-12">
+                    <div class="flex items-center gap-2 text-orange-500 font-bold tracking-widest text-sm mb-2"><i
+                            class="fa-solid fa-sun"></i> รายวัน <span
+                            class="text-xs font-normal ml-1 font-sans">DAILY</span>
+                    </div>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้องเตียงเดี่ยว <span
+                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Standard King</span></h4>
+                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักรายวันเตียงเดี่ยว สะอาด สะดวก
+                        ปลอดภัย พร้อมสิ่งอำนวยความสะดวกครบครัน
+                        <span class="block text-sm text-slate-400 mt-2">Daily room with single bed. Clean, convenient,
+                            safe with full amenities.</span>
+                    </p>
+                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง King Size <span
+                                class="text-xs text-slate-400 ml-1">King Size Bed</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Free WiFi <span
+                                class="text-xs text-slate-400 ml-1">ฟรีอินเทอร์เน็ต</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> อุปกรณ์อาบน้ำ <span
+                                class="text-xs text-slate-400 ml-1">Toiletries provided</span></li>
+                    </ul>
+                    <div class="text-3xl font-bold text-orange-600">590 <span
+                            class="text-base font-normal text-slate-500">THB / Night</span></div>
+                </div>
+            </div>
+
+            <!-- 4. Daily 2 Beds -->
+            <div
+                class="flex flex-col md:flex-row-reverse gap-8 items-center bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500">
+                <div class="w-full md:w-1/2 h-[350px] relative group cursor-pointer"
+                    onclick="openGallery('daily-2bed')">
+                    <div id="carousel-daily-2bed" class="w-full h-full relative">
+                        <img src="image/maplemansion/daily-2bed/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/maplemansion/daily-2bed/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-2bed/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-2bed/4.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/maplemansion/daily-2bed/5.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <span class="text-white font-bold border border-white px-6 py-2 rounded-full tracking-wider"><i
+                                class="fa-solid fa-images mr-2"></i>VIEW GALLERY</span>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 p-8 md:p-12">
+                    <div class="flex items-center gap-2 text-orange-500 font-bold tracking-widest text-sm mb-2"><i
+                            class="fa-solid fa-sun"></i> รายวัน <span
+                            class="text-xs font-normal ml-1 font-sans">DAILY</span>
+                    </div>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้องเตียงคู่ <span
+                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Twin Deluxe</span></h4>
+                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักรายวันเตียงคู่
+                        เหมาะสำหรับพักผ่อนกับเพื่อนหรือครอบครัว
+                        <span class="block text-sm text-slate-400 mt-2">Daily room with twin beds. Suitable for staying
+                            with friends or family.</span>
+                    </p>
+                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง Twin Bed (3.5 ฟุต 2 เตียง) <span
+                                class="text-xs text-slate-400 ml-1">Twin Beds</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Free WiFi <span
+                                class="text-xs text-slate-400 ml-1">ฟรีอินเทอร์เน็ต</span></li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> อุปกรณ์อาบน้ำ <span
+                                class="text-xs text-slate-400 ml-1">Toiletries provided</span></li>
+                    </ul>
+                    <div class="text-3xl font-bold text-orange-600">890 <span
+                            class="text-base font-normal text-slate-500">THB / Night</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Facilities (Grid Layout) -->
+        <section class="space-y-12">
+            <h3 class="text-3xl font-bold mb-8 text-center uppercase tracking-widest text-slate-800">สิ่งอำนวยความสะดวก
+                <span class="block text-lg text-slate-500 font-normal mt-2 capitalize font-sans">Premium
+                    Facilities</span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 1. Fitness -->
+                <div class="flex flex-col">
+                    <div class="px-4 mb-4">
+                        <div class="flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm mb-2">
+                            <i class="fa-solid fa-dumbbell"></i> HEALTH <span
+                                class="text-xs font-normal ml-1 font-sans">สุขภาพ</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-800 mb-2">ฟิตเนส <span
+                                class="block text-base text-slate-500 font-normal mt-1 font-sans">Private Gym</span>
+                        </h4>
+                        <p class="text-slate-600 font-light text-sm leading-relaxed">
+                            ออกกำลังกายได้ทุกวันกับห้องฟิตเนสส่วนตัว เครื่องเล่นครบครันทันสมัย
+                            <span class="block text-xs text-slate-400 mt-1">Daily workout at our private gym with modern
+                                equipment.</span>
+                        </p>
+                    </div>
+                    <div class="h-[250px] relative rounded-2xl overflow-hidden shadow-md">
+                        <div id="carousel-fitness" class="w-full h-full relative">
+                            <img src="image/maplemansion/facilities/fitness/1.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                            <img src="image/maplemansion/facilities/fitness/2.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                            <img src="image/maplemansion/facilities/fitness/3.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Parking -->
+                <div class="flex flex-col">
+                    <div class="px-4 mb-4">
+                        <div class="flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm mb-2">
+                            <i class="fa-solid fa-car"></i> PARKING <span
+                                class="text-xs font-normal ml-1 font-sans">ที่จอดรถ</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-800 mb-2">ที่จอดรถ <span
+                                class="block text-base text-slate-500 font-normal mt-1 font-sans">Spacious
+                                Parking</span></h4>
+                        <p class="text-slate-600 font-light text-sm leading-relaxed">พื้นที่จอดรถกว้างขวาง
+                            รองรับรถยนต์ได้ 100% สะดวก ปลอดภัย
+                            <span class="block text-xs text-slate-400 mt-1">100% Spacious parking area, convenient and
+                                safe.</span>
+                        </p>
+                    </div>
+                    <div class="h-[250px] relative rounded-2xl overflow-hidden shadow-md">
+                        <div id="carousel-parking" class="w-full h-full relative">
+                            <img src="image/maplemansion/facilities/parking/1.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                            <img src="image/maplemansion/facilities/parking/2.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                            <img src="image/maplemansion/facilities/parking/3.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Lounge -->
+                <div class="flex flex-col">
+                    <div class="px-4 mb-4">
+                        <div class="flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm mb-2">
+                            <i class="fa-solid fa-couch"></i> LOUNGE <span
+                                class="text-xs font-normal ml-1 font-sans">ห้องรับรอง</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-slate-800 mb-2">ห้องรับรอง <span
+                                class="block text-base text-slate-500 font-normal mt-1 font-sans">Lobby & Lounge</span>
+                        </h4>
+                        <p class="text-slate-600 font-light text-sm leading-relaxed">
+                            พื้นที่ส่วนกลางสำหรับพักผ่อนหรือต้อนรับแขก ตกแต่งสวยงาม
+                            <span class="block text-xs text-slate-400 mt-1">Common area for relaxing or welcoming
+                                guests, beautifully decorated.</span>
+                        </p>
+                    </div>
+                    <div class="h-[250px] relative rounded-2xl overflow-hidden shadow-md">
+                        <div id="carousel-lounge" class="w-full h-full relative">
+                            <img src="image/maplemansion/facilities/lounge/1.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                            <img src="image/maplemansion/facilities/lounge/2.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                            <img src="image/maplemansion/facilities/lounge/3.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map -->
+        <section>
+            <h2 class="text-2xl font-bold mb-6 text-center">ทำเลที่ตั้ง <span
+                    class="block text-base font-normal text-slate-500 mt-1 font-sans">LOCATION</span></h2>
+            <div class="w-full h-[450px] shadow-2xl rounded-none md:rounded-xl overflow-hidden">
+                <iframe src="https://maps.google.com/maps?q=12.6959955,101.2861137&z=17&output=embed" width="100%"
+                    height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <p class="text-center mt-4 text-slate-500 font-light">ตั้งอยู่บนทำเลศักยภาพ ใกล้ทางด่วนและมหาวิทยาลัย
+                <span class="block text-sm text-slate-400 mt-1">Located in a prime location, near expressway and
+                    university.</span>
+            </p>
+        </section>
+
+    </div>
+
+    <!-- Contact Footer -->
+    <!-- Contact Footer -->
+    <footer id="contact" class="bg-gradient-to-r from-green-900 to-orange-900 text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center md:text-left">
+                <div>
+                    <h4 class="text-2xl font-bold mb-4">เมเปิลแมนชั่น ระยอง</h4>
+                    <p class="text-gray-200 mb-4">หอพักระดับพรีเมียม ใกล้เซ็นทรัลระยอง</p>
+                    <div class="space-y-2">
+                        <p><i class="fa-solid fa-phone mr-2"></i> 082-853-3938</p>
+                        <p><i class="fa-brands fa-line mr-2"></i> Line: @maple.m</p>
+                        <p><i class="fa-brands fa-facebook mr-2"></i> Maple Mansion - เมเปิลแมนชั่น</p>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center md:items-end justify-center">
+                    <a href="https://line.me/ti/p/~@maple.m" target="_blank"
+                        class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-full transition shadow-lg mb-4 border border-white/20">
+                        <i class="fa-brands fa-line mr-2"></i> ติดต่อจองห้องพัก
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-gray-300 text-sm">
+                &copy; 2023 Golf & Maple Group. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <!-- Gallery Modal -->
+    <div id="galleryModal"
+        class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <button onclick="closeGallery()"
+            class="absolute top-6 right-6 text-white/70 hover:text-white text-5xl transition">&times;</button>
+        <button onclick="prevImage()"
+            class="absolute left-4 md:left-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="relative max-w-5xl w-full p-4 flex flex-col items-center">
+            <img id="galleryImage" src="" class="max-h-[80vh] w-auto shadow-2xl rounded-lg border border-white/10"
+                alt="Room Gallery">
+            <div class="mt-4 text-white/80 text-lg font-light tracking-wide">
+                <span id="galleryCaption">Room View</span>
+                <span class="text-sm ml-2 opacity-50">(<span id="currentImageIndex">1</span>/5)</span>
+            </div>
+        </div>
+
+        <button onclick="nextImage()"
+            class="absolute right-4 md:right-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // === Carousel Logic ===
+        const roomTypes = ['monthly-1bed', 'monthly-2bed', 'daily-1bed', 'daily-2bed', 'fitness', 'parking', 'lounge'];
+
+        function initCarousels() {
+            roomTypes.forEach(type => {
+                let currentIndex = 0;
+                const container = document.getElementById(`carousel-${type}`);
+                if (!container) return;
+
+                const images = container.getElementsByTagName('img');
+
+                setInterval(() => {
+                    images[currentIndex].classList.remove('opacity-100');
+                    images[currentIndex].classList.add('opacity-0');
+
+                    currentIndex = (currentIndex + 1) % images.length;
+
+                    images[currentIndex].classList.remove('opacity-0');
+                    images[currentIndex].classList.add('opacity-100');
+                }, 3000); // Change every 3 seconds
+            });
+        }
+
+        // Start Carousels
+        initCarousels();
+
+        // === Gallery Logic ===
+        const roomNames = {
+            'monthly-1bed': 'Monthly 1 Bedroom',
+            'monthly-2bed': 'Monthly 2 Bedroom',
+            'daily-1bed': 'Daily 1 Bed',
+            'daily-2bed': 'Daily 2 Beds'
+        };
+
+        let currentRoom = '';
+        let currentImageId = 1;
+        const totalImages = 5;
+
+        function openGallery(room) {
+            currentRoom = room;
+            currentImageId = 1;
+            updateGalleryImage();
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; // Trigger reflow
+            modal.classList.remove('opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function updateGalleryImage() {
+            const img = document.getElementById('galleryImage');
+            img.style.opacity = '0.5';
+            setTimeout(() => {
+                img.src = `image/maplemansion/${currentRoom}/${currentImageId}.png`;
+                document.getElementById('galleryCaption').innerText = roomNames[currentRoom];
+                document.getElementById('currentImageIndex').innerText = currentImageId;
+                img.onload = () => { img.style.opacity = '1'; };
+            }, 150);
+        }
+
+        function nextImage() {
+            currentImageId = currentImageId < totalImages ? currentImageId + 1 : 1;
+            updateGalleryImage();
+        }
+
+        function prevImage() {
+            currentImageId = currentImageId > 1 ? currentImageId - 1 : totalImages;
+            updateGalleryImage();
+        }
+
+        // Event Listeners
+        document.getElementById('galleryModal').addEventListener('click', function (e) {
+            if (e.target === this) closeGallery();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+</body>
+
+</html>

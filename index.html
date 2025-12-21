@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOLF & MAPLE GROUP - อาณาจักรหอพักคุณภาพ</title>
+    <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .hero-bg {
+            background-image: url('image/main/header-bg.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+</head>
+<script>
+    // Global Image Error Handler to support both PNG and JPG
+    document.addEventListener('error', function (e) {
+        if (e.target.tagName === 'IMG') {
+            const src = e.target.src;
+            if (src.endsWith('.png')) {
+                // If PNG fails, try JPG
+                e.target.src = src.replace('.png', '.jpg');
+            } else if (src.endsWith('.jpg')) {
+                // If JPG also fails
+                console.error('Image load failed for both PNG and JPG:', src);
+            }
+        }
+    }, true);
+</script>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <i class="fa-solid fa-building"></i> Pinehurst GROUP
+            </a>
+            <div class="flex space-x-6">
+                <a href="#projects" class="hover:text-blue-600 transition text-sm md:text-base">โครงการทั้งหมด</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-bg h-[500px] flex items-end text-white px-4 pb-16">
+        <div class="container mx-auto flex justify-end">
+            <div class="max-w-xl text-right">
+
+                <p class="text-lg md:text-xl mb-8 font-bold drop-shadow-md">รวม 5 โครงการหอพักคุณภาพ
+                    ใกล้สถานศึกษา<br>สะดวก ปลอดภัย ครบครัน</p>
+                <a href="#projects"
+                    class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition shadow-lg">
+                    ดูรายชื่อหอพัก
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="projects" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800">โครงการของเรา</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- กอล์ฟวิว -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="image/golfview/cover.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">กอล์ฟวิว (Golf View)</h3>
+                        <p class="text-gray-500 text-sm mb-4">หอพักวิวสวย ส่วนกลางใหญ่สุด</p>
+                        <a href="golf-view.html"
+                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+
+                <!-- กอล์ฟซิตี้ -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="image/golfcity/cover.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">กอล์ฟซิตี้ (Golf City)</h3>
+                        <p class="text-gray-500 text-sm mb-4">ใจกลางความสะดวก ใกล้ของกิน</p>
+                        <a href="golf-city.html"
+                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+
+                <!-- กอล์ฟแมนชั่น -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="image/golfmansion/cover.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">กอล์ฟแมนชั่น (Golf Mansion)</h3>
+                        <p class="text-gray-500 text-sm mb-4">เงียบสงบ สวนร่มรื่น</p>
+                        <a href="golf-mansion.html"
+                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+
+                <!-- เมเปิ้ลซิตี้ -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="image/maplecity/cover.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">เมเปิ้ลซิตี้ (Maple City)</h3>
+                        <p class="text-gray-500 text-sm mb-4">ทันสมัย สไตล์ Loft</p>
+                        <a href="maple-city.html"
+                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+
+                <!-- เมเปิ้ลแมนชั่น -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="image/maplemansion/cover.png" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">เมเปิ้ลแมนชั่น (Maple Mansion)</h3>
+                        <p class="text-gray-500 text-sm mb-4">หรูหรา พรีเมียม</p>
+                        <a href="maple-mansion.html"
+                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
+                            ดูรายละเอียด
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-gray-800 text-white py-8 text-center">
+        <div class="container mx-auto px-4">
+
+            <p class="text-gray-500 text-sm mt-4">&copy; 2023 Golf & Maple Group</p>
+        </div>
+    </footer>
+</body>
+
+</html>
