@@ -49,12 +49,9 @@
             <img src="image/golfmansion/header-bg.png" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
                 <div class="text-center text-white p-8 bg-black/40 backdrop-blur-sm rounded-lg border border-white/20">
-                    <h1 class="text-4xl md:text-5xl font-light mb-4 tracking-wide">GOLF MANSION <div
-                            class="text-lg font-light mt-2 opacity-80 font-sans">SERENE LIVING</div>
+                    <h1 class="text-4xl md:text-5xl font-light mb-4 tracking-wide"><span id="headerTitle"></span>
+                        <div id="headerSubtitle" class="text-lg font-light mt-2 opacity-80 font-sans"></div>
                     </h1>
-                    <p class="text-lg font-light tracking-wider">หอพักบรรยากาศรีสอร์ท <span
-                            class="block text-sm opacity-70 mt-1 font-normal font-sans">เงียบสงบ ร่มรื่น
-                            เป็นส่วนตัว</span></p>
                 </div>
             </div>
         </div>
@@ -95,24 +92,13 @@
                     <div class="flex items-center gap-2 text-green-600 font-bold tracking-widest text-sm mb-2"><i
                             class="fa-solid fa-calendar-days"></i> รายเดือน <span
                             class="text-xs font-normal ml-1 font-sans">MONTHLY</span></div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">Monthly Standard <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Single Quiet Room</span>
-                    </h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">เหมาะสำหรับคนรักการอ่านหนังสือ
-                        ต้องการความเงียบสงบ เป็นส่วนตัว
-                        <span class="block text-sm text-slate-400 mt-2">Perfect for reading and relaxation. Quiet and
-                            private atmosphere.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง 3.5 ฟุต <span
-                                class="text-xs text-slate-400 ml-1">Single Bed (3.5ft)</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> โต๊ะอ่านหนังสือใหญ่ <span
-                                class="text-xs text-slate-400 ml-1">Large Reading Desk</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> ระเบียงรับลม <span
-                                class="text-xs text-slate-400 ml-1">Balcony</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomStandardTitle"></span></h4>
+                    <p id="roomStandardDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomStandardFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-green-900">3,500 <span
-                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                    <div class="text-3xl font-bold text-green-900"><span id="roomStandardPrice"></span> <span
+                            id="roomStandardPriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
 
@@ -144,24 +130,13 @@
                             class="fa-solid fa-calendar-days"></i> รายเดือน <span
                             class="text-xs font-normal ml-1 font-sans">MONTHLY</span>
                     </div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">Monthly Suite <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Double Space Room</span>
-                    </h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">พื้นที่กว้างขวางยิ่งขึ้น อยู่สบายไม่อึดอัด
-                        พร้อมเตียงใหญ่
-                        <span class="block text-sm text-slate-400 mt-2">Extra spacious room for comfortable living with
-                            Queen size bed.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง 5 ฟุต <span
-                                class="text-xs text-slate-400 ml-1">Queen Size Bed</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> พื้นที่ใช้สอยกว้าง <span
-                                class="text-xs text-slate-400 ml-1">Spacious Area</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เฟอร์นิเจอร์ครบ <span
-                                class="text-xs text-slate-400 ml-1">Fully Furnished</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomSuiteTitle"></span></h4>
+                    <p id="roomSuiteDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomSuiteFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-green-900">4,200 <span
-                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                    <div class="text-3xl font-bold text-green-900"><span id="roomSuitePrice"></span> <span
+                            id="roomSuitePriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
         </section>
@@ -392,6 +367,45 @@
             if (e.key === 'Escape') closeGallery();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+    <script src="js/golf-mansion-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = golfMansionData;
+            const setText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            };
+
+            // Header
+            setText('headerTitle', d.headerTitle);
+            setText('headerSubtitle', d.headerSubtitle);
+
+            // Features renderer
+            const renderFeatures = (id, features) => {
+                const el = document.getElementById(id);
+                if (el && features) {
+                    el.innerHTML = features.map(item => `<li><i class="fa-solid fa-check text-green-500 mr-2"></i> ${item}</li>`).join('');
+                }
+            };
+
+            // Standard
+            setText('roomStandardTitle', d.roomStandardTitle);
+            setText('roomStandardDescription', d.roomStandardDescription);
+            setText('roomStandardPrice', d.roomStandardPrice);
+            setText('roomStandardPriceUnit', d.roomStandardPriceUnit);
+            renderFeatures('roomStandardFeatures', d.roomStandardFeatures);
+
+            // Suite
+            setText('roomSuiteTitle', d.roomSuiteTitle);
+            setText('roomSuiteDescription', d.roomSuiteDescription);
+            setText('roomSuitePrice', d.roomSuitePrice);
+            setText('roomSuitePriceUnit', d.roomSuitePriceUnit);
+            renderFeatures('roomSuiteFeatures', d.roomSuiteFeatures);
+
+            // Facilities (Optionally bind these if needed, currently leaving titles generic or could bind specific IDs if requested)
+            // For now, only major text is bound as per standard pattern
         });
     </script>
 </body>

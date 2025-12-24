@@ -49,12 +49,9 @@
             <img src="image/maplecity/header-bg.png" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                 <div class="text-center text-white p-8 bg-black/40 backdrop-blur-sm rounded-lg border border-white/20">
-                    <h1 class="text-4xl md:text-5xl font-light mb-4 tracking-wide">MAPLE CITY <div
-                            class="text-lg font-light mt-2 opacity-80 font-sans">MODERN LOFT LIVING</div>
+                    <h1 class="text-4xl md:text-5xl font-light mb-4 tracking-wide"><span id="headerTitle"></span>
+                        <div id="headerSubtitle" class="text-lg font-light mt-2 opacity-80 font-sans"></div>
                     </h1>
-                    <p class="text-lg font-light tracking-wider">หอพักสไตล์ลอฟท์ <span
-                            class="block text-sm opacity-70 mt-1 font-normal font-sans">ครบครัน สะดวก สบาย
-                            ทันสมัย</span></p>
                 </div>
             </div>
         </div>
@@ -95,24 +92,13 @@
                     <div class="flex items-center gap-2 text-orange-600 font-bold tracking-widest text-sm mb-2"><i
                             class="fa-solid fa-moon"></i> รายเดือน <span
                             class="text-xs font-normal ml-1 font-sans">MONTHLY</span></div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้อง 1 ห้องนอน <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">1 Bedroom Suite</span></h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักแบบ 1 ห้องนอน ตกแต่งสไตล์ Modern
-                        Loft
-                        ให้ความรู้สึกเท่ ทันสมัย พร้อมพื้นที่ใช้สอยที่ลงตัว
-                        <span class="block text-sm text-slate-400 mt-2">1 Bedroom suite decorated in Modern Loft
-                            style, offering a cool, modern feeling with perfectly allocated living space.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง King Size 5 ฟุต <span
-                                class="text-xs text-slate-400 ml-1">King Size Bed (5ft)</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> โต๊ะทำงานส่วนตัว <span
-                                class="text-xs text-slate-400 ml-1">Private Work Desk</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> ระเบียงส่วนตัว <span
-                                class="text-xs text-slate-400 ml-1">Private Balcony</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomMonthly1BedTitle"></span></h4>
+                    <p id="roomMonthly1BedDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomMonthly1BedFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-orange-600">5,500 <span
-                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                    <div class="text-3xl font-bold text-orange-600"><span id="roomMonthly1BedPrice"></span> <span
+                            id="roomMonthly1BedPriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
 
@@ -144,23 +130,13 @@
                             class="fa-solid fa-moon"></i> รายเดือน <span
                             class="text-xs font-normal ml-1 font-sans">MONTHLY</span>
                     </div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้อง 2 ห้องนอน <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">2 Bedroom Suite</span></h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">กว้างขวางเป็นพิเศษกับ 2 ห้องนอน
-                        แยกสัดส่วนชัดเจน เหมาะสำหรับการพักผ่อนอย่างแท้จริง
-                        <span class="block text-sm text-slate-400 mt-2">Extra spacious with 2 separate bedrooms, clearly
-                            divided zones, perfect for true relaxation.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 2 ห้องนอนแยกส่วน <span
-                                class="text-xs text-slate-400 ml-1">2 Separate Bedrooms</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> โซนนั่งเล่นขนาดใหญ่ <span
-                                class="text-xs text-slate-400 ml-1">Large Living Zone</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> ห้องน้ำแยกโซนเปียกแห้ง <span
-                                class="text-xs text-slate-400 ml-1">Separate Wet/Dry Bathroom</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomMonthly2BedTitle"></span></h4>
+                    <p id="roomMonthly2BedDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomMonthly2BedFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-orange-600">8,500 <span
-                            class="text-base font-normal text-slate-500">THB / Month</span></div>
+                    <div class="text-3xl font-bold text-orange-600"><span id="roomMonthly2BedPrice"></span> <span
+                            id="roomMonthly2BedPriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
 
@@ -192,23 +168,13 @@
                             class="fa-solid fa-sun"></i> รายวัน <span
                             class="text-xs font-normal ml-1 font-sans">DAILY</span>
                     </div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้องเตียงเดี่ยว <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Standard King</span></h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักรายวันเตียงเดี่ยว สะอาด สะดวก
-                        ปลอดภัย พร้อมสิ่งอำนวยความสะดวกครบครัน
-                        <span class="block text-sm text-slate-400 mt-2">Daily room with single bed. Clean, convenient,
-                            safe with full amenities.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง King Size <span
-                                class="text-xs text-slate-400 ml-1">King Size Bed</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Free WiFi <span
-                                class="text-xs text-slate-400 ml-1">ฟรีอินเทอร์เน็ต</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> อุปกรณ์อาบน้ำ <span
-                                class="text-xs text-slate-400 ml-1">Toiletries provided</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomDaily1BedTitle"></span></h4>
+                    <p id="roomDaily1BedDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomDaily1BedFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-orange-600">590 <span
-                            class="text-base font-normal text-slate-500">THB / Night</span></div>
+                    <div class="text-3xl font-bold text-orange-600"><span id="roomDaily1BedPrice"></span> <span
+                            id="roomDaily1BedPriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
 
@@ -240,23 +206,13 @@
                             class="fa-solid fa-sun"></i> รายวัน <span
                             class="text-xs font-normal ml-1 font-sans">DAILY</span>
                     </div>
-                    <h4 class="text-3xl font-bold text-slate-800 mb-4">ห้องเตียงคู่ <span
-                            class="block text-lg text-slate-500 font-normal mt-1 font-sans">Twin Deluxe</span></h4>
-                    <p class="text-slate-600 mb-6 font-light leading-relaxed">ห้องพักรายวันเตียงคู่
-                        เหมาะสำหรับพักผ่อนกับเพื่อนหรือครอบครัว
-                        <span class="block text-sm text-slate-400 mt-2">Daily room with twin beds. Suitable for staying
-                            with friends or family.</span>
-                    </p>
-                    <ul class="space-y-2 text-slate-500 text-sm mb-8">
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> เตียง Twin Bed (3.5 ฟุต 2 เตียง) <span
-                                class="text-xs text-slate-400 ml-1">Twin Beds</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Free WiFi <span
-                                class="text-xs text-slate-400 ml-1">ฟรีอินเทอร์เน็ต</span></li>
-                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i> อุปกรณ์อาบน้ำ <span
-                                class="text-xs text-slate-400 ml-1">Toiletries provided</span></li>
+                    <h4 class="text-3xl font-bold text-slate-800 mb-4"><span id="roomDaily2BedTitle"></span></h4>
+                    <p id="roomDaily2BedDescription" class="text-slate-600 mb-6 font-light leading-relaxed"></p>
+                    <ul id="roomDaily2BedFeatures" class="space-y-2 text-slate-500 text-sm mb-8">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-3xl font-bold text-orange-600">890 <span
-                            class="text-base font-normal text-slate-500">THB / Night</span></div>
+                    <div class="text-3xl font-bold text-orange-600"><span id="roomDaily2BedPrice"></span> <span
+                            id="roomDaily2BedPriceUnit" class="text-base font-normal text-slate-500"></span></div>
                 </div>
             </div>
         </section>
@@ -513,6 +469,57 @@
             if (e.key === 'Escape') closeGallery();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+    <script src="js/maple-city-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = mapleCityData;
+            const setText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            };
+
+            // Header
+            setText('headerTitle', d.headerTitle);
+            setText('headerSubtitle', d.headerSubtitle);
+
+            // Features renderer
+            const renderFeatures = (id, features) => {
+                const el = document.getElementById(id);
+                if (el && features) {
+                    el.innerHTML = features.map(item => `<li><i class="fa-solid fa-check text-green-500 mr-2"></i> ${item}</li>`).join('');
+                }
+            };
+
+            // Monthly 1 Bed
+            setText('roomMonthly1BedTitle', d.roomMonthly1BedTitle);
+            setText('roomMonthly1BedDescription', d.roomMonthly1BedDescription);
+            setText('roomMonthly1BedPrice', d.roomMonthly1BedPrice);
+            setText('roomMonthly1BedPriceUnit', d.roomMonthly1BedPriceUnit);
+            renderFeatures('roomMonthly1BedFeatures', d.roomMonthly1BedFeatures);
+
+            // Monthly 2 Bed
+            setText('roomMonthly2BedTitle', d.roomMonthly2BedTitle);
+            setText('roomMonthly2BedDescription', d.roomMonthly2BedDescription);
+            setText('roomMonthly2BedPrice', d.roomMonthly2BedPrice);
+            setText('roomMonthly2BedPriceUnit', d.roomMonthly2BedPriceUnit);
+            renderFeatures('roomMonthly2BedFeatures', d.roomMonthly2BedFeatures);
+
+            // Daily 1 Bed
+            setText('roomDaily1BedTitle', d.roomDaily1BedTitle);
+            setText('roomDaily1BedDescription', d.roomDaily1BedDescription);
+            setText('roomDaily1BedPrice', d.roomDaily1BedPrice);
+            setText('roomDaily1BedPriceUnit', d.roomDaily1BedPriceUnit);
+            renderFeatures('roomDaily1BedFeatures', d.roomDaily1BedFeatures);
+
+            // Daily 2 Bed
+            setText('roomDaily2BedTitle', d.roomDaily2BedTitle);
+            setText('roomDaily2BedDescription', d.roomDaily2BedDescription);
+            setText('roomDaily2BedPrice', d.roomDaily2BedPrice);
+            setText('roomDaily2BedPriceUnit', d.roomDaily2BedPriceUnit);
+            renderFeatures('roomDaily2BedFeatures', d.roomDaily2BedFeatures);
+
         });
     </script>
 </body>

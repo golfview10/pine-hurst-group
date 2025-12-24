@@ -51,8 +51,8 @@
             class="absolute inset-0 w-full h-full object-cover -z-10">
         <div class="absolute inset-0 bg-black/40 flex items-end">
             <div class="container mx-auto px-4 pb-12 text-white">
-                <h1 class="text-4xl md:text-5xl font-bold mb-2">กอล์ฟวิว</h1>
-                <p class="text-xl opacity-90">อาณาจักรแห่งการอยู่อาศัย พื้นที่ส่วนกลางใหญ่ที่สุด</p>
+                <h1 id="headerTitle" class="text-4xl md:text-5xl font-bold mb-2"></h1>
+                <p id="headerSubtitle" class="text-xl opacity-90"></p>
             </div>
         </div>
     </header>
@@ -67,117 +67,146 @@
                 <!-- Standard -->
                 <div onclick="openGallery('standard')"
                     class="cursor-pointer bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
-                    <div class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                        <img src="image/golfview/room-standard.png" alt="Standard Room"
-                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div id="carousel-standard" class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                        <img src="image/golfview/standard/1.png" alt="Standard Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/standard/2.png" alt="Standard Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/standard/3.png" alt="Standard Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/standard/1.png" alt="Standard Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/standard/2.png" alt="Standard Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                         <div
                             class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
                             <span class="text-white font-bold border border-white px-4 py-2 rounded-full"><i
                                     class="fa-solid fa-images mr-2"></i>ดูรูปเพิ่มเติม</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-blue-700">Standard</h3>
-                    <p class="text-gray-500 mb-2 text-sm">ห้องพักมาตรฐาน ครบครัน</p>
-                    <ul class="space-y-1 text-sm text-gray-600 mb-4">
-                        <li><i class="fa-solid fa-bed w-6"></i> เตียงคู่ 3.5 ฟุต (2 เตียง)</li>
-                        <li><i class="fa-solid fa-shirt w-6"></i> ตู้เสื้อผ้า Built-in</li>
-                        <li><i class="fa-solid fa-table w-6"></i> โต๊ะอ่านหนังสือ</li>
-                        <li><i class="fa-solid fa-fan w-6"></i> แอร์</li>
+                    <h3 id="roomStandardTitle" class="text-xl font-bold text-blue-700"></h3>
+                    <p id="roomStandardDescription" class="text-gray-500 mb-2 text-sm"></p>
+                    <ul id="roomStandardFeatures" class="space-y-1 text-sm text-gray-600 mb-4">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-xl font-bold text-gray-800 mt-auto">3,000 - 3,500 <span
-                            class="text-xs font-normal text-gray-500">บาท/เดือน</span></div>
+                    <div class="text-xl font-bold text-gray-800 mt-auto"><span id="roomStandardPrice"></span> <span
+                            id="roomStandardPriceUnit" class="text-xs font-normal text-gray-500"></span></div>
                 </div>
 
                 <!-- Premium -->
                 <div onclick="openGallery('premium')"
                     class="cursor-pointer bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
-                    <div class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                        <img src="image/golfview/room-premium.png" alt="Premium Room"
-                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div id="carousel-premium" class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                        <img src="image/golfview/premium/1.png" alt="Premium Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/premium/2.png" alt="Premium Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/premium/3.png" alt="Premium Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/premium/1.png" alt="Premium Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/premium/2.png" alt="Premium Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                         <div
                             class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
                             <span class="text-white font-bold border border-white px-4 py-2 rounded-full"><i
                                     class="fa-solid fa-images mr-2"></i>ดูรูปเพิ่มเติม</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-orange-600">Premium</h3>
-                    <p class="text-gray-500 mb-2 text-sm">ตกแต่งใหม่ สไตล์โมเดิร์น</p>
-                    <ul class="space-y-1 text-sm text-gray-600 mb-4">
-                        <li><i class="fa-solid fa-gem w-6"></i> เฟอร์นิเจอร์ใหม่</li>
-                        <li><i class="fa-solid fa-snowflake w-6"></i> แอร์ประหยัดไฟ</li>
-                        <li><i class="fa-solid fa-tv w-6"></i> Smart TV (บางห้อง)</li>
+                    <h3 id="roomPremiumTitle" class="text-xl font-bold text-orange-600"></h3>
+                    <p id="roomPremiumDescription" class="text-gray-500 mb-2 text-sm"></p>
+                    <ul id="roomPremiumFeatures" class="space-y-1 text-sm text-gray-600 mb-4">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-xl font-bold text-gray-800 mt-auto">3,500 - 4,500 <span
-                            class="text-xs font-normal text-gray-500">บาท/เดือน</span></div>
+                    <div class="text-xl font-bold text-gray-800 mt-auto"><span id="roomPremiumPrice"></span> <span
+                            id="roomPremiumPriceUnit" class="text-xs font-normal text-gray-500"></span></div>
                 </div>
 
                 <!-- Deluxe -->
                 <div onclick="openGallery('deluxe')"
                     class="cursor-pointer bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
-                    <div class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                        <img src="image/golfview/room-deluxe.png" alt="Deluxe Room"
-                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div id="carousel-deluxe" class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                        <img src="image/golfview/deluxe/1.png" alt="Deluxe Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/deluxe/2.png" alt="Deluxe Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/deluxe/3.png" alt="Deluxe Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/deluxe/1.png" alt="Deluxe Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/deluxe/2.png" alt="Deluxe Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                         <div
                             class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
                             <span class="text-white font-bold border border-white px-4 py-2 rounded-full"><i
                                     class="fa-solid fa-images mr-2"></i>ดูรูปเพิ่มเติม</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-pink-600">Deluxe</h3>
-                    <p class="text-gray-500 mb-2 text-sm">หรูหรา สะดวกสบาย</p>
-                    <ul class="space-y-1 text-sm text-gray-600 mb-4">
-                        <li><i class="fa-solid fa-crown w-6"></i> การตกแต่งพิเศษ</li>
-                        <li><i class="fa-solid fa-wind w-6"></i> แอร์ Inverter</li>
-                        <li><i class="fa-solid fa-bath w-6"></i> ห้องน้ำแยกโซน</li>
+                    <h3 id="roomDeluxeTitle" class="text-xl font-bold text-pink-600"></h3>
+                    <p id="roomDeluxeDescription" class="text-gray-500 mb-2 text-sm"></p>
+                    <ul id="roomDeluxeFeatures" class="space-y-1 text-sm text-gray-600 mb-4">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-xl font-bold text-gray-800 mt-auto">4,500 - 5,500 <span
-                            class="text-xs font-normal text-gray-500">บาท/เดือน</span></div>
+                    <div class="text-xl font-bold text-gray-800 mt-auto"><span id="roomDeluxePrice"></span> <span
+                            id="roomDeluxePriceUnit" class="text-xs font-normal text-gray-500"></span></div>
                 </div>
 
                 <!-- VIP -->
                 <div onclick="openGallery('vip')"
                     class="cursor-pointer bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
-                    <div class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                        <img src="image/golfview/room-vip.png" alt="VIP Room"
-                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div id="carousel-vip" class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                        <img src="image/golfview/vip/1.png" alt="VIP Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/vip/2.png" alt="VIP Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/vip/3.png" alt="VIP Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/vip/1.png" alt="VIP Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/vip/2.png" alt="VIP Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                         <div
                             class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
                             <span class="text-white font-bold border border-white px-4 py-2 rounded-full"><i
                                     class="fa-solid fa-images mr-2"></i>ดูรูปเพิ่มเติม</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-purple-600">VIP</h3>
-                    <p class="text-gray-500 mb-2 text-sm">พื้นที่กว้างขวาง พิเศษกว่า</p>
-                    <ul class="space-y-1 text-sm text-gray-600 mb-4">
-                        <li><i class="fa-solid fa-maximize w-6"></i> ห้องขนาดใหญ่</li>
-                        <li><i class="fa-solid fa-couch w-6"></i> โซฟาพักผ่อน</li>
-                        <li><i class="fa-solid fa-wifi w-6"></i> Private WiFi</li>
+                    <h3 id="roomVIPTitle" class="text-xl font-bold text-purple-600"></h3>
+                    <p id="roomVIPDescription" class="text-gray-500 mb-2 text-sm"></p>
+                    <ul id="roomVIPFeatures" class="space-y-1 text-sm text-gray-600 mb-4">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-xl font-bold text-gray-800 mt-auto">5,000+ <span
-                            class="text-xs font-normal text-gray-500">บาท/เดือน</span></div>
+                    <div class="text-xl font-bold text-gray-800 mt-auto"><span id="roomVIPPrice"></span> <span
+                            id="roomVIPPriceUnit" class="text-xs font-normal text-gray-500"></span></div>
                 </div>
 
                 <!-- Paradise -->
                 <div onclick="openGallery('paradise')"
                     class="cursor-pointer bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition duration-300 group">
-                    <div class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                        <img src="image/golfview/room-paradise.png" alt="Paradise Room"
-                            class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <div id="carousel-paradise" class="relative h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
+                        <img src="image/golfview/paradise/1.png" alt="Paradise Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/paradise/2.png" alt="Paradise Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/paradise/3.png" alt="Paradise Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/paradise/1.png" alt="Paradise Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/paradise/2.png" alt="Paradise Room"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
                         <div
                             class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
                             <span class="text-white font-bold border border-white px-4 py-2 rounded-full"><i
                                     class="fa-solid fa-images mr-2"></i>ดูรูปเพิ่มเติม</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-green-600">Paradise</h3>
-                    <p class="text-gray-500 mb-2 text-sm">ที่สุดแห่งการพักผ่อน</p>
-                    <ul class="space-y-1 text-sm text-gray-600 mb-4">
-                        <li><i class="fa-solid fa-star w-6"></i> วิวสวน/สระว่ายน้ำ</li>
-                        <li><i class="fa-solid fa-kitchen-set w-6"></i> เคาน์เตอร์ครัว</li>
-                        <li><i class="fa-solid fa-parking w-6"></i> ที่จอดรถส่วนตัว</li>
+                    <h3 id="roomParadiseTitle" class="text-xl font-bold text-green-600"></h3>
+                    <p id="roomParadiseDescription" class="text-gray-500 mb-2 text-sm"></p>
+                    <ul id="roomParadiseFeatures" class="space-y-1 text-sm text-gray-600 mb-4">
+                        <!-- Features injected -->
                     </ul>
-                    <div class="text-xl font-bold text-gray-800 mt-auto">6,400+ <span
-                            class="text-xs font-normal text-gray-500">บาท/เดือน</span></div>
+                    <div class="text-xl font-bold text-gray-800 mt-auto"><span id="roomParadisePrice"></span> <span
+                            id="roomParadisePriceUnit" class="text-xs font-normal text-gray-500"></span></div>
                 </div>
             </div>
         </section>
@@ -364,6 +393,31 @@
             'paradise': 'Golf Paradise'
         };
 
+        // === Carousel Logic ===
+        const carouselRoomTypes = ['standard', 'premium', 'deluxe', 'vip', 'paradise'];
+
+        function initCarousels() {
+            carouselRoomTypes.forEach(type => {
+                let currentIndex = 0;
+                const container = document.getElementById(`carousel-${type}`);
+                if (!container) return;
+
+                const images = container.getElementsByTagName('img');
+
+                setInterval(() => {
+                    images[currentIndex].classList.remove('opacity-100');
+                    images[currentIndex].classList.add('opacity-0');
+
+                    currentIndex = (currentIndex + 1) % images.length;
+
+                    images[currentIndex].classList.remove('opacity-0');
+                    images[currentIndex].classList.add('opacity-100');
+                }, 3000); // Change every 3 seconds
+            });
+        }
+
+        initCarousels();
+
         let currentRoom = '';
         let currentUserId = 1;
 
@@ -433,6 +487,65 @@
             if (e.key === 'Escape') closeGallery();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+    <script src="js/golf-view-data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = golfViewData;
+            const setText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = text;
+            };
+
+            // Header
+            setText('headerTitle', d.headerTitle);
+            setText('headerSubtitle', d.headerSubtitle);
+
+            // Helper for features
+            const renderFeatures = (id, features, iconClass = "fa-solid fa-check") => {
+                const el = document.getElementById(id);
+                if (el && features) {
+                    el.innerHTML = features.map(item => `
+                        <li><i class="${iconClass} w-6"></i> ${item}</li>
+                    `).join('');
+                }
+            };
+
+            // Standard
+            setText('roomStandardTitle', d.roomStandardTitle);
+            setText('roomStandardDescription', d.roomStandardDescription);
+            setText('roomStandardPrice', d.roomStandardPrice);
+            setText('roomStandardPriceUnit', d.roomStandardPriceUnit);
+            renderFeatures('roomStandardFeatures', d.roomStandardFeatures);
+
+            // Premium
+            setText('roomPremiumTitle', d.roomPremiumTitle);
+            setText('roomPremiumDescription', d.roomPremiumDescription);
+            setText('roomPremiumPrice', d.roomPremiumPrice);
+            setText('roomPremiumPriceUnit', d.roomPremiumPriceUnit);
+            renderFeatures('roomPremiumFeatures', d.roomPremiumFeatures);
+
+            // Deluxe
+            setText('roomDeluxeTitle', d.roomDeluxeTitle);
+            setText('roomDeluxeDescription', d.roomDeluxeDescription);
+            setText('roomDeluxePrice', d.roomDeluxePrice);
+            setText('roomDeluxePriceUnit', d.roomDeluxePriceUnit);
+            renderFeatures('roomDeluxeFeatures', d.roomDeluxeFeatures);
+
+            // VIP
+            setText('roomVIPTitle', d.roomVIPTitle);
+            setText('roomVIPDescription', d.roomVIPDescription);
+            setText('roomVIPPrice', d.roomVIPPrice);
+            setText('roomVIPPriceUnit', d.roomVIPPriceUnit);
+            renderFeatures('roomVIPFeatures', d.roomVIPFeatures);
+
+            // Paradise
+            setText('roomParadiseTitle', d.roomParadiseTitle);
+            setText('roomParadiseDescription', d.roomParadiseDescription);
+            setText('roomParadisePrice', d.roomParadisePrice);
+            setText('roomParadisePriceUnit', d.roomParadisePriceUnit);
+            renderFeatures('roomParadiseFeatures', d.roomParadiseFeatures);
         });
     </script>
 </body>
