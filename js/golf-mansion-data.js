@@ -1,7 +1,7 @@
 const golfMansionData = {
     // Header
     headerTitle: "กอล์ฟ แมนชั่น",
-    headerSubtitle: "ห้องพักรายเดือน ราคาสุดคุ้ม ใกล้ม.กรุงเทพ",
+    headerSubtitle: "ห้องพักรายเดือน ราคาสุดคุ้ม",
 
     // Room: Monthly Standard (Formerly Single Quiet)
     roomStandardTitle: "Monthly Standard",
@@ -39,3 +39,4 @@ const golfMansionData = {
     facility5Title: "ตู้น้ำดื่มหยอดเหรียญ",
     facility6Title: "ร้านมินิมาร์ท"
 };
+
