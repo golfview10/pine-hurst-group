@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOLF & MAPLE GROUP - อาณาจักรหอพักคุณภาพ</title>
+    <title>GOLF & MAPLE GROUP | The Living Collection</title>
     <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Style System -->
+    <link rel="stylesheet" href="css/modern.css">
     <style>
         body {
             font-family: 'Prompt', sans-serif;
@@ -19,152 +26,196 @@
             background-size: cover;
             background-position: center;
         }
-
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
     </style>
 </head>
 
-</head>
-<script>
-    // Global Image Error Handler to support both PNG and JPG
-    document.addEventListener('error', function (e) {
-        if (e.target.tagName === 'IMG') {
-            const src = e.target.src;
-            if (src.endsWith('.png')) {
-                // If PNG fails, try JPG
-                e.target.src = src.replace('.png', '.jpg');
-            } else if (src.endsWith('.jpg')) {
-                // If JPG also fails
-                console.error('Image load failed for both PNG and JPG:', src);
-            }
-        }
-    }, true);
-</script>
+<body
+    class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden selection:bg-orange-200 selection:text-orange-900">
 
-<body class="bg-gray-50 text-gray-800">
-
-    <nav class="bg-white shadow-md fixed w-full z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-blue-600 flex items-center gap-2">
-                <i class="fa-solid fa-building"></i> Pinehurst GROUP
+    <!-- Navbar (Fixed Glass) -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="mainNav">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="text-2xl font-light tracking-widest text-white flex items-center gap-2 drop-shadow-md">
+                <i class="fa-solid fa-layer-group"></i> GM <span class="font-bold">GROUP</span>
             </a>
-            <div class="flex space-x-6">
-                <a href="#projects" class="hover:text-blue-600 transition text-sm md:text-base">โครงการทั้งหมด</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#collection"
+                    class="text-white/80 hover:text-white transition font-light text-sm tracking-widest uppercase relative after:content-[''] after:absolute after:w-0 after:h-px after:bg-white after:left-0 after:-bottom-1 after:transition-all hover:after:w-full">
+                    โครงการของเรา
+                </a>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenu"
+            class="absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-t border-slate-700 hidden flex-col p-6 items-center space-y-6 shadow-2xl transition-all duration-300 origin-top transform scale-y-0 opacity-0 md:hidden">
+            <a href="#collection" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">โครงการของเรา</a>
+            <span class="w-8 h-px bg-white/20"></span>
+            <p class="text-xs text-white/50">Golf & Maple Group</p>
         </div>
     </nav>
 
-    <header class="hero-bg h-[500px] flex items-end text-white px-4 pb-16">
-        <div class="container mx-auto flex justify-end">
-            <div class="max-w-xl text-right">
+    <!-- Hero Section (Immersive) -->
+    <header class="hero-bg h-screen w-full relative flex flex-col items-center justify-end pb-24">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-slate-50"></div>
 
-                <p class="text-lg md:text-xl mb-8 font-bold drop-shadow-md">รวม 5 โครงการหอพักคุณภาพ
-                    ใกล้สถานศึกษา<br>สะดวก ปลอดภัย ครบครัน</p>
-                <a href="#projects"
-                    class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition shadow-lg">
-                    ดูรายชื่อหอพัก
-                </a>
-            </div>
+        <div class="container mx-auto px-4 relative z-10 text-center text-white fade-up delay-100">
+
+            <a href="#collection"
+                class="group bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-slate-900 text-white px-10 py-4 rounded-full transition-all duration-300 uppercase tracking-widest text-sm font-medium flex items-center gap-4 mx-auto w-fit">
+                ชมโครงการทั้งหมด <i
+                    class="fa-solid fa-arrow-down group-hover:translate-y-1 transition text-orange-500"></i>
+            </a>
         </div>
     </header>
 
-    <section id="projects" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">โครงการของเรา</h2>
-                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+    <!-- Project Collection (Bento Grid) -->
+    <section id="collection" class="py-24 relative overflow-hidden">
+        <!-- Background Decor -->
+        <div
+            class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-100/50 rounded-full blur-[120px] -z-10 -translate-x-1/3 translate-y-1/3">
+        </div>
+
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-20 fade-up">
+                <span
+                    class="text-xs font-bold text-orange-600 uppercase tracking-widest bg-orange-100 px-3 py-1 rounded-full">โครงการคุณภาพ</span>
+                <h2 class="text-4xl md:text-5xl font-light mt-4 text-slate-800">เลือกไลฟ์สไตล์ <span
+                        class="font-semibold italic font-serif text-slate-900">ที่คุณชอบ</span></h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- กอล์ฟวิว -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
-                    <div class="relative h-48 bg-gray-200">
-                        <img src="image/golfview/cover.png" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">กอล์ฟวิว (Golf View)</h3>
-                        <p class="text-gray-500 text-sm mb-4">หอพักใกล้ ม.ธรรมศาสตร์(ศูณย์รังสิต)</p>
-                        <a href="golf-view.html"
-                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[400px]">
 
-                <!-- กอล์ฟซิตี้ -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
-                    <div class="relative h-48 bg-gray-200">
-                        <img src="image/golfcity/cover.png" class="w-full h-full object-cover">
+                <!-- 1. GOLF VIEW (Big Feature - Green/Gray) -->
+                <a href="golf-view.html"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100">
+                    <img src="image/golfview/cover.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition">
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">กอล์ฟซิตี้ (Golf City)</h3>
-                        <p class="text-gray-500 text-sm mb-4">หอพักใกล้ ม.กรุงเทพฯ</p>
-                        <a href="golf-city.html"
-                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
-                            ดูรายละเอียด
-                        </a>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-tree"></i> อาณาจักรที่อยู่อาศัย
+                        </div>
+                        <h3 class="text-3xl font-light">Golf View</h3>
+                        <p class="text-white/70 font-light mt-2 max-w-sm line-clamp-2">หอพักใกล้ ม.ธรรมศาสตร์
+                            ศูนย์รังสิต</p>
                     </div>
-                </div>
+                </a>
 
-                <!-- กอล์ฟแมนชั่น -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
-                    <div class="relative h-48 bg-gray-200">
-                        <img src="image/golfmansion/cover.png" class="w-full h-full object-cover">
+                <!-- 2. CITY CONDO (External Link) -->
+                <a href="https://citycondorangsit.com" target="_blank"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100">
+                    <img src="image/citycondo/cover.jpg "
+                        onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop'"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/90 via-indigo-900/20 to-transparent">
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">กอล์ฟแมนชั่น (Golf Mansion)</h3>
-                        <p class="text-gray-500 text-sm mb-4">หอพักใกล้ ม.กรุงเทพฯ</p>
-                        <a href="golf-mansion.html"
-                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
-                            ดูรายละเอียด
-                        </a>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-building-user"></i> สะดวกสบาย
+                        </div>
+                        <h3 class="text-3xl font-light">City Condo รังสิต <i
+                                class="fa-solid fa-arrow-up-right-from-square text-sm ml-2 opacity-50"></i></h3>
+                        <p class="text-white/70 font-light mt-2 max-w-lg">หอพักใกล้ ม.รังสิต</p>
                     </div>
-                </div>
+                </a>
 
-                <!-- เมเปิ้ลซิตี้ -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
-                    <div class="relative h-48 bg-gray-200">
-                        <img src="image/maplecity/cover.png" class="w-full h-full object-cover">
+                <!-- 3. GOLF CITY (Vertical - Blue/Orange) -->
+                <a href="golf-city.html"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200">
+                    <img src="image/golfcity/cover.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-transparent"></div>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-city"></i> ชีวิตเมืองที่ลงตัว
+                        </div>
+                        <h3 class="text-2xl font-light">Golf City</h3>
+                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">เมเปิ้ลซิตี้ (Maple City)</h3>
-                        <p class="text-gray-500 text-sm mb-4">หอพักใกล้ ม.ราชมงคลธัญบุรี(คลอง6)</p>
-                        <a href="maple-city.html"
-                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
-                            ดูรายละเอียด
-                        </a>
-                    </div>
-                </div>
+                </a>
 
-                <!-- เมเปิ้ลแมนชั่น -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover border border-gray-100">
-                    <div class="relative h-48 bg-gray-200">
-                        <img src="image/maplemansion/cover.png" class="w-full h-full object-cover">
+                <!-- 4. GOLF MANSION (Garden Style) -->
+                <a href="golf-mansion.html"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300">
+                    <img src="image/golfmansion/cover.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 to-transparent"></div>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-green-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-leaf"></i> เงียบสงบขั้นสุด
+                        </div>
+                        <h3 class="text-2xl font-light">Golf Mansion</h3>
+                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">เมเปิ้ลแมนชั่น (Maple Mansion)</h3>
-                        <p class="text-gray-500 text-sm mb-4">หอพักใกล้เซนทัลระยอง</p>
-                        <a href="maple-mansion.html"
-                            class="block w-full text-center bg-blue-50 text-blue-600 font-semibold py-2 rounded-lg hover:bg-blue-100 transition">
-                            ดูรายละเอียด
-                        </a>
+                </a>
+
+                <!-- 5. MAPLE CITY (Modern Loft) -->
+                <a href="maple-city.html"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200">
+                    <img src="image/maplecity/cover.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-orange-900/80 to-transparent"></div>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-orange-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-cube"></i> ปลอดภัยมากกว่า
+                        </div>
+                        <h3 class="text-2xl font-light">Maple City</h3>
+                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.ราชมงคลธัญบุรี</p>
                     </div>
-                </div>
+                </a>
+
+                <!-- 6. MAPLE MANSION (Premium) -->
+                <a href="maple-mansion.html"
+                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300">
+                    <img src="image/maplemansion/cover.png"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                    <div
+                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                        <div
+                            class="flex items-center gap-2 text-slate-300 text-xs font-bold uppercase tracking-widest mb-2">
+                            <i class="fa-solid fa-crown"></i> สไตล์คอนโด
+                        </div>
+                        <h3 class="text-2xl font-light">Maple Mansion</h3>
+                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ เซ็นทรัล ระยอง</p>
+                    </div>
+                </a>
+
             </div>
         </div>
     </section>
 
-    <footer id="contact" class="bg-gray-800 text-white py-8 text-center">
-        <div class="container mx-auto px-4">
-
-            <p class="text-gray-500 text-sm mt-4">&copy; 2023 Golf & Maple Group</p>
-        </div>
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center border-t border-slate-800">
+        <p class="font-light text-sm tracking-wider">&copy; 2026 Golf & Maple Group. <span
+                class="opacity-50">ออกแบบเพื่อการอยู่อาศัยแห่งอนาคต</span></p>
     </footer>
-</body>
 
+    <!-- Theme Logic -->
+    <script src="js/theme.js"></script>
+</body>
 
 </html>
