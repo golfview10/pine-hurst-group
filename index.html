@@ -26,6 +26,22 @@
             background-size: cover;
             background-position: center;
         }
+
+        @keyframes float-arrow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
+        .animate-float-arrow {
+            animation: float-arrow 2s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -70,9 +86,8 @@
         <div class="container mx-auto px-4 relative z-10 text-center text-white fade-up delay-100">
 
             <a href="#collection"
-                class="group bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-slate-900 text-white px-10 py-4 rounded-full transition-all duration-300 uppercase tracking-widest text-sm font-medium flex items-center gap-4 mx-auto w-fit">
-                ชมโครงการทั้งหมด <i
-                    class="fa-solid fa-arrow-down group-hover:translate-y-1 transition text-orange-500"></i>
+                class="group bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-slate-900 text-white px-10 py-4 rounded-full transition-all duration-500 uppercase tracking-widest text-sm font-medium flex items-center gap-4 mx-auto w-fit hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                ชมโครงการทั้งหมด <i class="fa-solid fa-arrow-down text-orange-500 animate-float-arrow"></i>
             </a>
         </div>
     </header>
