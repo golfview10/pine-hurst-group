@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOLF MANSION | The Garden Collection</title>
+    <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="css/modern.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-stone-50 text-slate-800 antialiased overflow-x-hidden selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Navbar (Fixed Glass - Warm) -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="mainNav">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html"
+                class="text-xl font-medium tracking-wide text-white flex items-center gap-2 drop-shadow-md hover:text-orange-300 transition">
+                <i class="fa-solid fa-arrow-left"></i> BACK
+            </a>
+            <div class="text-white font-bold tracking-widest text-lg drop-shadow-md">GOLF MANSION</div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenu"
+            class="absolute top-full left-0 w-full bg-stone-900/95 backdrop-blur-xl border-t border-stone-700 hidden flex-col p-6 items-center space-y-6 shadow-2xl transition-all duration-300 origin-top transform scale-y-0 opacity-0 md:hidden">
+            <a href="#rooms" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ห้องพัก</a>
+            <a href="#facilities" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">สิ่งอำนวยความสะดวก</a>
+            <a href="#location" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ทำเลที่ตั้ง</a>
+            <a href="#contact" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ติดต่อเรา</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Immersive Garden) -->
+    <header class="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
+        <img src="image/golfmansion/header-bg.png" alt="Golf Mansion Header"
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-b from-stone-900/50 via-green-900/20 to-stone-50"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center text-white fade-up">
+            <div
+                class="inline-block bg-white/20 backdrop-blur-md border border-white/30 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest text-white mb-6">
+                The Garden Collection
+            </div>
+            <h1 id="headerTitle" class="text-5xl md:text-8xl font-thin mb-6 tracking-wide drop-shadow-lg"></h1>
+            <p id="headerSubtitle"
+                class="text-xl md:text-2xl font-light opacity-90 max-w-2xl mx-auto italic font-serif"></p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-16 max-w-6xl space-y-32">
+
+        <!-- 1. Room Collection (Garden Style - Soft & Rounded) -->
+        <section id="rooms">
+            <div class="text-center mb-16 fade-up">
+                <h2 class="text-4xl font-light text-stone-800">การอยู่อาศัยที่ <span
+                        class="font-bold text-green-700">เงียบสงบ</span></h2>
+                <div class="w-24 h-1 bg-orange-400 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="space-y-16">
+
+                <!-- Room 1: Monthly 1 Bed -->
+                <div class="flex flex-col md:flex-row gap-12 items-center fade-up delay-100">
+                    <!-- Image Carousel -->
+                    <div onclick="openGallery('monthly-1bed')"
+                        class="w-full md:w-1/2 h-[400px] relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer group">
+                        <div id="carousel-monthly-1bed" class="w-full h-full relative">
+                            <img src="image/golfmansion/monthly-1bed/1.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                            <img src="image/golfmansion/monthly-1bed/2.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                            <img src="image/golfmansion/monthly-1bed/3.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white tracking-widest text-sm font-bold border-b-2 border-orange-400 pb-1">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="w-full md:w-1/2 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">รายเดือน</span>
+                            <span class="text-stone-400 text-sm tracking-widest uppercase">Standard</span>
+                        </div>
+                        <h3 id="roomStandardTitle" class="text-4xl font-light text-stone-800"></h3>
+                        <p id="roomStandardDescription" class="text-stone-500 font-light leading-relaxed"></p>
+
+                        <div class="p-6 bg-white rounded-2xl shadow-sm border border-stone-100">
+                            <ul id="roomStandardFeatures" class="grid grid-cols-2 gap-3 text-sm text-stone-600"></ul>
+                        </div>
+
+                        <div class="flex items-baseline gap-2">
+                            <span id="roomStandardPrice" class="text-3xl font-bold text-green-700"></span>
+                            <span id="roomStandardPriceUnit" class="text-stone-400 text-sm uppercase"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2: Monthly 2 Bed (Reversed) -->
+                <div class="flex flex-col md:flex-row-reverse gap-12 items-center fade-up delay-100">
+                    <!-- Image Carousel -->
+                    <div onclick="openGallery('monthly-2bed')"
+                        class="w-full md:w-1/2 h-[400px] relative rounded-3xl overflow-hidden shadow-2xl cursor-pointer group">
+                        <div id="carousel-monthly-2bed" class="w-full h-full relative">
+                            <img src="image/golfmansion/monthly-2bed/1.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                            <img src="image/golfmansion/monthly-2bed/2.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                            <img src="image/golfmansion/monthly-2bed/3.png"
+                                class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white tracking-widest text-sm font-bold border-b-2 border-orange-400 pb-1">VIEW
+                                GALLERY</span>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="w-full md:w-1/2 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">รายเดือน</span>
+                            <span class="text-stone-400 text-sm tracking-widest uppercase">Suite</span>
+                        </div>
+                        <h3 id="roomSuiteTitle" class="text-4xl font-light text-stone-800"></h3>
+                        <p id="roomSuiteDescription" class="text-stone-500 font-light leading-relaxed"></p>
+
+                        <div class="p-6 bg-white rounded-2xl shadow-sm border border-stone-100">
+                            <ul id="roomSuiteFeatures" class="grid grid-cols-2 gap-3 text-sm text-stone-600"></ul>
+                        </div>
+
+                        <div class="flex items-baseline gap-2">
+                            <span id="roomSuitePrice" class="text-3xl font-bold text-orange-600"></span>
+                            <span id="roomSuitePriceUnit" class="text-stone-400 text-sm uppercase"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. Facilities (Bento Grid - Soft) -->
+        <section id="facilities">
+            <div class="text-center mb-16 fade-up">
+                <h2 class="text-4xl font-light text-stone-800">สิ่งอำนวยความสะดวก <span
+                        class="font-bold text-green-700">ครบครัน</span></h2>
+                <div class="w-24 h-1 bg-orange-400 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 auto-rows-[280px]">
+
+                <!-- Garden -->
+                <div
+                    class="col-span-2 relative rounded-3xl overflow-hidden group fade-up shadow-lg hover:shadow-2xl transition-all duration-300 bg-white flex flex-col">
+                    <div class="h-[75%] w-full relative overflow-hidden">
+                        <img src="image/golfmansion/facilities/garden/1.png"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="h-[25%] flex items-center px-6 bg-white relative z-10 w-full border-t border-stone-100">
+                        <i class="fa-solid fa-tree text-3xl text-green-600 mr-4"></i>
+                        <div>
+                            <h4 id="facility1Title" class="text-stone-800 font-bold text-xl"></h4>
+                            <p id="facility1Desc" class="text-stone-500 text-sm font-light"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fitness -->
+                <div
+                    class="relative rounded-3xl overflow-hidden group fade-up delay-100 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfmansion/facilities/fitness/1.png"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-stone-100">
+                        <i class="fa-solid fa-dumbbell text-2xl text-orange-500 mb-1"></i>
+                        <h4 id="facility2Title" class="text-stone-800 font-bold text-lg"></h4>
+                        <p id="facility2Desc"
+                            class="text-stone-400 text-xs hidden group-hover:block transition fade-in"></p>
+                    </div>
+                </div>
+
+                <!-- Food Court -->
+                <div
+                    class="relative rounded-3xl overflow-hidden group fade-up delay-200 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfmansion/facilities/food/1.png"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-stone-100">
+                        <i class="fa-solid fa-utensils text-2xl text-green-500 mb-1"></i>
+                        <h4 id="facility3Title" class="text-stone-800 font-bold text-lg"></h4>
+                        <p id="facility3Desc"
+                            class="text-stone-400 text-xs hidden group-hover:block transition fade-in"></p>
+                    </div>
+                </div>
+
+                <!-- Shops -->
+                <div
+                    class="col-span-2 relative rounded-3xl overflow-hidden group fade-up delay-300 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white flex flex-col">
+                    <div class="h-[75%] w-full relative overflow-hidden">
+                        <img src="image/golfmansion/facilities/shop/1.png"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="h-[25%] flex items-center px-6 bg-white relative z-10 w-full border-t border-stone-100">
+                        <i class="fa-solid fa-shop text-3xl text-orange-500 mr-4"></i>
+                        <div>
+                            <h4 id="facility4Title" class="text-stone-800 font-bold text-xl"></h4>
+                            <p id="facility4Desc" class="text-stone-500 text-sm font-light"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parking -->
+                <div
+                    class="col-span-2 relative rounded-3xl overflow-hidden group fade-up delay-400 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white flex flex-col">
+                    <div class="h-[75%] w-full relative overflow-hidden">
+                        <img src="image/golfmansion/facilities/parking/1.png"
+                            class="w-full h-full object-cover transition duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="h-[25%] flex items-center px-6 bg-white relative z-10 w-full border-t border-stone-100">
+                        <i class="fa-solid fa-square-parking text-3xl text-green-600 mr-4"></i>
+                        <div>
+                            <h4 id="facility5Title" class="text-stone-800 font-bold text-xl"></h4>
+                            <p id="facility5Desc" class="text-stone-500 text-sm font-light"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Map -->
+        <section id="location" class="fade-up">
+            <div class="w-full h-[450px] bg-stone-200 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
+                <iframe src="https://maps.google.com/maps?q=14.050143,100.605178&hl=th&z=15&output=embed" width="100%"
+                    height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <p class="text-center mt-6 text-stone-500 font-light text-lg">ทำเลสะดวกใกล้ <span
+                    class="font-semibold text-stone-700">ธรรมศาสตร์ รังสิต</span></p>
+        </section>
+
+    </div>
+
+    <!-- Contact Footer (Garden Gradient) -->
+    <footer id="contact"
+        class="bg-gradient-to-br from-green-900 via-stone-900 to-orange-900 text-white py-20 mt-20 relative overflow-hidden">
+        <div
+            class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">
+        </div>
+        <div class="container mx-auto px-6 max-w-6xl relative z-10 text-center">
+            <h2 class="text-3xl font-light mb-8">พร้อมเข้าอยู่หรือยัง?</h2>
+            <p class="text-stone-300 max-w-xl mx-auto mb-12 font-light text-lg">
+                สัมผัสบรรยากาศการพักผ่อนท่ามกลางสวนสวยได้แล้ววันนี้</p>
+
+            <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
+                <a href="#"
+                    class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur border border-white/20 hover:bg-white hover:text-green-900 text-white px-8 py-4 rounded-full transition duration-300">
+                    <i class="fa-solid fa-phone"></i> 089-123-4567
+                </a>
+                <a href="#"
+                    class="flex items-center justify-center gap-3 bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full shadow-lg shadow-green-900/50 transition duration-300">
+                    <i class="fa-brands fa-line text-xl"></i> แอดไลน์
+                </a>
+            </div>
+
+            <div class="text-stone-500 text-xs tracking-widest uppercase border-t border-white/10 pt-8">
+                &copy; 2026 Golf & Maple Group. The Garden Collection.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal (Shared) -->
+    <div id="galleryModal"
+        class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <button onclick="closeGallery()"
+            class="absolute top-6 right-6 text-white/70 hover:text-white text-5xl transition">&times;</button>
+        <button onclick="prevImage()"
+            class="absolute left-4 md:left-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="relative max-w-5xl w-full p-4 flex flex-col items-center">
+            <img id="galleryImage" src="" class="max-h-[80vh] w-auto shadow-2xl rounded-lg border border-white/10"
+                alt="Room Gallery">
+            <div class="mt-4 text-white/80 text-lg font-light tracking-wide">
+                <span id="galleryCaption">Room View</span>
+                <span class="text-sm ml-2 opacity-50">(<span id="currentImageIndex">1</span>/5)</span>
+            </div>
+        </div>
+
+        <button onclick="nextImage()"
+            class="absolute right-4 md:right-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Gallery Config
+        const roomImages = { 'monthly-1bed': 5, 'monthly-2bed': 5 };
+        const roomNames = { 'monthly-1bed': 'Monthly Standard', 'monthly-2bed': 'Monthly Suite' };
+
+        // Carousel Logic
+        const carouselRoomTypes = ['monthly-1bed', 'monthly-2bed'];
+        function initCarousels() {
+            carouselRoomTypes.forEach(type => {
+                let currentIndex = 0;
+                const container = document.getElementById(`carousel-${type}`);
+                if (!container) return;
+                const images = container.getElementsByTagName('img');
+                setInterval(() => {
+                    images[currentIndex].classList.remove('opacity-100');
+                    images[currentIndex].classList.add('opacity-0');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.remove('opacity-0');
+                    images[currentIndex].classList.add('opacity-100');
+                }, 3000);
+            });
+        }
+        initCarousels();
+
+        // Modal Logic
+        let currentRoom = '';
+        let currentUserId = 1;
+        function openGallery(room) {
+            currentRoom = room;
+            currentUserId = 1;
+            updateGalleryImage();
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        function updateGalleryImage() {
+            const img = document.getElementById('galleryImage');
+            img.style.opacity = '0.5';
+            setTimeout(() => {
+                img.src = `image/golfmansion/${currentRoom}/${currentUserId}.png`;
+                document.getElementById('galleryCaption').innerText = roomNames[currentRoom];
+                document.getElementById('currentImageIndex').innerText = currentUserId;
+                img.onload = () => { img.style.opacity = '1'; };
+            }, 150);
+        }
+        function nextImage() {
+            currentUserId = currentUserId < roomImages[currentRoom] ? currentUserId + 1 : 1;
+            updateGalleryImage();
+        }
+        function prevImage() {
+            currentUserId = currentUserId > 1 ? currentUserId - 1 : roomImages[currentRoom];
+            updateGalleryImage();
+        }
+
+        // Listeners
+        document.getElementById('galleryModal').addEventListener('click', function (e) { if (e.target === this) closeGallery(); });
+        document.addEventListener('keydown', function (e) {
+            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+
+    <!-- Data & Theme -->
+    <script src="js/golf-mansion-data.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = golfMansionData;
+            const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+
+            // Header
+            setText('headerTitle', d.headerTitle);
+            setText('headerSubtitle', d.headerSubtitle);
+
+            // Feature Renderer (Garden Style - Dot)
+            const renderFeatures = (id, features) => {
+                const el = document.getElementById(id);
+                if (el && features) {
+                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> ${item}</li>`).join('');
+                }
+            };
+
+            // Standard
+            setText('roomStandardTitle', d.roomStandardTitle);
+            setText('roomStandardDescription', d.roomStandardDescription);
+            setText('roomStandardPrice', d.roomStandardPrice);
+            setText('roomStandardPriceUnit', d.roomStandardPriceUnit);
+            renderFeatures('roomStandardFeatures', d.roomStandardFeatures);
+
+            // Suite
+            setText('roomSuiteTitle', d.roomSuiteTitle);
+            setText('roomSuiteDescription', d.roomSuiteDescription);
+            setText('roomSuitePrice', d.roomSuitePrice);
+            setText('roomSuitePriceUnit', d.roomSuitePriceUnit);
+            renderFeatures('roomSuiteFeatures', d.roomSuiteFeatures);
+
+            // Facilities
+            setText('facility1Title', d.facility1Title);
+            setText('facility1Desc', d.facility1Desc);
+            setText('facility2Title', d.facility2Title);
+            setText('facility2Desc', d.facility2Desc);
+            setText("facility3Title", d.facility3Title);
+            setText("facility3Desc", d.facility3Desc);
+            setText("facility4Title", d.facility4Title);
+            setText("facility4Desc", d.facility4Desc);
+            setText("facility5Title", d.facility5Title);
+            setText("facility5Desc", d.facility5Desc);
+        });
+    </script>
+</body>
+
+</html>

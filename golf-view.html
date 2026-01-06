@@ -1,0 +1,560 @@
+﻿<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOLF VIEW | The Urban Collection</title>
+    <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="css/modern.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Navbar (Fixed Glass) -->
+    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="mainNav">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="index.html"
+                class="text-xl font-medium tracking-wide text-white flex items-center gap-2 drop-shadow-md hover:text-emerald-300 transition">
+                <i class="fa-solid fa-arrow-left"></i> BACK
+            </a>
+            <div class="text-white font-bold tracking-widest text-lg drop-shadow-md">GOLF VIEW</div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobileMenu"
+            class="absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-t border-slate-700 hidden flex-col p-6 items-center space-y-6 shadow-2xl transition-all duration-300 origin-top transform scale-y-0 opacity-0 md:hidden">
+            <a href="#rooms" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ห้องพัก</a>
+            <a href="#facilities" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">สิ่งอำนวยความสะดวก</a>
+            <a href="#location" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ทำเลที่ตั้ง</a>
+            <a href="#contact" class="text-white text-lg font-light tracking-widest uppercase"
+                onclick="toggleMobileMenu()">ติดต่อเรา</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Immersive Urban) -->
+    <header class="relative h-[80vh] w-full flex items-end justify-start overflow-hidden">
+        <img src="image/golfview/header-bg.png" alt="Golf View Header"
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-[20s] hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+
+        <div class="container mx-auto px-6 pb-20 relative z-10 text-white fade-up">
+            <div
+                class="inline-block bg-emerald-500/20 backdrop-blur-md border border-emerald-400/30 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-emerald-300 mb-4">
+                The Urban Collection
+            </div>
+            <h1 id="headerTitle" class="text-5xl md:text-7xl font-bold mb-4 tracking-tight leading-tight"></h1>
+            <p id="headerSubtitle" class="text-xl md:text-2xl font-light opacity-90 text-emerald-100 max-w-2xl"></p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-16 max-w-7xl space-y-24">
+
+        <!-- 1. Room Collection (Urban Grid) -->
+        <section id="rooms">
+            <div class="flex items-end justify-between mb-12 border-b border-gray-200 pb-4 fade-up">
+                <div>
+                    <h2 class="text-4xl font-light text-slate-800">พื้นที่แห่งการ <span
+                            class="font-bold text-emerald-700">พักผ่อน</span></h2>
+                    <p class="text-slate-500 mt-2 font-light">เลือกห้องพักที่ใช่สำหรับคุณ</p>
+                </div>
+                <div class="hidden md:block text-slate-400 text-sm">มีห้องพัก 5 รูปแบบ</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Room Card Template (Urban Style) -->
+                <!-- Standard -->
+                <div onclick="openGallery('standard')" class="group cursor-pointer fade-up delay-100">
+                    <div id="carousel-standard"
+                        class="relative h-[280px] bg-gray-200 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                        <img src="image/golfview/standard/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/standard/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/standard/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm font-bold tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 id="roomStandardTitle"
+                                class="text-2xl font-bold text-slate-800 group-hover:text-emerald-600 transition"></h3>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-emerald-700"><span id="roomStandardPrice"></span>
+                                </div>
+                                <div id="roomStandardPriceUnit" class="text-xs text-gray-400 uppercase tracking-wider">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="roomStandardDescription" class="text-gray-500 text-sm mb-4 line-clamp-2"></p>
+                        <ul id="roomStandardFeatures"
+                            class="space-y-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4 py-1"></ul>
+                    </div>
+                </div>
+
+                <!-- Premium -->
+                <div onclick="openGallery('premium')" class="group cursor-pointer fade-up delay-200">
+                    <div id="carousel-premium"
+                        class="relative h-[280px] bg-gray-200 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                        <img src="image/golfview/premium/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/premium/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/premium/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm font-bold tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 id="roomPremiumTitle"
+                                class="text-2xl font-bold text-slate-800 group-hover:text-orange-600 transition"></h3>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-emerald-700"><span id="roomPremiumPrice"></span>
+                                </div>
+                                <div id="roomPremiumPriceUnit" class="text-xs text-gray-400 uppercase tracking-wider">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="roomPremiumDescription" class="text-gray-500 text-sm mb-4 line-clamp-2"></p>
+                        <ul id="roomPremiumFeatures"
+                            class="space-y-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4 py-1"></ul>
+                    </div>
+                </div>
+
+                <!-- Deluxe -->
+                <div onclick="openGallery('deluxe')" class="group cursor-pointer fade-up delay-300">
+                    <div id="carousel-deluxe"
+                        class="relative h-[280px] bg-gray-200 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                        <img src="image/golfview/deluxe/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/deluxe/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/deluxe/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm font-bold tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 id="roomDeluxeTitle"
+                                class="text-2xl font-bold text-slate-800 group-hover:text-pink-600 transition"></h3>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-emerald-700"><span id="roomDeluxePrice"></span></div>
+                                <div id="roomDeluxePriceUnit" class="text-xs text-gray-400 uppercase tracking-wider">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="roomDeluxeDescription" class="text-gray-500 text-sm mb-4 line-clamp-2"></p>
+                        <ul id="roomDeluxeFeatures"
+                            class="space-y-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4 py-1"></ul>
+                    </div>
+                </div>
+
+                <!-- VIP -->
+                <div onclick="openGallery('vip')" class="group cursor-pointer fade-up delay-100">
+                    <div id="carousel-vip"
+                        class="relative h-[280px] bg-gray-200 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                        <img src="image/golfview/vip/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/vip/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/vip/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm font-bold tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 id="roomVIPTitle"
+                                class="text-2xl font-bold text-slate-800 group-hover:text-purple-600 transition"></h3>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-emerald-700"><span id="roomVIPPrice"></span></div>
+                                <div id="roomVIPPriceUnit" class="text-xs text-gray-400 uppercase tracking-wider"></div>
+                            </div>
+                        </div>
+                        <p id="roomVIPDescription" class="text-gray-500 text-sm mb-4 line-clamp-2"></p>
+                        <ul id="roomVIPFeatures"
+                            class="space-y-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4 py-1"></ul>
+                    </div>
+                </div>
+
+                <!-- Paradise -->
+                <div onclick="openGallery('paradise')" class="group cursor-pointer fade-up delay-200">
+                    <div id="carousel-paradise"
+                        class="relative h-[280px] bg-gray-200 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                        <img src="image/golfview/paradise/1.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-100">
+                        <img src="image/golfview/paradise/2.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <img src="image/golfview/paradise/3.png"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+                        <div
+                            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span
+                                class="text-white text-sm font-bold tracking-widest uppercase border border-white/50 px-6 py-2 rounded-full backdrop-blur-sm hover:bg-white hover:text-black transition">ดูรูปภาพ</span>
+                        </div>
+                    </div>
+                    <div class="pt-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 id="roomParadiseTitle"
+                                class="text-2xl font-bold text-slate-800 group-hover:text-green-600 transition"></h3>
+                            <div class="text-right">
+                                <div class="text-xl font-bold text-emerald-700"><span id="roomParadisePrice"></span>
+                                </div>
+                                <div id="roomParadisePriceUnit" class="text-xs text-gray-400 uppercase tracking-wider">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="roomParadiseDescription" class="text-gray-500 text-sm mb-4 line-clamp-2"></p>
+                        <ul id="roomParadiseFeatures"
+                            class="space-y-2 text-sm text-gray-600 border-l-2 border-gray-200 pl-4 py-1"></ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. Facilities (Bento Grid Style) -->
+        <section id="facilities">
+            <div class="flex items-end justify-between mb-12 border-b border-gray-200 pb-4 fade-up">
+                <div>
+                    <h2 class="text-4xl font-light text-slate-800">สิ่งอำนวยความสะดวก <span
+                            class="font-bold text-emerald-700">ครบครัน</span></h2>
+                    <p class="text-slate-500 mt-2 font-light">มากกว่าแค่ที่พักอาศัย</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
+                <!-- Large Feature (Pool) -->
+                <div
+                    class="col-span-2 row-span-2 relative rounded-2xl overflow-hidden group fade-up shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="h-[80%] w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/1.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="h-[20%] flex items-center px-6 bg-white relative z-10 w-full">
+                        <i class="fa-solid fa-person-swimming text-3xl text-emerald-500 mr-4"></i>
+                        <h4 class="text-slate-800 font-bold text-xl">สระว่ายน้ำ</h4>
+                    </div>
+                </div>
+
+                <!-- Fitness -->
+                <div
+                    class="relative rounded-2xl overflow-hidden group fade-up delay-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/2.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-slate-50">
+                        <i class="fa-solid fa-dumbbell text-xl text-emerald-500 mb-1"></i>
+                        <p class="font-bold text-sm text-slate-700">ฟิตเนส</p>
+                    </div>
+                </div>
+
+                <!-- Van -->
+                <div
+                    class="relative rounded-2xl overflow-hidden group fade-up delay-200 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/3.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-slate-50">
+                        <i class="fa-solid fa-van-shuttle text-xl text-emerald-500 mb-1"></i>
+                        <p class="font-bold text-sm text-slate-700">รถตู้รับ-ส่ง</p>
+                    </div>
+                </div>
+
+                <!-- Shop -->
+                <div
+                    class="relative rounded-2xl overflow-hidden group fade-up delay-300 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/4.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-slate-50">
+                        <i class="fa-solid fa-shop text-xl text-emerald-500 mb-1"></i>
+                        <p class="font-bold text-sm text-slate-700">ร้านสะดวกซื้อ</p>
+                    </div>
+                </div>
+
+                <!-- Laundry -->
+                <div
+                    class="relative rounded-2xl overflow-hidden group fade-up delay-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="flex-1 w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/5.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="p-4 bg-white relative z-10 w-full text-center border-t border-slate-50">
+                        <i class="fa-solid fa-tshirt text-xl text-emerald-500 mb-1"></i>
+                        <p class="font-bold text-sm text-slate-700">บริการซักรีด</p>
+                    </div>
+                </div>
+
+                <!-- Garden -->
+                <div
+                    class="col-span-2 relative rounded-2xl overflow-hidden group fade-up delay-200 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="h-[75%] w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/6.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="h-[25%] flex items-center px-6 bg-white relative z-10 w-full border-t border-slate-50">
+                        <i class="fa-solid fa-tree text-2xl text-emerald-500 mr-3"></i>
+                        <h4 class="text-slate-800 font-bold text-lg">Green Park</h4>
+                    </div>
+                </div>
+
+                <!-- Co-working Space -->
+                <div
+                    class="col-span-2 relative rounded-2xl overflow-hidden group fade-up delay-300 shadow-sm hover:shadow-xl transition-all duration-300 bg-white border border-slate-100 flex flex-col">
+                    <div class="h-[75%] w-full relative overflow-hidden">
+                        <img src="image/golfview/facilities/7.png"
+                            class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    </div>
+                    <div class="h-[25%] flex items-center px-6 bg-white relative z-10 w-full border-t border-slate-50">
+                        <i class="fa-solid fa-laptop text-2xl text-emerald-500 mr-3"></i>
+                        <h4 class="text-slate-800 font-bold text-lg">Co-working Space</h4>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. Security (Glass Cards) -->
+        <section class="bg-slate-100 p-8 rounded-3xl fade-up">
+            <h2 class="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
+                <span class="bg-emerald-600 text-white w-10 h-10 rounded-full flex items-center justify-center"><i
+                        class="fa-solid fa-shield-halved"></i></span>
+                ระบบความปลอดภัย
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-emerald-600 text-2xl mb-3"><i class="fa-solid fa-video"></i></div>
+                    <h4 class="font-bold mb-1">กล้องวงจรปิด 24 ชม.</h4>
+                    <p class="text-sm text-slate-500">ครอบคลุมทุกจุดทั่วอาคาร</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-emerald-600 text-2xl mb-3"><i class="fa-solid fa-id-card"></i></div>
+                    <h4 class="font-bold mb-1">ระบบคีย์การ์ด</h4>
+                    <p class="text-sm text-slate-500">ปลอดภัยเฉพาะผู้พักอาศัย</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-emerald-600 text-2xl mb-3"><i class="fa-solid fa-user-shield"></i></div>
+                    <h4 class="font-bold mb-1">เจ้าหน้าที่รักษาความปลอดภัย</h4>
+                    <p class="text-sm text-slate-500">ดูแลความปลอดภัยตลอด 24 ชม.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Location -->
+        <section id="location" class="fade-up">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">ทำเลที่ตั้ง</h2>
+            <div class="w-full h-[400px] bg-gray-200 rounded-3xl overflow-hidden shadow-lg border-4 border-white">
+                <iframe src="https://maps.google.com/maps?q=14.061280,100.598630&z=15&output=embed" width="100%"
+                    height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <p class="mt-6 text-center text-slate-500 font-light flex items-center justify-center gap-2">
+                <i class="fa-solid fa-location-dot text-red-500"></i> ใกล้ธรรมศาสตร์ รังสิต
+            </p>
+        </section>
+
+    </div>
+
+    <!-- Contact Footer (Urban Dark) -->
+    <footer id="contact" class="bg-slate-900 text-white py-16 mt-20 border-t border-slate-800">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-center md:text-left">
+                <div>
+                    <h4 class="text-3xl font-light mb-6 tracking-wide text-emerald-400">GOLF VIEW</h4>
+                    <p class="text-slate-400 mb-8 font-light">หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ.</p>
+                    <div class="space-y-4 text-slate-300">
+                        <p><i class="fa-solid fa-phone mr-3 text-emerald-500"></i> 087-087-4343, 093-939-4442</p>
+                        <p><i class="fa-brands fa-line mr-3 text-emerald-500"></i> Line: @golfview</p>
+                        <p><i class="fa-brands fa-facebook mr-3 text-emerald-500"></i> Golf View Resident</p>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center md:items-end justify-center">
+                    <a href="https://line.me/R/ti/p/@047bxagb" target="_blank"
+                        class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-10 rounded-full transition shadow-lg shadow-emerald-900/50 mb-4 tracking-wider uppercase text-sm">
+                        <i class="fa-brands fa-line mr-2"></i> จองห้องพัก
+                    </a>
+                </div>
+            </div>
+            <div
+                class="border-t border-slate-800 mt-12 pt-12 text-center text-slate-600 text-xs tracking-widest uppercase">
+                &copy; 2026 Golf & Maple Group. ออกแบบเพื่อชีวิตที่ทันสมัย
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal (Shared) -->
+    <div id="galleryModal"
+        class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <button onclick="closeGallery()"
+            class="absolute top-6 right-6 text-white/70 hover:text-white text-5xl transition">&times;</button>
+        <button onclick="prevImage()"
+            class="absolute left-4 md:left-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="relative max-w-5xl w-full p-4 flex flex-col items-center">
+            <img id="galleryImage" src="" class="max-h-[80vh] w-auto shadow-2xl rounded-lg border border-white/10"
+                alt="Room Gallery">
+            <div class="mt-4 text-white/80 text-lg font-light tracking-wide">
+                <span id="galleryCaption">Room View</span>
+                <span class="text-sm ml-2 opacity-50">(<span id="currentImageIndex">1</span>/3)</span>
+            </div>
+        </div>
+
+        <button onclick="nextImage()"
+            class="absolute right-4 md:right-8 text-white/50 hover:text-white text-4xl md:text-6xl transition p-2"><i
+                class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Gallery Config
+        const roomImages = { 'standard': 3, 'premium': 3, 'deluxe': 3, 'vip': 3, 'paradise': 3 };
+        const roomNames = { 'standard': 'Standard Room', 'premium': 'Premium Room', 'deluxe': 'Deluxe Room', 'vip': 'VIP Room', 'paradise': 'Golf Paradise' };
+
+        // Carousel Logic
+        const carouselRoomTypes = ['standard', 'premium', 'deluxe', 'vip', 'paradise'];
+        function initCarousels() {
+            carouselRoomTypes.forEach(type => {
+                let currentIndex = 0;
+                const container = document.getElementById(`carousel-${type}`);
+                if (!container) return;
+                const images = container.getElementsByTagName('img');
+                setInterval(() => {
+                    images[currentIndex].classList.remove('opacity-100');
+                    images[currentIndex].classList.add('opacity-0');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.remove('opacity-0');
+                    images[currentIndex].classList.add('opacity-100');
+                }, 3000); // 3 Seconds
+            });
+        }
+        initCarousels();
+
+        // Modal Logic
+        let currentRoom = '';
+        let currentUserId = 1;
+        function openGallery(room) {
+            currentRoom = room;
+            currentUserId = 1;
+            updateGalleryImage();
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        function updateGalleryImage() {
+            const img = document.getElementById('galleryImage');
+            img.style.opacity = '0.5';
+            setTimeout(() => {
+                img.src = `image/golfview/${currentRoom}/${currentUserId}.png`;
+                document.getElementById('galleryCaption').innerText = roomNames[currentRoom];
+                document.getElementById('currentImageIndex').innerText = currentUserId;
+                img.onload = () => { img.style.opacity = '1'; };
+            }, 150);
+        }
+        function nextImage() {
+            currentUserId = currentUserId < roomImages[currentRoom] ? currentUserId + 1 : 1;
+            updateGalleryImage();
+        }
+        function prevImage() {
+            currentUserId = currentUserId > 1 ? currentUserId - 1 : roomImages[currentRoom];
+            updateGalleryImage();
+        }
+
+        // Listeners
+        document.getElementById('galleryModal').addEventListener('click', function (e) { if (e.target === this) closeGallery(); });
+        document.addEventListener('keydown', function (e) {
+            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+
+    <!-- Data & Theme -->
+    <script src="js/golf-view-data.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const d = golfViewData;
+            const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+
+            // Header
+            setText('headerTitle', d.headerTitle);
+            setText('headerSubtitle', d.headerSubtitle);
+
+            // Feature Renderer (Urban Style - No Bullet, Just text)
+            const renderFeatures = (id, features) => {
+                const el = document.getElementById(id);
+                if (el && features) {
+                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> ${item}</li>`).join('');
+                }
+            };
+
+            // Inject Rooms
+            ['Standard', 'Premium', 'Deluxe', 'VIP', 'Paradise'].forEach(type => {
+                setText(`room${type}Title`, d[`room${type}Title`]);
+                setText(`room${type}Description`, d[`room${type}Description`]);
+                setText(`room${type}Price`, d[`room${type}Price`]);
+                setText(`room${type}PriceUnit`, d[`room${type}PriceUnit`]);
+                renderFeatures(`room${type}Features`, d[`room${type}Features`]);
+            });
+        });
+    </script>
+</body>
+
+</html>
