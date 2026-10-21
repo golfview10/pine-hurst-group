@@ -1,0 +1,19 @@
+# Windows system files
+[Tt]humbs.db
+[Dd]esktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# OS generated
+.DS_Store
+
+# Security: Sensitive/utility files
+*.reg
+*.ps1
