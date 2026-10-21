@@ -1,21 +1,37 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAPLE MANSION | The Garden Collection</title>
+    <title>MAPLE MANSION | ห้องพักสไตล์คอนโด ใกล้ เซ็นทรัล ระยอง</title>
     <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+    <link rel="canonical" href="https://phwillz.co.th/maple-mansion.html">
+
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description" content="เมเปิ้ล แมนชั่น (Maple Mansion) ห้องพักสไตล์คอนโดหรู ใกล้ เซ็นทรัล ระยอง สิ่งอำนวยความสะดวกระดับพรีเมียม ฟิตเนส เลานจ์ ที่จอดรถกว้างขวาง ปลอดภัย พร้อมเข้าอยู่">
+    <meta name="keywords" content="เมเปิ้ลแมนชั่น, Maple Mansion, หอพักระยอง, คอนโดระยอง, ที่พักใกล้เซ็นทรัลระยอง, หอพักเมืองระยอง">
+
+    <!-- Open Graph / Facebook / LINE -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://phwillz.co.th/maple-mansion.html">
+    <meta property="og:title" content="MAPLE MANSION | ห้องพักสไตล์คอนโด ใกล้ เซ็นทรัล ระยอง">
+    <meta property="og:description" content="สัมผัสประสบการณ์การพักอาศัยระดับคอนโดใจกลางเมืองระยอง ใกล้เซ็นทรัลระยอง สิ่งอำนวยความสะดวกครบ">
+    <meta property="og:image" content="https://phwillz.co.th/image/maplemansion/cover.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MAPLE MANSION | ที่พักสไตล์คอนโด ใกล้ เซ็นทรัล ระยอง">
+    <meta name="twitter:description" content="ห้องพักสไตล์คอนโดใจกลางเมืองระยอง สิ่งอำนวยความสะดวกครบ">
+    <meta name="twitter:image" content="https://phwillz.co.th/image/maplemansion/cover.png">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Production Styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Style -->
     <link rel="stylesheet" href="css/modern.css">
     <style>
         body {
@@ -339,18 +355,18 @@
                 สัมผัสประสบการณ์การพักอาศัยระดับคอนโดได้แล้ววันนี้</p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <a href="#"
+                <a href="tel:0828533938"
                     class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur border border-white/20 hover:bg-white hover:text-green-900 text-white px-8 py-4 rounded-full transition duration-300">
                     <i class="fa-solid fa-phone"></i> 082-853-3938
                 </a>
-                <a href="https://line.me/ti/p/~@maple.m" target="_blank"
+                <a href="https://line.me/ti/p/~@maple.m" target="_blank" rel="noopener noreferrer"
                     class="flex items-center justify-center gap-3 bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full shadow-lg shadow-green-900/50 transition duration-300">
                     <i class="fa-brands fa-line text-xl"></i> แอดไลน์
                 </a>
             </div>
 
             <div class="text-stone-500 text-xs tracking-widest uppercase border-t border-white/10 pt-8">
-                &copy; 2026 Golf & Maple Group. The Garden Collection.
+                &copy; 2026 Pinehurst. All rights reserved.
             </div>
         </div>
     </footer>
@@ -470,8 +486,17 @@
             // Feature Renderer (Garden Style - Dot)
             const renderFeatures = (id, features) => {
                 const el = document.getElementById(id);
-                if (el && features) {
-                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> ${item}</li>`).join('');
+                if (el && Array.isArray(features)) {
+                    el.textContent = '';
+                    features.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-center gap-2';
+                        const dot = document.createElement('div');
+                        dot.className = 'w-1.5 h-1.5 bg-green-500 rounded-full';
+                        li.appendChild(dot);
+                        li.appendChild(document.createTextNode(' ' + item));
+                        el.appendChild(li);
+                    });
                 }
             };
 
@@ -505,6 +530,14 @@
 
         });
     </script>
+
+    <!-- Floating LINE Contact Button -->
+    <a href="https://line.me/ti/p/~@maple.m" target="_blank" rel="noopener noreferrer" id="floatingLineBtn"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-5 py-3.5 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 group"
+        aria-label="ติดต่อสอบถามทาง LINE">
+        <i class="fa-brands fa-line text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+        <span class="text-sm font-medium tracking-wide hidden sm:inline">สอบถาม / จองห้อง</span>
+    </a>
 </body>
 
 </html>

@@ -4,18 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOLF CITY | The Urban Collection</title>
+    <title>GOLF CITY | หอพักใกล้ ม.กรุงเทพฯ ชีวิตเมืองที่ลงตัว</title>
     <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+    <link rel="canonical" href="https://phwillz.co.th/golf-city.html">
+
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description" content="กอล์ฟซิตี้ (Golf City) หอพักใกล้ ม.กรุงเทพฯ พร้อมศูนย์อาหาร ตลาด Walking Street ร้านสะดวกซื้อ และอาคารจอดรถครบครัน เริ่มต้น 1,900 บ./ด.">
+    <meta name="keywords" content="กอล์ฟซิตี้, Golf City, หอพัก ม.กรุงเทพ, หอพักใกล้ ม.กรุงเทพ, หอพักรังสิต, หอพักคลองหลวง">
+
+    <!-- Open Graph / Facebook / LINE -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://phwillz.co.th/golf-city.html">
+    <meta property="og:title" content="GOLF CITY | หอพักใกล้ ม.กรุงเทพฯ ชีวิตเมืองที่ลงตัว">
+    <meta property="og:description" content="หอพักใกล้ ม.กรุงเทพ ห้องพัดลม ห้องแอร์ และห้องรีโนเวทใหม่ มินิมอล พร้อมสิ่งอำนวยความสะดวกครบครัน เริ่มต้นเพียง 1,900 บ./ด.">
+    <meta property="og:image" content="https://phwillz.co.th/image/golfcity/cover.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GOLF CITY | หอพักใกล้ ม.กรุงเทพฯ">
+    <meta name="twitter:description" content="หอพักใกล้ ม.กรุงเทพ ห้องพักราคาประหยัด พร้อมสิ่งอำนวยความสะดวกครบครัน">
+    <meta name="twitter:image" content="https://phwillz.co.th/image/golfcity/cover.png">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Production Styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Style -->
     <link rel="stylesheet" href="css/modern.css">
     <style>
         body {
@@ -342,14 +358,14 @@
                     <h4 id="contactTitle" class="text-3xl font-light mb-6 tracking-wide text-blue-400"></h4>
                     <p id="contactDesc" class="text-slate-400 mb-8 font-light"></p>
                     <div class="space-y-4 text-slate-300">
-                        <p><i class="fa-solid fa-phone mr-3 text-blue-500"></i> <span id="contactPhone"></span></p>
+                        <p><i class="fa-solid fa-phone mr-3 text-blue-500"></i> <a id="contactPhoneLink" href="tel:0990534499" class="hover:text-blue-400 transition hover:underline"><span id="contactPhone"></span></a></p>
                         <p><i class="fa-brands fa-line mr-3 text-blue-500"></i> <span id="contactLine"></span></p>
                         <p><i class="fa-brands fa-facebook mr-3 text-blue-500"></i> <span id="contactFacebook"></span>
                         </p>
                     </div>
                 </div>
                 <div class="flex flex-col items-center md:items-end justify-center">
-                    <a href="https://line.me/ti/p/~@golfcity" target="_blank"
+                    <a href="https://line.me/ti/p/~@golfcity" target="_blank" rel="noopener noreferrer"
                         class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-full transition shadow-lg shadow-blue-900/50 mb-4 tracking-wider uppercase text-sm">
                         <i class="fa-brands fa-line mr-2"></i> <span id="contactButton"></span>
                     </a>
@@ -357,7 +373,7 @@
             </div>
             <div
                 class="border-t border-slate-800 mt-12 pt-12 text-center text-slate-600 text-xs tracking-widest uppercase">
-                &copy; 2026 Golf & Maple Group. ออกแบบเพื่อชีวิตคนเมือง
+                &copy; 2026 Pinehurst. All rights reserved.
             </div>
         </div>
     </footer>
@@ -473,10 +489,19 @@
             setText('headerSubtitle', d.headerSubtitle);
 
             // Feature Renderer (Urban Style)
-            const renderFeatures = (id, features) => {
+            const renderFeatures = (id, features, iconColorClass = 'text-blue-500') => {
                 const el = document.getElementById(id);
-                if (el && features) {
-                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-xs"></i> ${item}</li>`).join('');
+                if (el && Array.isArray(features)) {
+                    el.textContent = '';
+                    features.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-center gap-2';
+                        const icon = document.createElement('i');
+                        icon.className = `fa-solid fa-check ${iconColorClass} text-xs`;
+                        li.appendChild(icon);
+                        li.appendChild(document.createTextNode(' ' + item));
+                        el.appendChild(li);
+                    });
                 }
             };
 
@@ -486,7 +511,7 @@
             setText('roomFanDescription', d.roomFanDescription);
             setText('roomFanPrice', d.roomFanPrice);
             setText('roomFanPriceUnit', d.roomFanPriceUnit);
-            renderFeatures('roomFanFeatures', d.roomFanFeatures);
+            renderFeatures('roomFanFeatures', d.roomFanFeatures, 'text-blue-500');
 
             // Room: Studio Air (Orange accent override for features)
             setText('roomAirTitle', d.roomAirTitle);
@@ -494,13 +519,7 @@
             setText('roomAirDescription', d.roomAirDescription);
             setText('roomAirPrice', d.roomAirPrice);
             setText('roomAirPriceUnit', d.roomAirPriceUnit);
-            const renderFeaturesAir = (id, features) => {
-                const el = document.getElementById(id);
-                if (el && features) {
-                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-check text-orange-500 text-xs"></i> ${item}</li>`).join('');
-                }
-            };
-            renderFeaturesAir('roomAirFeatures', d.roomAirFeatures);
+            renderFeatures('roomAirFeatures', d.roomAirFeatures, 'text-orange-500');
 
             // Room: RE NEW
             setText('roomReNewTitle', d.roomReNewTitle);
@@ -508,13 +527,7 @@
             setText('roomReNewDescription', d.roomReNewDescription);
             setText('roomReNewPrice', d.roomReNewPrice);
             setText('roomReNewPriceUnit', d.roomReNewPriceUnit);
-            const renderFeaturesReNew = (id, features) => {
-                const el = document.getElementById(id);
-                if (el && features) {
-                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500 text-xs"></i> ${item}</li>`).join('');
-                }
-            };
-            renderFeaturesReNew('roomReNewFeatures', d.roomReNewFeatures);
+            renderFeatures('roomReNewFeatures', d.roomReNewFeatures, 'text-green-500');
 
             // Facilities
             setText('facility1Title', d.facility1Title);
@@ -541,11 +554,23 @@
             setText('contactTitle', d.contactTitle);
             setText('contactDesc', d.contactDesc);
             setText('contactPhone', d.contactPhone);
+            const phoneLink = document.getElementById('contactPhoneLink');
+            if (phoneLink && d.contactPhone) {
+                phoneLink.href = 'tel:' + d.contactPhone.replace(/\s+/g, '');
+            }
             setText('contactLine', d.contactLine);
             setText('contactFacebook', d.contactFacebook);
             setText('contactButton', d.contactButton);
         });
     </script>
+
+    <!-- Floating LINE Contact Button -->
+    <a href="https://line.me/ti/p/~@golfcity" target="_blank" rel="noopener noreferrer" id="floatingLineBtn"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-5 py-3.5 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 group"
+        aria-label="ติดต่อสอบถามทาง LINE">
+        <i class="fa-brands fa-line text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+        <span class="text-sm font-medium tracking-wide hidden sm:inline">สอบถาม / จองห้อง</span>
+    </a>
 </body>
 
 </html>

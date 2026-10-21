@@ -1,21 +1,37 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOLF VIEW | The Urban Collection</title>
+    <title>GOLF VIEW RESIDENCE | หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต</title>
     <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+    <link rel="canonical" href="https://phwillz.co.th/golf-view.html">
+
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description" content="กอล์ฟวิว เรสซิเด้นท์ (Golf View) หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต ห้องพัก 5 สไตล์ Standard, Premium, Deluxe, VIP, Paradise สิ่งอำนวยความสะดวกครบ">
+    <meta name="keywords" content="กอล์ฟวิว, Golf View, หอพัก มธ รังสิต, หอพัก ม.ธรรมศาสตร์, หอพักใกล้ มธ, หอพักรังสิต">
+
+    <!-- Open Graph / Facebook / LINE -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://phwillz.co.th/golf-view.html">
+    <meta property="og:title" content="GOLF VIEW RESIDENCE | หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต">
+    <meta property="og:description" content="หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ. รังสิต ห้องพักสวย 5 สไตล์ สิ่งอำนวยความสะดวกครบครัน พร้อมเข้าอยู่">
+    <meta property="og:image" content="https://phwillz.co.th/image/golfview/cover.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GOLF VIEW RESIDENCE | หอพักใกล้ ม.ธรรมศาสตร์ รังสิต">
+    <meta name="twitter:description" content="หอพักส่วนกลางใหญ่ที่สุดใกล้ มธ. รังสิต ห้องพักสวย 5 สไตล์ พร้อมเข้าอยู่">
+    <meta name="twitter:image" content="https://phwillz.co.th/image/golfview/cover.png">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Production Styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Style -->
     <link rel="stylesheet" href="css/modern.css">
     <style>
         body {
@@ -408,13 +424,13 @@
                     <h4 class="text-3xl font-light mb-6 tracking-wide text-emerald-400">GOLF VIEW</h4>
                     <p class="text-slate-400 mb-8 font-light">หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ.</p>
                     <div class="space-y-4 text-slate-300">
-                        <p><i class="fa-solid fa-phone mr-3 text-emerald-500"></i> 087-087-4343, 093-939-4442</p>
+                        <p><i class="fa-solid fa-phone mr-3 text-emerald-500"></i> <a href="tel:0870874343" class="hover:text-emerald-400 transition hover:underline">087-087-4343</a>, <a href="tel:0939394442" class="hover:text-emerald-400 transition hover:underline">093-939-4442</a></p>
                         <p><i class="fa-brands fa-line mr-3 text-emerald-500"></i> Line: @golfview</p>
                         <p><i class="fa-brands fa-facebook mr-3 text-emerald-500"></i> กอล์ฟวิว เรสซิเด้นท์ - Golf View Resident </p>
                     </div>
                 </div>
                 <div class="flex flex-col items-center md:items-end justify-center">
-                    <a href="https://line.me/R/ti/p/@047bxagb" target="_blank"
+                    <a href="https://line.me/ti/p/~@golfview" target="_blank" rel="noopener noreferrer"
                         class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-10 rounded-full transition shadow-lg shadow-emerald-900/50 mb-4 tracking-wider uppercase text-sm">
                         <i class="fa-brands fa-line mr-2"></i> จองห้องพัก
                     </a>
@@ -422,7 +438,7 @@
             </div>
             <div
                 class="border-t border-slate-800 mt-12 pt-12 text-center text-slate-600 text-xs tracking-widest uppercase">
-                &copy; 2026 Golf & Maple Group. ออกแบบเพื่อชีวิตที่ทันสมัย
+                &copy; 2026 Pinehurst. All rights reserved.
             </div>
         </div>
     </footer>
@@ -540,8 +556,17 @@
             // Feature Renderer (Urban Style - No Bullet, Just text)
             const renderFeatures = (id, features) => {
                 const el = document.getElementById(id);
-                if (el && features) {
-                    el.innerHTML = features.map(item => `<li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> ${item}</li>`).join('');
+                if (el && Array.isArray(features)) {
+                    el.textContent = '';
+                    features.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'flex items-center gap-2';
+                        const icon = document.createElement('i');
+                        icon.className = 'fa-solid fa-check text-emerald-500 text-xs';
+                        li.appendChild(icon);
+                        li.appendChild(document.createTextNode(' ' + item));
+                        el.appendChild(li);
+                    });
                 }
             };
 
@@ -555,7 +580,14 @@
             });
         });
     </script>
-</body>
 
+    <!-- Floating LINE Contact Button -->
+    <a href="https://line.me/ti/p/~@golfview" target="_blank" rel="noopener noreferrer" id="floatingLineBtn"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#06C755] hover:bg-[#05b34c] text-white px-5 py-3.5 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 group"
+        aria-label="ติดต่อสอบถามทาง LINE">
+        <i class="fa-brands fa-line text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+        <span class="text-sm font-medium tracking-wide hidden sm:inline">สอบถาม / จองห้อง</span>
+    </a>
+</body>
 
 </html>

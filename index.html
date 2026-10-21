@@ -4,17 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOLF & MAPLE GROUP | The Living Collection</title>
+    <title>PINEHURST | อาณาจักรหอพักและที่พักอาศัยคุณภาพ</title>
     <link rel="icon" href="image/main/logo.png?v=2" type="image/png">
+    <link rel="canonical" href="https://phwillz.co.th/">
+
+    <!-- SEO & Social Meta Tags -->
+    <meta name="description"
+        content="Pinehurst อาณาจักรหอพักและคอนโดคุณภาพ ใกล้ ม.ธรรมศาสตร์ รังสิต, ม.กรุงเทพ, ม.รังสิต, มทร.ธัญบุรี และระยอง ครบครันด้วยสิ่งอำนวยความสะดวก พร้อมเข้าอยู่">
+    <meta name="keywords"
+        content="หอพัก มธ รังสิต, หอพัก ม.กรุงเทพ, หอพัก มทร.ธัญบุรี, หอพักระยอง, Golf View, Golf City, Maple City, Pinehurst">
+
+    <!-- Open Graph / Facebook / LINE -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phwillz.co.th/">
+    <meta property="og:title" content="PINEHURST | The Living Collection อาณาจักรหอพักและคอนโดคุณภาพ">
+    <meta property="og:description"
+        content="เลือกไลฟ์สไตล์ที่คุณชอบกับ Pinehurst โครงการหอพักคุณภาพ ใกล้ มธ. รังสิต, ม.กรุงเทพ, ม.รังสิต และระยอง">
+    <meta property="og:image" content="https://phwillz.co.th/image/main/header-bg.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PINEHURST | The Living Collection">
+    <meta name="twitter:description"
+        content="เลือกไลฟ์สไตล์ที่คุณชอบกับ Pinehurst โครงการหอพักคุณภาพ ใกล้ มธ. รังสิต และ ม.กรุงเทพ">
+    <meta name="twitter:image" content="https://phwillz.co.th/image/main/header-bg.png">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Production Styles -->
+    <link rel="stylesheet" href="css/tailwind.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Style System -->
     <link rel="stylesheet" href="css/modern.css">
     <style>
         body {
@@ -28,209 +48,787 @@
         }
 
         @keyframes float-arrow {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(5px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
         }
 
         .animate-float-arrow {
             animation: float-arrow 2s ease-in-out infinite;
         }
+
+        /* Desktop Stage Sizing: Locks 100% pixel-perfect to header-bg.png */
+        .pc-stage-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #020617;
+        }
+
+        .pc-stage {
+            position: relative;
+            height: 100%;
+            aspect-ratio: 4688 / 1563;
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+
+        /* The Dorm Node Outer Anchor */
+        .dorm-node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            border-radius: 9999px;
+            cursor: pointer;
+            z-index: 20;
+            display: block;
+            text-decoration: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: filter 0.35s ease;
+        }
+
+        .dorm-node:hover,
+        .dorm-node:active,
+        .dorm-node:focus-visible {
+            z-index: 50 !important;
+            filter: none !important;
+        }
+
+        /* Focus Spotlight Effect: Gracefully dim other nodes without making them transparent (prevents ghosting) */
+        .pc-stage:has(.dorm-node:hover) .dorm-node:not(:hover),
+        .pc-stage:has(.dorm-node:active) .dorm-node:not(:active) {
+            filter: brightness(0.65) contrast(0.92);
+        }
+
+        /* Inner Dorm Card (The circle) */
+        .dorm-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px;
+            background: #ffffff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+            will-change: transform, box-shadow;
+        }
+
+        .dorm-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 2px;
+            user-select: none;
+            pointer-events: none;
+            transition: transform 0.35s ease;
+        }
+
+        /* Scaling on Hover & Hold */
+        .dorm-node:hover .dorm-card,
+        .dorm-node:focus-visible .dorm-card {
+            transform: scale(1.18);
+        }
+
+        .dorm-node:active .dorm-card {
+            transform: scale(1.12); /* tactile press on click/hold */
+        }
+
+        .dorm-node:hover .dorm-card img,
+        .dorm-node:active .dorm-card img {
+            transform: scale(1.06);
+        }
+
+        /* Radar Sonar Rings */
+        .radar-ring,
+        .radar-ring-2 {
+            position: absolute;
+            inset: -8px;
+            border-radius: 9999px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes radar-pulse-1 {
+            0% { transform: scale(0.95); opacity: 0.85; }
+            100% { transform: scale(1.45); opacity: 0; }
+        }
+
+        @keyframes radar-pulse-2 {
+            0% { transform: scale(0.95); opacity: 0.65; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+
+        .dorm-node:hover .radar-ring,
+        .dorm-node:active .radar-ring {
+            opacity: 1;
+            animation: radar-pulse-1 1.8s cubic-bezier(0.1, 0.7, 0.1, 1) infinite;
+        }
+
+        .dorm-node:hover .radar-ring-2,
+        .dorm-node:active .radar-ring-2 {
+            opacity: 1;
+            animation: radar-pulse-2 1.8s cubic-bezier(0.1, 0.7, 0.1, 1) infinite 0.5s;
+        }
+
+        /* Dorm-Specific Colors & Glows */
+        /* 1. Golf City (Blue) */
+        .dorm-golfcity .radar-ring,
+        .dorm-golfcity .radar-ring-2 {
+            border: 2px solid rgba(59, 130, 246, 0.7);
+            background: rgba(59, 130, 246, 0.12);
+        }
+        .dorm-golfcity:hover .dorm-card,
+        .dorm-golfcity:active .dorm-card {
+            border-color: #3b82f6;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(59, 130, 246, 0.8),
+                        0 0 70px rgba(59, 130, 246, 0.4);
+        }
+
+        /* 2. City Condo (Indigo) */
+        .dorm-citycondo .radar-ring,
+        .dorm-citycondo .radar-ring-2 {
+            border: 2px solid rgba(99, 102, 241, 0.7);
+            background: rgba(99, 102, 241, 0.12);
+        }
+        .dorm-citycondo:hover .dorm-card,
+        .dorm-citycondo:active .dorm-card {
+            border-color: #6366f1;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(99, 102, 241, 0.8),
+                        0 0 70px rgba(99, 102, 241, 0.4);
+        }
+
+        /* 3. Golf View (Emerald) */
+        .dorm-golfview .radar-ring,
+        .dorm-golfview .radar-ring-2 {
+            border: 2px solid rgba(16, 185, 129, 0.7);
+            background: rgba(16, 185, 129, 0.12);
+        }
+        .dorm-golfview:hover .dorm-card,
+        .dorm-golfview:active .dorm-card {
+            border-color: #10b981;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(16, 185, 129, 0.85),
+                        0 0 70px rgba(16, 185, 129, 0.45);
+        }
+
+        /* 4. Golf Mansion (Green) */
+        .dorm-golfmansion .radar-ring,
+        .dorm-golfmansion .radar-ring-2 {
+            border: 2px solid rgba(34, 197, 94, 0.7);
+            background: rgba(34, 197, 94, 0.12);
+        }
+        .dorm-golfmansion:hover .dorm-card,
+        .dorm-golfmansion:active .dorm-card {
+            border-color: #22c55e;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(34, 197, 94, 0.8),
+                        0 0 70px rgba(34, 197, 94, 0.4);
+        }
+
+        /* 5. Maple City (Orange) */
+        .dorm-maplecity .radar-ring,
+        .dorm-maplecity .radar-ring-2 {
+            border: 2px solid rgba(249, 115, 22, 0.7);
+            background: rgba(249, 115, 22, 0.12);
+        }
+        .dorm-maplecity:hover .dorm-card,
+        .dorm-maplecity:active .dorm-card {
+            border-color: #f97316;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(249, 115, 22, 0.85),
+                        0 0 70px rgba(249, 115, 22, 0.45);
+        }
+
+        /* 6. Maple Mansion (Teal/Emerald) */
+        .dorm-maplemansion .radar-ring,
+        .dorm-maplemansion .radar-ring-2 {
+            border: 2px solid rgba(20, 184, 166, 0.7);
+            background: rgba(20, 184, 166, 0.12);
+        }
+        .dorm-maplemansion:hover .dorm-card,
+        .dorm-maplemansion:active .dorm-card {
+            border-color: #14b8a6;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5),
+                        0 0 35px rgba(20, 184, 166, 0.85),
+                        0 0 70px rgba(20, 184, 166, 0.45);
+        }
+
+        /* Interactive Tooltip Pills */
+        .dorm-tooltip {
+            position: absolute;
+            left: 50%;
+            pointer-events: none;
+            z-index: 60;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dorm-tooltip.pos-bottom {
+            top: calc(100% + 12px);
+            transform: translateX(-50%) translateY(-6px);
+        }
+
+        .dorm-tooltip.pos-top {
+            bottom: calc(100% + 12px);
+            transform: translateX(-50%) translateY(6px);
+        }
+
+        .dorm-node:hover .dorm-tooltip,
+        .dorm-node:active .dorm-tooltip,
+        .dorm-node:focus-visible .dorm-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dorm-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 400;
+            padding: 7px 16px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .dorm-pill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            flex-shrink: 0;
+            animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes ping-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        .dorm-pill-title {
+            font-weight: 500;
+            color: #f8fafc;
+            letter-spacing: 0.02em;
+        }
+
+        .dorm-pill-sep {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 10px;
+        }
+
+        .dorm-pill-sub {
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+        .dorm-pill-arrow {
+            font-size: 10px;
+            margin-left: 3px;
+            color: #38bdf8;
+            transition: transform 0.25s ease;
+        }
+
+        .dorm-node:hover .dorm-pill-arrow,
+        .dorm-node:active .dorm-pill-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Desktop Fixed Header & Footer */
+        .pc-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .pc-brand {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .pc-hint {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pc-footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            z-index: 40;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            pointer-events: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
     </style>
 </head>
 
 <body
-    class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden selection:bg-orange-200 selection:text-orange-900">
+    class="bg-slate-900 text-slate-800 antialiased overflow-x-hidden selection:bg-orange-200 selection:text-orange-900">
 
-    <!-- Navbar (Fixed Glass) -->
-    <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="mainNav">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" class="text-2xl font-light tracking-widest text-white flex items-center gap-2 drop-shadow-md">
-                <i class="fa-solid fa-layer-group"></i> GM <span class="font-bold">GROUP</span>
+    <!-- ======================================================= -->
+    <!-- 1. DESKTOP (PC) VERSION: Interactive Hero Portal (No Scroll) -->
+    <!-- ======================================================= -->
+    <div class="hidden md:flex flex-col h-screen w-full bg-slate-950 relative overflow-hidden select-none">
+
+        <!-- Desktop Fixed Glass Header -->
+        <header class="pc-header">
+            <a href="#" class="pc-brand">
+                <i class="fa-solid fa-layer-group text-emerald-400"></i> PINEHURST
             </a>
-
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8">
-                <a href="#collection"
-                    class="text-white/80 hover:text-white transition font-light text-sm tracking-widest uppercase relative after:content-[''] after:absolute after:w-0 after:h-px after:bg-white after:left-0 after:-bottom-1 after:transition-all hover:after:w-full">
-                    โครงการของเรา
-                </a>
+            <div class="pc-hint">
+                <i class="fa-solid fa-hand-pointer text-emerald-400"></i> คลิกที่โลโก้เพื่อเข้าสู่โครงการ
             </div>
+        </header>
 
-            <!-- Mobile Menu Button -->
-            <button id="mobileMenuBtn" class="md:hidden text-white text-2xl focus:outline-none">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-        </div>
+        <!-- Fullscreen Visual Stage (Locks exact coordinates on header-bg.png) -->
+        <main class="pc-stage-container">
+            <div class="pc-stage">
+                <!-- High-Res Background (Founder & Scenic Landscape) -->
+                <img src="image/main/header-bg.png" alt="Pinehurst Portfolio" class="w-full h-full object-fill select-none pointer-events-none">
 
-        <!-- Mobile Menu Overlay -->
-        <div id="mobileMenu"
-            class="absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-t border-slate-700 hidden flex-col p-6 items-center space-y-6 shadow-2xl transition-all duration-300 origin-top transform scale-y-0 opacity-0 md:hidden">
-            <a href="#collection" class="text-white text-lg font-light tracking-widest uppercase"
-                onclick="toggleMobileMenu()">โครงการของเรา</a>
-            <span class="w-8 h-px bg-white/20"></span>
-            <p class="text-xs text-white/50">Golf & Maple Group</p>
-        </div>
-    </nav>
-
-    <!-- Hero Section (Immersive) -->
-    <header class="hero-bg h-screen w-full relative flex flex-col items-center justify-end pb-24">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-slate-50"></div>
-
-        <div class="container mx-auto px-4 relative z-10 text-center text-white fade-up delay-100">
-
-            <a href="#collection"
-                class="group bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-slate-900 text-white px-10 py-4 rounded-full transition-all duration-500 uppercase tracking-widest text-sm font-medium flex items-center gap-4 mx-auto w-fit hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-                ชมโครงการทั้งหมด <i class="fa-solid fa-arrow-down text-orange-500 animate-float-arrow"></i>
-            </a>
-        </div>
-    </header>
-
-    <!-- Project Collection (Bento Grid) -->
-    <section id="collection" class="py-24 relative overflow-hidden">
-        <!-- Background Decor -->
-        <div
-            class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px] -z-10 translate-x-1/2 -translate-y-1/2">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-100/50 rounded-full blur-[120px] -z-10 -translate-x-1/3 translate-y-1/3">
-        </div>
-
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="text-center mb-20 fade-up">
-                <span
-                    class="text-xs font-bold text-orange-600 uppercase tracking-widest bg-orange-100 px-3 py-1 rounded-full">โครงการคุณภาพ</span>
-                <h2 class="text-4xl md:text-5xl font-light mt-4 text-slate-800">เลือกไลฟ์สไตล์ <span
-                        class="font-semibold italic font-serif text-slate-900">ที่คุณชอบ</span></h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[400px]">
-
-                <!-- 1. GOLF VIEW (Big Feature - Green/Gray) -->
-                <a href="golf-view.html"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100">
-                    <img src="image/golfview/cover.png"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition">
-                    </div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-tree"></i> อาณาจักรที่อยู่อาศัย
-                        </div>
-                        <h3 class="text-3xl font-light">Golf View</h3>
-                        <p class="text-white/70 font-light mt-2 max-w-sm line-clamp-2">หอพักใกล้ ม.ธรรมศาสตร์
-                            ศูนย์รังสิต</p>
-                    </div>
-                </a>
-
-                <!-- 2. CITY CONDO (External Link) -->
-                <a href="https://citycondorangsit.com" target="_blank"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100">
-                    <img src="image/citycondo/cover.jpg "
-                        onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop'"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/90 via-indigo-900/20 to-transparent">
-                    </div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-building-user"></i> สะดวกสบาย
-                        </div>
-                        <h3 class="text-3xl font-light">City Condo รังสิต <i
-                                class="fa-solid fa-arrow-up-right-from-square text-sm ml-2 opacity-50"></i></h3>
-                        <p class="text-white/70 font-light mt-2 max-w-lg">หอพักใกล้ ม.รังสิต</p>
-                    </div>
-                </a>
-
-                <!-- 3. GOLF CITY (Vertical - Blue/Orange) -->
+                <!-- 1. GOLF CITY -->
                 <a href="golf-city.html"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200">
-                    <img src="image/golfcity/cover.png"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/90 to-transparent"></div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-city"></i> ชีวิตเมืองที่ลงตัว
+                   class="dorm-node dorm-golfcity"
+                   style="left: 27.168%; top: 40.647%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="หอพัก กอล์ฟซิตี้">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/golfcity.png" alt="Golf City">
+                    </div>
+                    <!-- Tooltip Pill -->
+                    <div class="dorm-tooltip pos-bottom">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-blue-400"></span>
+                            <span class="dorm-pill-title">Golf City</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">ม.กรุงเทพ</span>
+                            <i class="fa-solid fa-arrow-right dorm-pill-arrow"></i>
                         </div>
-                        <h3 class="text-2xl font-light">Golf City</h3>
-                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
                     </div>
                 </a>
 
-                <!-- 4. GOLF MANSION (Garden Style) -->
+                <!-- 2. CITY CONDO -->
+                <a href="javascript:void(0)" onclick="openCityCondoModal(event)"
+                   class="dorm-node dorm-citycondo"
+                   style="left: 37.244%; top: 40.647%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="ซิตี้ คอนโด รังสิต (เร็วๆ นี้)">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/citycondo.png" alt="City Condo">
+                    </div>
+                    <!-- Tooltip Pill -->
+                    <div class="dorm-tooltip pos-bottom">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-indigo-400"></span>
+                            <span class="dorm-pill-title">City Condo รังสิต</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">ม.รังสิต</span>
+                            <span class="text-[11px] text-indigo-300 bg-indigo-500/20 px-1.5 py-0.5 rounded ml-1 font-medium">เร็วๆ นี้</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 3. GOLF VIEW -->
+                <a href="golf-view.html"
+                   class="dorm-node dorm-golfview"
+                   style="left: 32.235%; top: 63.996%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="กอล์ฟวิว เรสซิเด้นท์">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/golfview.png" alt="Golf View">
+                    </div>
+                    <!-- Tooltip Pill (Floats above since circle is lower) -->
+                    <div class="dorm-tooltip pos-top">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-emerald-400"></span>
+                            <span class="dorm-pill-title">Golf View Residence</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">มธ. ศูนย์รังสิต</span>
+                            <i class="fa-solid fa-arrow-right dorm-pill-arrow text-emerald-400"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 4. GOLF MANSION -->
                 <a href="golf-mansion.html"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300">
-                    <img src="image/golfmansion/cover.png"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 to-transparent"></div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-green-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-leaf"></i> เงียบสงบขั้นสุด
+                   class="dorm-node dorm-golfmansion"
+                   style="left: 62.533%; top: 40.304%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="กอล์ฟแมนชั่น">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/golfmansion.png" alt="Golf Mansion">
+                    </div>
+                    <!-- Tooltip Pill -->
+                    <div class="dorm-tooltip pos-bottom">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-green-400"></span>
+                            <span class="dorm-pill-title">Golf Mansion</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">ม.กรุงเทพ</span>
+                            <i class="fa-solid fa-arrow-right dorm-pill-arrow text-green-400"></i>
                         </div>
-                        <h3 class="text-2xl font-light">Golf Mansion</h3>
-                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
                     </div>
                 </a>
 
-                <!-- 5. MAPLE CITY (Modern Loft) -->
+                <!-- 5. MAPLE CITY -->
                 <a href="maple-city.html"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200">
-                    <img src="image/maplecity/cover.png"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-orange-900/80 to-transparent"></div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-orange-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-cube"></i> ปลอดภัยมากกว่า
+                   class="dorm-node dorm-maplecity"
+                   style="left: 72.856%; top: 40.647%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="เมเปิ้ล ซิตี้">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/maplecity.png" alt="Maple City">
+                    </div>
+                    <!-- Tooltip Pill -->
+                    <div class="dorm-tooltip pos-bottom">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-orange-400"></span>
+                            <span class="dorm-pill-title">Maple City</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">มทร.ธัญบุรี</span>
+                            <i class="fa-solid fa-arrow-right dorm-pill-arrow text-orange-400"></i>
                         </div>
-                        <h3 class="text-2xl font-light">Maple City</h3>
-                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ ม.ราชมงคลธัญบุรี</p>
                     </div>
                 </a>
 
-                <!-- 6. MAPLE MANSION (Premium) -->
+                <!-- 6. MAPLE MANSION -->
                 <a href="maple-mansion.html"
-                    class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300">
-                    <img src="image/maplemansion/cover.png"
-                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-                    <div
-                        class="absolute bottom-0 left-0 p-8 text-white transition-transform duration-500 group-hover:-translate-y-2">
-                        <div
-                            class="flex items-center gap-2 text-slate-300 text-xs font-bold uppercase tracking-widest mb-2">
-                            <i class="fa-solid fa-crown"></i> สไตล์คอนโด
+                   class="dorm-node dorm-maplemansion"
+                   style="left: 67.299%; top: 63.996%; width: 7.466%; aspect-ratio: 1;"
+                   aria-label="เมเปิ้ล แมนชั่น">
+                    <div class="radar-ring"></div>
+                    <div class="radar-ring-2"></div>
+                    <div class="dorm-card">
+                        <img src="image/main/logos/maplemansion.png" alt="Maple Mansion">
+                    </div>
+                    <!-- Tooltip Pill (Floats above since circle is lower) -->
+                    <div class="dorm-tooltip pos-top">
+                        <div class="dorm-pill">
+                            <span class="dorm-pill-dot bg-teal-400"></span>
+                            <span class="dorm-pill-title">Maple Mansion</span>
+                            <span class="dorm-pill-sep">•</span>
+                            <span class="dorm-pill-sub">เซ็นทรัล ระยอง</span>
+                            <i class="fa-solid fa-arrow-right dorm-pill-arrow text-teal-400"></i>
                         </div>
-                        <h3 class="text-2xl font-light">Maple Mansion</h3>
-                        <p class="text-white/70 font-light mt-2 text-sm">หอพักใกล้ เซ็นทรัล ระยอง</p>
                     </div>
                 </a>
 
             </div>
-        </div>
-    </section>
+        </main>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 text-center border-t border-slate-800">
-        <p class="font-light text-sm tracking-wider">&copy; 2026 Golf & Maple Group. <span
-                class="opacity-50">ออกแบบเพื่อการอยู่อาศัยแห่งอนาคต</span></p>
-    </footer>
+        <!-- Desktop Footer -->
+        <footer class="pc-footer">
+            &copy; 2026 Pinehurst. All rights reserved.
+        </footer>
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- 2. MOBILE VERSION: Traditional Banner + Bento Grid Cards -->
+    <!-- ======================================================= -->
+    <div class="block md:hidden">
+
+        <!-- Mobile Navbar (Fixed Glass) -->
+        <nav class="fixed w-full z-50 transition-all duration-300 py-4" id="mainNav">
+            <div class="container mx-auto px-6 flex justify-between items-center">
+                <a href="#" class="text-2xl font-light tracking-widest text-white flex items-center gap-2 drop-shadow-md">
+                    <i class="fa-solid fa-layer-group text-emerald-400"></i> PINEHURST
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="text-white text-2xl focus:outline-none" aria-label="เมนู">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobileMenu"
+                class="absolute top-full left-0 w-full bg-slate-900/95 backdrop-blur-xl border-t border-slate-700 hidden flex-col p-6 items-center space-y-6 shadow-2xl transition-all duration-300 origin-top transform scale-y-0 opacity-0">
+                <a href="#collection" class="text-white text-lg font-light tracking-widest uppercase"
+                    onclick="toggleMobileMenu()">โครงการของเรา</a>
+                <span class="w-8 h-px bg-white/20"></span>
+                <p class="text-xs text-white/50">Pinehurst</p>
+            </div>
+        </nav>
+
+        <!-- Mobile Hero Section -->
+        <header class="hero-bg h-screen w-full relative flex flex-col items-center justify-end pb-24">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-slate-900/90"></div>
+
+            <div class="container mx-auto px-4 relative z-10 text-center text-white fade-up delay-100">
+                <a href="#collection"
+                    class="group bg-white/10 backdrop-blur-md border border-white/30 hover:bg-white hover:text-slate-900 text-white px-8 py-3.5 rounded-full transition-all duration-500 uppercase tracking-widest text-sm font-medium flex items-center gap-3 mx-auto w-fit hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                    ชมโครงการทั้งหมด <i class="fa-solid fa-arrow-down text-orange-500 animate-float-arrow"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Mobile Project Collection (Bento Grid) -->
+        <section id="collection" class="py-16 relative overflow-hidden bg-slate-900">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="text-center mb-12 fade-up">
+                    <span
+                        class="text-xs font-bold text-orange-400 uppercase tracking-widest bg-orange-500/20 px-3 py-1 rounded-full border border-orange-500/30">โครงการคุณภาพ</span>
+                    <h2 class="text-3xl font-light mt-4 text-white">เลือกไลฟ์สไตล์ <span
+                            class="font-semibold italic font-serif text-emerald-400">ที่คุณชอบ</span></h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+
+                    <!-- 1. GOLF VIEW -->
+                    <a href="golf-view.html"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100 h-[360px]">
+                        <img src="image/golfview/cover.png"
+                            alt="หอพัก Golf View ใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-transparent to-transparent opacity-90 group-hover:opacity-100 transition">
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-tree"></i> อาณาจักรที่อยู่อาศัย
+                            </div>
+                            <h3 class="text-2xl font-light">Golf View</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm line-clamp-2">หอพักใกล้ ม.ธรรมศาสตร์
+                                ศูนย์รังสิต</p>
+                        </div>
+                    </a>
+
+                    <!-- 2. CITY CONDO -->
+                    <a href="javascript:void(0)" onclick="openCityCondoModal(event)"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100 h-[360px]">
+                        <img src="image/citycondo/cover.jpg"
+                            onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop'"
+                            alt="City Condo รังสิต ใกล้ ม.รังสิต"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950/95 via-indigo-900/20 to-transparent">
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-building-user"></i> สะดวกสบาย
+                                <span class="bg-indigo-500/80 backdrop-blur-md text-white text-[10px] tracking-wider font-semibold px-2 py-0.5 rounded-full ml-auto">เร็วๆ นี้</span>
+                            </div>
+                            <h3 class="text-2xl font-light">City Condo รังสิต</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.รังสิต</p>
+                        </div>
+                    </a>
+
+                    <!-- 3. GOLF CITY -->
+                    <a href="golf-city.html"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200 h-[360px]">
+                        <img src="image/golfcity/cover.png"
+                            alt="หอพัก Golf City ใกล้ ม.กรุงเทพ"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blue-950/95 to-transparent"></div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-city"></i> ชีวิตเมืองที่ลงตัว
+                            </div>
+                            <h3 class="text-2xl font-light">Golf City</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
+                        </div>
+                    </a>
+
+                    <!-- 4. GOLF MANSION -->
+                    <a href="golf-mansion.html"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300 h-[360px]">
+                        <img src="image/golfmansion/cover.png"
+                            alt="หอพัก Golf Mansion ใกล้ ม.กรุงเทพ"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-green-950/95 to-transparent"></div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-green-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-leaf"></i> เงียบสงบขั้นสุด
+                            </div>
+                            <h3 class="text-2xl font-light">Golf Mansion</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.กรุงเทพฯ</p>
+                        </div>
+                    </a>
+
+                    <!-- 5. MAPLE CITY -->
+                    <a href="maple-city.html"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-200 h-[360px]">
+                        <img src="image/maplecity/cover.png"
+                            alt="หอพัก Maple City ใกล้ มทร.ธัญบุรี"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-orange-950/95 to-transparent"></div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-orange-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-cube"></i> ปลอดภัยมากกว่า
+                            </div>
+                            <h3 class="text-2xl font-light">Maple City</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.ราชมงคลธัญบุรี</p>
+                        </div>
+                    </a>
+
+                    <!-- 6. MAPLE MANSION -->
+                    <a href="maple-mansion.html"
+                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-300 h-[360px]">
+                        <img src="image/maplemansion/cover.png"
+                            alt="หอพัก Maple Mansion ใกล้ เซ็นทรัล ระยอง"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 to-transparent"></div>
+                        <div
+                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            <div
+                                class="flex items-center gap-2 text-slate-300 text-xs font-bold uppercase tracking-widest mb-2">
+                                <i class="fa-solid fa-crown"></i> สไตล์คอนโด
+                            </div>
+                            <h3 class="text-2xl font-light">Maple Mansion</h3>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ เซ็นทรัล ระยอง</p>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Footer -->
+        <footer class="bg-slate-950 text-slate-400 py-10 text-center border-t border-slate-800">
+            <p class="font-light text-xs tracking-wider">&copy; 2026 Pinehurst. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- City Condo Coming Soon Modal -->
+    <div id="cityCondoModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="cityCondoModalTitle">
+        <div class="relative w-full max-w-md bg-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300 text-white" id="cityCondoModalCard">
+            <!-- Close button -->
+            <button onclick="closeCityCondoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl w-9 h-9 flex items-center justify-center rounded-full hover:bg-slate-800 transition" aria-label="ปิดหน้าต่าง">&times;</button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xl">
+                    <i class="fa-solid fa-building-user"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-indigo-400">Coming Soon</span>
+                    <h3 id="cityCondoModalTitle" class="text-xl font-light text-white">City Condo รังสิต</h3>
+                </div>
+            </div>
+
+            <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
+                ขณะนี้โครงการ <strong class="text-white font-medium">City Condo รังสิต (ใกล้ ม.รังสิต)</strong> อยู่ระหว่างการจัดทำข้อมูลรายละเอียดห้องพักและอัตราค่าเช่าใหม่
+            </p>
+
+            <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/50 mb-6 text-xs text-slate-300 space-y-2">
+                <div class="flex items-center gap-2 text-indigo-300 font-medium">
+                    <i class="fa-solid fa-circle-info"></i> สนใจสอบถามห้องพักหรือจองล่วงหน้า:
+                </div>
+                <p class="text-slate-400">สามารถติดต่อฝ่ายบริการลูกค้าของกลุ่ม Pinehurst ได้โดยตรงผ่าน LINE Official</p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="https://line.me/ti/p/~@golfview" target="_blank" rel="noopener noreferrer" class="flex-1 bg-[#06C755] hover:bg-[#05b34c] text-white py-3 px-4 rounded-xl text-center text-sm font-medium transition flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-brands fa-line text-lg"></i> สอบถามทาง LINE
+                </a>
+                <button onclick="closeCityCondoModal()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition">
+                    ปิด
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Theme Logic -->
     <script src="js/theme.js"></script>
+    <script>
+        function openCityCondoModal(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const modal = document.getElementById('cityCondoModal');
+            const card = document.getElementById('cityCondoModalCard');
+            if (!modal) return;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            if (card) {
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCityCondoModal() {
+            const modal = document.getElementById('cityCondoModal');
+            const card = document.getElementById('cityCondoModalCard');
+            if (!modal) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+            if (card) {
+                card.classList.add('scale-95');
+                card.classList.remove('scale-100');
+            }
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('cityCondoModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeCityCondoModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeCityCondoModal();
+        });
+    </script>
 </body>
 
 </html>
