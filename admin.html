@@ -1,227 +1,1032 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PINEHURST | Admin Console ระบบจัดการข้อมูลห้องพัก</title>
     <link rel="icon" href="image/main/logo.png" type="image/png">
+    
+    <!-- Google Fonts Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/tailwind.min.css">
-    <link rel="stylesheet" href="css/modern.css">
+
     <style>
-        body { font-family: 'Prompt', sans-serif; background-color: #020617; }
-        .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .tab-btn.active { background: linear-gradient(135deg, #059669, #10b981); color: #ffffff; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35); }
+        :root {
+            --bg-body: #080d19;
+            --bg-navbar: #0e1628;
+            --bg-card: #131d33;
+            --bg-card-subtle: #0f172a;
+            --bg-input: #090e1c;
+            --border: #22324f;
+            --border-hover: #334b75;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --primary-glow: rgba(16, 185, 129, 0.25);
+            --primary-light: rgba(16, 185, 129, 0.12);
+            --text-heading: #f8fafc;
+            --text-body: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+            --font-family: 'Prompt', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---------------- TOAST ALERT ---------------- */
+        #toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: translateY(-80px);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            pointer-events: none;
+        }
+        #toast.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast.toast-success {
+            background: linear-gradient(135deg, #059669, #047857);
+            border: 1px solid #10b981;
+        }
+        #toast.toast-error {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border: 1px solid #ef4444;
+        }
+
+        /* ---------------- COMMON UTILS ---------------- */
+        .hidden { display: none !important; }
+        .text-primary { color: var(--primary) !important; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .font-light { font-weight: 300; }
+
+        /* ---------------- LOGIN VIEW ---------------- */
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            background: radial-gradient(circle at 50% 30%, #152238 0%, #080d19 70%);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px 32px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+        }
+
+        .login-logo-circle {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-glow);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .login-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 4px;
+        }
+
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-family: monospace;
+            background: #0d1527;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        .form-input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-input-box i {
+            position: absolute;
+            left: 14px;
+            color: var(--text-faint);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 14px;
+            color: var(--text-heading);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input.has-icon {
+            padding-left: 42px;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            margin-top: 24px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .alert-error {
+            background: var(--danger-bg);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 14px;
+            text-align: left;
+        }
+
+        .login-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 24px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .login-footer-link:hover {
+            color: var(--text-heading);
+        }
+
+        /* ---------------- DASHBOARD VIEW ---------------- */
+        .dashboard-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navbar */
+        .admin-navbar {
+            background: var(--bg-navbar);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            border: 1px solid var(--primary-glow);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.3px;
+        }
+
+        .brand-badge {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .btn-nav-outline {
+            background: #152238;
+            color: var(--text-body);
+            border-color: var(--border);
+        }
+        .btn-nav-outline:hover {
+            background: #1c2d4a;
+            color: #ffffff;
+            border-color: var(--border-hover);
+        }
+
+        .btn-nav-danger {
+            background: var(--danger-bg);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+        .btn-nav-danger:hover {
+            background: rgba(239, 68, 68, 0.22);
+            color: #ffffff;
+        }
+
+        /* Main Container */
+        .main-container {
+            flex: 1;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 28px 24px 80px;
+        }
+
+        /* Project Selector Grid (5 Dorms) */
+        .dorm-selector-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dorm-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .dorm-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 640px) {
+            .dorm-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .dorm-card-btn {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            color: inherit;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dorm-card-btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            background: #18253f;
+        }
+
+        .dorm-card-btn.active {
+            border-color: var(--primary);
+            background: #112836;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .dorm-card-btn.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .dorm-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .dorm-card-icon {
+            font-size: 16px;
+        }
+
+        .dorm-card-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .dorm-card-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Action Banner */
+        .project-banner {
+            background: linear-gradient(135deg, #15223a 0%, #101c30 100%);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: var(--shadow-md);
+            flex-wrap: wrap;
+        }
+
+        .project-banner-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-status-tag {
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary-glow);
+            padding: 2px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .project-banner-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .project-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-action-save {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+        .btn-action-save:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+        }
+
+        .btn-action-reset {
+            background: #1c2b45;
+            color: var(--text-body);
+            border: 1px solid var(--border);
+        }
+        .btn-action-reset:hover {
+            background: #233657;
+            color: #ffffff;
+        }
+
+        /* Content Sections */
+        .section-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* 2-Column Grid for Header */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        @media (max-width: 768px) {
+            .form-grid-2 { grid-template-columns: 1fr; }
+        }
+
+        /* Room Cards Grid */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 900px) {
+            .rooms-grid { grid-template-columns: 1fr; }
+        }
+
+        .room-item-card {
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .room-item-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .room-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .room-name-badge {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .room-id-tag {
+            font-size: 11px;
+            font-family: monospace;
+            background: #192742;
+            color: var(--text-muted);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .room-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .input-price {
+            font-weight: 700;
+            color: #34d399 !important;
+            font-size: 15px;
+        }
+
+        .textarea-features {
+            min-height: 110px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Sticky Bottom Bar */
+        .sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(14, 22, 40, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            padding: 14px 24px;
+            z-index: 90;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+        }
+
+        .sticky-footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .sticky-info {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .sticky-info strong {
+            color: var(--text-heading);
+        }
+
+        /* Quick fill helper buttons */
+        .quick-helper {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+        .quick-helper:hover {
+            color: #34d399;
+        }
     </style>
 </head>
 
-<body class="text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+<body>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-6 right-6 z-50 transform translate-x-32 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-medium"></div>
+    <!-- ---------------- TOAST NOTIFICATION ---------------- -->
+    <div id="toast" class="toast-success">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMessage">บันทึกข้อมูลเรียบร้อยแล้ว</span>
+    </div>
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="min-h-screen w-full flex items-center justify-center p-4">
-        <div class="glass-panel w-full max-w-md p-8 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 mx-auto flex items-center justify-center text-2xl text-white shadow-lg shadow-emerald-900/40 mb-4">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <h1 class="text-2xl font-semibold tracking-wide text-white">Pinehurst Admin</h1>
-                <p class="text-xs text-slate-400 mt-1 font-light">ระบบจัดการข้อมูลและราคาห้องพักออนไลน์</p>
-                <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-[11px] text-emerald-400 font-mono">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Firebase: phwillz-web-93065
-                </div>
+    <!-- ============================================================== -->
+    <!-- 1. LOGIN SCREEN -->
+    <!-- ============================================================== -->
+    <div id="loginScreen" class="login-wrapper">
+        <div class="login-card">
+            
+            <div class="login-logo-circle">
+                <i class="fa-solid fa-hotel"></i>
+            </div>
+            
+            <h1 class="login-title">Pinehurst Admin</h1>
+            <p class="login-subtitle">ระบบจัดการข้อมูลและราคาห้องพักออนไลน์</p>
+            
+            <div class="badge-pill">
+                <span class="badge-dot"></span>
+                <span>Firebase: phwillz-web-93065</span>
             </div>
 
-            <form id="loginForm" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">อีเมลผู้ดูแลระบบ (Admin Email)</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="email" id="loginEmail" required placeholder="admin@phwillz.co.th"
-                            class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">
+                        อีเมลผู้ดูแลระบบ (Admin Email)
+                        <span class="quick-helper" onclick="fillTestAccount()">คลิกเพื่อกรอกอัตโนมัติ</span>
+                    </label>
+                    <div class="form-input-box">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="loginEmail" class="form-input has-icon" required 
+                               placeholder="admin@phwillz.co.th" autocomplete="username">
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1.5">รหัสผ่าน (Password)</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-key absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="password" id="loginPassword" required placeholder="••••••••"
-                            class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition">
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">รหัสผ่าน (Password)</label>
+                    <div class="form-input-box">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="loginPassword" class="form-input has-icon" required 
+                               placeholder="••••••••" autocomplete="current-password">
                     </div>
                 </div>
 
-                <div id="loginError" class="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 p-3 rounded-xl hidden"></div>
+                <div id="loginError" class="alert-error hidden"></div>
 
-                <button type="submit" id="loginBtn"
-                    class="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-emerald-900/30 flex items-center justify-center gap-2 text-sm mt-2">
-                    <span>เข้าสู่ระบบ</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                <button type="submit" id="loginBtn" class="btn-primary">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>เข้าสู่ระบบจัดการ</span>
                 </button>
             </form>
 
-            <div class="mt-8 pt-6 border-t border-slate-800 text-center">
-                <a href="index.html" class="text-xs text-slate-400 hover:text-white transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-chevron-left text-[10px]"></i> กลับสู่หน้าหลักเว็บไซต์
-                </a>
-            </div>
+            <a href="index.html" class="login-footer-link">
+                <i class="fa-solid fa-arrow-left"></i> กลับสู่หน้าหลักเว็บไซต์
+            </a>
         </div>
     </div>
 
-    <!-- Admin Dashboard (Hidden initially) -->
-    <div id="adminDashboard" class="hidden min-h-screen flex flex-col">
+    <!-- ============================================================== -->
+    <!-- 2. ADMIN DASHBOARD -->
+    <!-- ============================================================== -->
+    <div id="adminDashboard" class="dashboard-wrapper hidden">
 
-        <!-- Top Header Navigation -->
-        <header class="glass-panel sticky top-0 z-40 border-b border-slate-800 px-6 py-4">
-            <div class="max-w-7xl mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md">
-                        <i class="fa-solid fa-sliders"></i>
+        <!-- Top Navigation Bar -->
+        <header class="admin-navbar">
+            <div class="navbar-content">
+                <div class="brand-section">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg font-semibold tracking-wide text-white">Pinehurst Admin</h1>
-                        <p class="text-xs text-slate-400 font-light flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            เชื่อมต่อ: <span id="userEmailBadge" class="text-slate-300"></span>
-                        </p>
+                        <div class="brand-name">Pinehurst Management Console</div>
+                        <div class="brand-badge">
+                            <span class="badge-dot" style="width:6px; height:6px;"></span>
+                            เข้าสู่ระบบด้วย: <span id="userEmailBadge" style="color:#ffffff; font-weight:500;"></span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3">
-                    <a href="index.html" target="_blank"
-                        class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700/50 transition">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                        <span>ดูหน้าเว็บจริง</span>
+                <div class="navbar-actions">
+                    <a href="index.html" target="_blank" class="btn-nav btn-nav-outline">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> ดูหน้าเว็บหลัก
                     </a>
-                    <button onclick="handleLogout()"
-                        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium border border-rose-500/20 transition">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>ออกจากระบบ</span>
+                    <button type="button" onclick="handleLogout()" class="btn-nav btn-nav-danger">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
                     </button>
                 </div>
             </div>
         </header>
 
-        <!-- Main Body Content -->
-        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Main Body -->
+        <main class="main-container">
 
-            <!-- Dorm Selector Tabs -->
-            <div class="mb-8 overflow-x-auto pb-2">
-                <div class="flex items-center gap-2 min-w-max p-1.5 glass-panel rounded-2xl">
-                    <button onclick="switchDorm('golfview')" id="tab-golfview" class="tab-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
-                        <i class="fa-solid fa-tree text-emerald-400"></i> Golf View
-                    </button>
-                    <button onclick="switchDorm('golfcity')" id="tab-golfcity" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition text-slate-400 hover:text-white flex items-center gap-2">
-                        <i class="fa-solid fa-city text-blue-400"></i> Golf City
-                    </button>
-                    <button onclick="switchDorm('golfmansion')" id="tab-golfmansion" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition text-slate-400 hover:text-white flex items-center gap-2">
-                        <i class="fa-solid fa-leaf text-green-400"></i> Golf Mansion
-                    </button>
-                    <button onclick="switchDorm('maplecity')" id="tab-maplecity" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition text-slate-400 hover:text-white flex items-center gap-2">
-                        <i class="fa-solid fa-cube text-orange-400"></i> Maple City
-                    </button>
-                    <button onclick="switchDorm('maplemansion')" id="tab-maplemansion" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition text-slate-400 hover:text-white flex items-center gap-2">
-                        <i class="fa-solid fa-crown text-teal-400"></i> Maple Mansion
-                    </button>
-                </div>
+            <!-- 1. Dorm Selector Tabs -->
+            <div class="dorm-selector-title">
+                <i class="fa-solid fa-building"></i>
+                <span>เลือกโครงการที่ต้องการแก้ไขข้อมูล (คลิกเพื่อสลับ):</span>
             </div>
 
-            <!-- Action Toolbar -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-                <div>
-                    <h2 id="currentDormTitle" class="text-xl font-bold text-white flex items-center gap-2">
-                        <span>Golf View Residence</span>
+            <div class="dorm-grid">
+                <button type="button" onclick="switchDorm('golfview')" id="tab-golfview" class="dorm-card-btn active">
+                    <div class="dorm-card-header">
+                        <i class="fa-solid fa-tree dorm-card-icon" style="color: #10b981;"></i>
+                        <span class="dorm-card-name">Golf View</span>
+                    </div>
+                    <div class="dorm-card-sub">ม.ธรรมศาสตร์ รังสิต</div>
+                </button>
+
+                <button type="button" onclick="switchDorm('golfcity')" id="tab-golfcity" class="dorm-card-btn">
+                    <div class="dorm-card-header">
+                        <i class="fa-solid fa-city dorm-card-icon" style="color: #38bdf8;"></i>
+                        <span class="dorm-card-name">Golf City</span>
+                    </div>
+                    <div class="dorm-card-sub">ม.กรุงเทพฯ</div>
+                </button>
+
+                <button type="button" onclick="switchDorm('golfmansion')" id="tab-golfmansion" class="dorm-card-btn">
+                    <div class="dorm-card-header">
+                        <i class="fa-solid fa-leaf dorm-card-icon" style="color: #4ade80;"></i>
+                        <span class="dorm-card-name">Golf Mansion</span>
+                    </div>
+                    <div class="dorm-card-sub">ม.กรุงเทพฯ</div>
+                </button>
+
+                <button type="button" onclick="switchDorm('maplecity')" id="tab-maplecity" class="dorm-card-btn">
+                    <div class="dorm-card-header">
+                        <i class="fa-solid fa-cubes dorm-card-icon" style="color: #fb923c;"></i>
+                        <span class="dorm-card-name">Maple City</span>
+                    </div>
+                    <div class="dorm-card-sub">มทร.ธัญบุรี</div>
+                </button>
+
+                <button type="button" onclick="switchDorm('maplemansion')" id="tab-maplemansion" class="dorm-card-btn">
+                    <div class="dorm-card-header">
+                        <i class="fa-solid fa-crown dorm-card-icon" style="color: #2dd4bf;"></i>
+                        <span class="dorm-card-name">Maple Mansion</span>
+                    </div>
+                    <div class="dorm-card-sub">เซ็นทรัล ระยอง</div>
+                </button>
+            </div>
+
+            <!-- 2. Project Action Banner -->
+            <div class="project-banner">
+                <div class="project-banner-info">
+                    <h2>
+                        <span id="currentDormTitle">Golf View Residence</span>
+                        <span class="project-status-tag">กำลังแก้ไขข้อมูล</span>
                     </h2>
-                    <p class="text-xs text-slate-400 font-light mt-0.5">แก้ไขข้อมูลและราคาห้องพัก ข้อมูลจะอัปเดตไปยังหน้าเว็บจริงทันทีที่บันทึก</p>
+                    <p>แก้ไขข้อมูลและราคาในฟอร์มด้านล่างนี้ จากนั้นกดปุ่ม <strong>"บันทึกข้อมูล"</strong> เพื่อให้อัปเดตไปที่หน้าเว็บทันที</p>
                 </div>
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <button onclick="importDefaults()" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition flex items-center justify-center gap-2" title="ดึงข้อมูลเดิมจากไฟล์เว็บมาใส่ฟอร์ม">
-                        <i class="fa-solid fa-rotate text-emerald-400"></i> ดึงข้อมูลเริ่มต้น
+
+                <div class="project-banner-actions">
+                    <button type="button" onclick="importDefaults()" class="btn-action btn-action-reset" title="คืนค่าเดิมจากไฟล์ระบบ">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>ดึงข้อมูลเริ่มต้น</span>
                     </button>
-                    <button onclick="saveCurrentDorm()" id="saveBtn" class="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-xs font-semibold shadow-lg shadow-emerald-900/40 transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูล
+                    <button type="button" onclick="saveCurrentDorm()" id="saveBtnTop" class="btn-action btn-action-save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>บันทึกข้อมูลโครงการนี้</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Editor Form Container -->
-            <div id="dormEditorForm" class="space-y-6">
-                <!-- Dynamically generated fields per dorm -->
+            <!-- 3. Form Content Container -->
+            <div id="dormEditorForm">
+                <!-- Dynamically generated with high contrast and clean spacing -->
             </div>
 
         </main>
+
+        <!-- Sticky Bottom Save Bar -->
+        <footer class="sticky-footer">
+            <div class="sticky-footer-content">
+                <div class="sticky-info">
+                    <i class="fa-solid fa-info-circle text-primary"></i>
+                    โครงการที่เปิดอยู่: <strong id="stickyDormName">Golf View Residence</strong>
+                </div>
+                <button type="button" onclick="saveCurrentDorm()" id="saveBtnBottom" class="btn-action btn-action-save" style="padding: 10px 24px;">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>บันทึกข้อมูล (Save)</span>
+                </button>
+            </div>
+        </footer>
+
     </div>
 
-    <!-- Scripts: Default Data files for one-click initial sync -->
+    <!-- ============================================================== -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================== -->
+    <!-- Default Data files for offline fallback and 1-click restore -->
     <script src="js/golf-view-data.js"></script>
     <script src="js/golf-city-data.js"></script>
     <script src="js/golf-mansion-data.js"></script>
     <script src="js/maple-city-data.js"></script>
     <script src="js/maple-mansion-data.js"></script>
 
-    <!-- Firebase SDK (Modular CDN) -->
+    <!-- Firebase App & Firestore Logic -->
     <script type="module">
         import { firebaseConfig } from './js/firebase-config.js';
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
         import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // State
         let currentDormId = 'golfview';
         let currentDormData = {};
 
-        const defaultDataMap = {
-            'golfview': window.golfViewData,
-            'golfcity': window.golfCityData,
-            'golfmansion': window.golfMansionData,
-            'maplecity': window.mapleCityData,
-            'maplemansion': window.mapleMansionData
+        // Room schemas mapped to exact keys in each dorm's data file
+        const dormRoomSchemas = {
+            'golfview': [
+                { id: 'Standard', name: 'ห้อง Standard', desc: 'ห้องพักมาตรฐานราคาสุดคุ้ม' },
+                { id: 'Premium', name: 'ห้อง Premium', desc: 'ตกแต่งสไตล์โมเดิร์น' },
+                { id: 'Deluxe', name: 'ห้อง Deluxe', desc: 'หรูหรา สะดวกสบาย' },
+                { id: 'VIP', name: 'ห้อง VIP', desc: 'ตกแต่งสไตล์โมเดิร์น มีโซนห้องครัว' },
+                { id: 'Paradise', name: 'ห้อง Paradise', desc: 'ตึกเปิดใหม่ สไตล์คอนโด' }
+            ],
+            'golfcity': [
+                { id: 'Fan', name: 'ห้องพัดลม (Studio Fan)', desc: 'ห้องพัดลม พร้อมเฟอร์นิเจอร์' },
+                { id: 'Air', name: 'ห้องแอร์ (Studio Air)', desc: 'ห้องแอร์ พร้อมพัดลมและเฟอร์นิเจอร์ครบ' },
+                { id: 'ReNew', name: 'ห้อง RE NEW', desc: 'ห้องพักรีโนเวทใหม่ ตกแต่งสไตล์มินิมอล' }
+            ],
+            'golfmansion': [
+                { id: 'Standard', name: 'ห้องรายเดือน 1 ห้องนอน', desc: 'ห้องพักมาตรฐาน บรรยากาศเงียบสงบ' },
+                { id: 'Suite', name: 'ห้องรายเดือน 2 ห้องนอน', desc: 'ห้องชุดขนาดใหญ่ แยกสัดส่วนห้องนอนและห้องนั่งเล่น' }
+            ],
+            'maplecity': [
+                { id: 'Monthly1Bed', name: 'ห้องรายเดือน 1 ห้องนอน', desc: 'ห้องพักรายเดือน 1 ห้องนอน ตกแต่งพร้อมอยู่' },
+                { id: 'Monthly2Bed', name: 'ห้องรายเดือน 2 ห้องนอน', desc: 'ห้องพักรายเดือน 2 ห้องนอน สำหรับแชร์กันอยู่' },
+                { id: 'Daily1Bed', name: 'ห้องพักรายวัน เตียงเดี่ยว', desc: 'ห้องพักรายวัน เตียงเดี่ยว สะอาด ปลอดภัย' },
+                { id: 'Daily2Bed', name: 'ห้องพักรายวัน เตียงคู่', desc: 'ห้องพักรายวัน เตียงคู่ พักได้ 4 ท่าน' }
+            ],
+            'maplemansion': [
+                { id: 'Monthly1Bed', name: 'ห้องรายเดือน 1 ห้องนอน', desc: 'ห้องรายเดือนแบบ 1 ห้องนอน ขนาด 26 ตร.ม.' },
+                { id: 'Monthly2Bed', name: 'ห้องรายเดือน 2 ห้องนอน', desc: 'ห้องรายเดือนแบบ 2 ห้องนอน ขนาด 34 ตร.ม.' },
+                { id: 'Daily1Bed', name: 'ห้องพักรายวัน 1 เตียง', desc: 'ห้องพักรายวัน 1 เตียง เตียง 6 ฟุต' },
+                { id: 'Daily2Bed', name: 'ห้องพักรายวัน 2 เตียง', desc: 'ห้องพักรายวัน 2 เตียง เตียง 5 ฟุต (2 เตียง)' }
+            ]
         };
 
         const dormMetadata = {
-            'golfview': { name: 'Golf View Residence', icon: 'fa-tree', color: 'emerald' },
-            'golfcity': { name: 'Golf City', icon: 'fa-city', color: 'blue' },
-            'golfmansion': { name: 'Golf Mansion', icon: 'fa-leaf', color: 'green' },
-            'maplecity': { name: 'Maple City', icon: 'fa-cube', color: 'orange' },
-            'maplemansion': { name: 'Maple Mansion', icon: 'fa-crown', color: 'teal' }
+            'golfview': { name: 'Golf View Residence', subtitle: 'หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต' },
+            'golfcity': { name: 'Golf City', subtitle: 'หอพักใกล้ ม.กรุงเทพฯ' },
+            'golfmansion': { name: 'Golf Mansion', subtitle: 'หอพักใกล้ ม.กรุงเทพฯ' },
+            'maplecity': { name: 'Maple City', subtitle: 'หอพักใกล้ มทร.ธัญบุรี' },
+            'maplemansion': { name: 'Maple Mansion', subtitle: 'หอพักใกล้ เซ็นทรัล ระยอง' }
         };
 
-        // Toast feedback
+        function getDefaultData(dormId) {
+            try {
+                if (dormId === 'golfview' && typeof golfViewData !== 'undefined') return golfViewData;
+                if (dormId === 'golfcity' && typeof golfCityData !== 'undefined') return golfCityData;
+                if (dormId === 'golfmansion' && typeof golfMansionData !== 'undefined') return golfMansionData;
+                if (dormId === 'maplecity' && typeof mapleCityData !== 'undefined') return mapleCityData;
+                if (dormId === 'maplemansion' && typeof mapleMansionData !== 'undefined') return mapleMansionData;
+            } catch (e) {
+                console.warn('Could not read default data for ' + dormId, e);
+            }
+            return {};
+        }
+
+        window.fillTestAccount = () => {
+            document.getElementById('loginEmail').value = 'admin@phwillz.co.th';
+            document.getElementById('loginPassword').focus();
+        };
+
+        // Toast Helper
         window.showToast = (msg, type = 'success') => {
             const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const message = document.getElementById('toastMessage');
             if (!toast) return;
-            const bgClass = type === 'success' ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white';
-            toast.className = `fixed top-6 right-6 z-50 transform transition-all duration-300 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-medium ${bgClass}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'} text-lg"></i> <span>${msg}</span>`;
-            toast.classList.remove('translate-x-32', 'opacity-0');
+
+            toast.className = type === 'success' ? 'toast-success visible' : 'toast-error visible';
+            icon.className = type === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-triangle-exclamation';
+            message.textContent = msg;
+
             setTimeout(() => {
-                toast.classList.add('translate-x-32', 'opacity-0');
-            }, 3500);
+                toast.classList.remove('visible');
+            }, 3200);
         };
 
-        // Auth state listener
+        // Auth state change
         onAuthStateChanged(auth, async (user) => {
             const loginScreen = document.getElementById('loginScreen');
             const adminDashboard = document.getElementById('adminDashboard');
-            const emailBadge = document.getElementById('userEmailBadge');
+            const userEmailBadge = document.getElementById('userEmailBadge');
 
             if (user) {
                 if (loginScreen) loginScreen.classList.add('hidden');
                 if (adminDashboard) adminDashboard.classList.remove('hidden');
-                if (emailBadge) emailBadge.textContent = user.email || 'Admin';
+                if (userEmailBadge) userEmailBadge.textContent = user.email || 'Admin';
                 await loadDorm(currentDormId);
             } else {
                 if (loginScreen) loginScreen.classList.remove('hidden');
@@ -229,7 +1034,7 @@
             }
         });
 
-        // Login Handler
+        // Login Form Submission
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', async (e) => {
@@ -241,150 +1046,190 @@
 
                 errDiv.classList.add('hidden');
                 btn.disabled = true;
-                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังตรวจสอบ...`;
+                btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>กำลังตรวจสอบรหัสผ่าน...</span>`;
 
                 try {
                     await signInWithEmailAndPassword(auth, email, password);
                 } catch (err) {
                     errDiv.classList.remove('hidden');
-                    errDiv.textContent = `เข้าสู่ระบบไม่สำเร็จ: ${err.message}`;
+                    let msg = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง';
+                    if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+                        msg = 'รหัสผ่านหรืออีเมลไม่ถูกต้อง';
+                    } else if (err.code === 'auth/user-not-found') {
+                        msg = 'ไม่พบบัญชีผู้ใช้นี้ใน Firebase Auth';
+                    }
+                    errDiv.textContent = msg + ` (${err.code || err.message})`;
                 } finally {
                     btn.disabled = false;
-                    btn.innerHTML = `<span>เข้าสู่ระบบ</span><i class="fa-solid fa-arrow-right text-xs"></i>`;
+                    btn.innerHTML = `<i class="fa-solid fa-right-to-bracket"></i> <span>เข้าสู่ระบบจัดการ</span>`;
                 }
             });
         }
 
-        // Logout Handler
         window.handleLogout = async () => {
-            if (confirm('ต้องการออกจากระบบหรือไม่?')) {
+            if (confirm('คุณต้องการออกจากระบบหรือไม่?')) {
                 await signOut(auth);
             }
         };
 
-        // Switch Dorm Tab
         window.switchDorm = async (dormId) => {
             currentDormId = dormId;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'text-white'));
+            document.querySelectorAll('.dorm-card-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = document.getElementById(`tab-${dormId}`);
-            if (activeBtn) activeBtn.classList.add('active', 'text-white');
+            if (activeBtn) activeBtn.classList.add('active');
 
+            const dormInfo = dormMetadata[dormId] || { name: dormId };
             const titleEl = document.getElementById('currentDormTitle');
-            if (titleEl && dormMetadata[dormId]) {
-                titleEl.innerHTML = `<i class="fa-solid ${dormMetadata[dormId].icon} text-${dormMetadata[dormId].color}-400"></i> <span>${dormMetadata[dormId].name}</span>`;
-            }
+            const stickyEl = document.getElementById('stickyDormName');
+            if (titleEl) titleEl.textContent = dormInfo.name;
+            if (stickyEl) stickyEl.textContent = dormInfo.name;
+
             await loadDorm(dormId);
         };
 
-        // Load Dorm Data from Firestore (or fallback to defaults)
         async function loadDorm(dormId) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
-            container.innerHTML = `<div class="text-center py-16 text-slate-400"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3 text-emerald-400"></i><p class="text-sm">กำลังโหลดข้อมูลโครงการ...</p></div>`;
+
+            container.innerHTML = `
+                <div style="text-align:center; padding: 60px 20px; color: var(--text-muted);">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px; color: var(--primary); margin-bottom: 12px; display: block;"></i>
+                    <p style="font-size: 14px;">กำลังโหลดข้อมูลโครงการจาก Firebase...</p>
+                </div>
+            `;
+
+            const fallbackData = getDefaultData(dormId);
 
             try {
                 const docRef = doc(db, 'dorms', dormId);
                 const docSnap = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    currentDormData = docSnap.data();
+                if (docSnap.exists() && Object.keys(docSnap.data()).length > 0) {
+                    currentDormData = Object.assign({}, fallbackData, docSnap.data());
                 } else {
-                    // Fallback to local default file data
-                    currentDormData = Object.assign({}, defaultDataMap[dormId] || {});
+                    currentDormData = Object.assign({}, fallbackData);
                 }
             } catch (err) {
-                console.warn('Could not read from Firestore, using default data:', err);
-                currentDormData = Object.assign({}, defaultDataMap[dormId] || {});
+                console.warn('Error reading from Firestore, using fallback:', err);
+                currentDormData = Object.assign({}, fallbackData);
             }
 
             renderEditorUI(dormId, currentDormData);
         }
 
-        // Render Form Inputs based on data
         function renderEditorUI(dormId, data) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
 
             let html = '';
 
-            // Section 1: Header Titles
+            // Section 1: Header Information
             html += `
-            <div class="glass-panel p-6 rounded-3xl shadow-xl">
-                <h3 class="text-sm font-semibold text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-heading"></i> ข้อมูลส่วนหัวหน้าเว็บ (Header)
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="section-box">
+                <div class="section-header">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1.5 font-medium">ชื่อโครงการ (Header Title)</label>
-                        <input type="text" id="field_headerTitle" value="${escapeHtml(data.headerTitle || '')}"
-                            class="w-full bg-slate-900 border border-slate-700/80 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-heading"></i>
+                            <span>1. ข้อมูลส่วนหัวหน้าเว็บ (Header)</span>
+                        </h3>
+                        <p class="section-desc">ข้อความชื่อโครงการและสโลแกนที่จะแสดงด้านบนสุดของหน้าเว็บหอพัก</p>
                     </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5 font-medium">คำบรรยายสั้น (Header Subtitle)</label>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">ชื่อโครงการ (Header Title)</label>
+                        <input type="text" id="field_headerTitle" value="${escapeHtml(data.headerTitle || '')}"
+                               class="form-input" placeholder="เช่น กอล์ฟ วิว หรือ กอล์ฟ ซิตี้">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">คำบรรยายสั้น / สโลแกน (Header Subtitle)</label>
                         <input type="text" id="field_headerSubtitle" value="${escapeHtml(data.headerSubtitle || '')}"
-                            class="w-full bg-slate-900 border border-slate-700/80 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-sm text-white outline-none">
+                               class="form-input" placeholder="เช่น หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต">
                     </div>
                 </div>
             </div>`;
 
-            // Section 2: Room Cards
-            // Extract room types from keys (e.g. roomStandardTitle, roomFanTitle, etc.)
-            const roomPrefixes = new Set();
-            Object.keys(data).forEach(key => {
-                const match = key.match(/^room([A-Za-z0-9]+)(Title|Price|Description|Features)$/);
-                if (match) roomPrefixes.add(match[1]);
-            });
-
-            if (roomPrefixes.size > 0) {
+            // Section 2: Room Types and Pricing
+            const rooms = dormRoomSchemas[dormId] || [];
+            if (rooms.length > 0) {
                 html += `
-                <div class="glass-panel p-6 rounded-3xl shadow-xl">
-                    <h3 class="text-sm font-semibold text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-bed"></i> ประเภทห้องพักและราคา (Rooms & Pricing)
-                    </h3>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">`;
+                <div class="section-box">
+                    <div class="section-header">
+                        <div>
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-bed"></i>
+                                <span>2. ข้อมูลห้องพักและราคา (Rooms & Pricing)</span>
+                            </h3>
+                            <p class="section-desc">แก้ไขราคา ขนาดห้อง และจุดเด่นของห้องแต่ละประเภทด้านล่างนี้ได้โดยตรง</p>
+                        </div>
+                    </div>
 
-                roomPrefixes.forEach(roomType => {
-                    const titleKey = `room${roomType}Title`;
-                    const priceKey = `room${roomType}Price`;
-                    const unitKey = `room${roomType}PriceUnit`;
-                    const descKey = `room${roomType}Description`;
-                    const featKey = `room${roomType}Features`;
+                    <div class="rooms-grid">`;
 
-                    const title = data[titleKey] || roomType;
+                rooms.forEach(room => {
+                    const rId = room.id;
+                    const titleKey = `room${rId}Title`;
+                    const priceKey = `room${rId}Price`;
+                    const unitKey = `room${rId}PriceUnit`;
+                    const descKey = `room${rId}Description`;
+                    const featKey = `room${rId}Features`;
+                    const sizeKey = `room${rId}Size`;
+
+                    const title = data[titleKey] || room.name;
                     const price = data[priceKey] || '';
-                    const unit = data[unitKey] || 'บาท/เดือน';
-                    const desc = data[descKey] || '';
+                    const unit = data[unitKey] || (rId.startsWith('Daily') ? 'บาท/คืน' : 'บาท/เดือน');
+                    const desc = data[descKey] || room.desc || '';
+                    const size = data[sizeKey] || '';
                     const features = Array.isArray(data[featKey]) ? data[featKey] : [];
 
                     html += `
-                    <div class="bg-slate-900/80 border border-slate-700/60 rounded-2xl p-5 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
-                                <span class="font-semibold text-white text-base">${escapeHtml(title)}</span>
-                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">${roomType}</span>
+                    <div class="room-item-card">
+                        <div class="room-item-header">
+                            <span class="room-name-badge">
+                                <i class="fa-solid fa-door-open"></i>
+                                <span>${escapeHtml(room.name)}</span>
+                            </span>
+                            <span class="room-id-tag">ID: ${rId}</span>
+                        </div>
+
+                        <!-- Price & Unit Row -->
+                        <div class="room-form-row">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label class="form-label">ราคาค่าเช่า</label>
+                                <input type="text" id="field_${priceKey}" value="${escapeHtml(price)}"
+                                       class="form-input input-price" placeholder="เช่น 3,500">
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                                <div>
-                                    <label class="block text-[11px] text-slate-400 mb-1">ราคา</label>
-                                    <input type="text" id="field_${priceKey}" value="${escapeHtml(price)}"
-                                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-emerald-400 font-semibold outline-none focus:border-emerald-500">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] text-slate-400 mb-1">หน่วย (เช่น บาท/เดือน)</label>
-                                    <input type="text" id="field_${unitKey}" value="${escapeHtml(unit)}"
-                                        class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-300 outline-none focus:border-emerald-500">
-                                </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label class="form-label">หน่วยราคา</label>
+                                <input type="text" id="field_${unitKey}" value="${escapeHtml(unit)}"
+                                       class="form-input" placeholder="บาท/เดือน">
                             </div>
-                            <div class="mb-3">
-                                <label class="block text-[11px] text-slate-400 mb-1">คำบรรยายห้องพัก</label>
-                                <input type="text" id="field_${descKey}" value="${escapeHtml(desc)}"
-                                    class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-300 outline-none focus:border-emerald-500">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-400 mb-1">สิ่งอำนวยความสะดวก (1 บรรทัด = 1 รายการ)</label>
-                                <textarea id="field_${featKey}" rows="3"
-                                    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-300 outline-none focus:border-emerald-500 font-light leading-relaxed">${escapeHtml(features.join('\n'))}</textarea>
-                            </div>
+                        </div>
+
+                        <!-- Room Size (if applicable) -->
+                        ${data[sizeKey] !== undefined || ['Fan', 'Air', 'ReNew', 'Standard', 'Suite'].includes(rId) ? `
+                        <div class="form-group">
+                            <label class="form-label">ขนาดห้อง (Size)</label>
+                            <input type="text" id="field_${sizeKey}" value="${escapeHtml(size)}"
+                                   class="form-input" placeholder="เช่น 14 ตร.ม. หรือ 26 ตร.ม.">
+                        </div>` : ''}
+
+                        <!-- Short Description -->
+                        <div class="form-group">
+                            <label class="form-label">คำบรรยายสั้น (Description)</label>
+                            <input type="text" id="field_${descKey}" value="${escapeHtml(desc)}"
+                                   class="form-input" placeholder="คำบรรยายสั้นๆ เกี่ยวกับห้อง">
+                        </div>
+
+                        <!-- Features -->
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">
+                                สิ่งอำนวยความสะดวกในห้อง
+                                <span style="color:var(--text-faint); font-weight:normal;">(พิมพ์ 1 บรรทัด = 1 รายการ)</span>
+                            </label>
+                            <textarea id="field_${featKey}" class="form-input textarea-features"
+                                      placeholder="เตียง 5 ฟุต&#10;เครื่องปรับอากาศ&#10;ตู้เสื้อผ้า&#10;เครื่องทำน้ำอุ่น">${escapeHtml(features.join('\n'))}</textarea>
                         </div>
                     </div>`;
                 });
@@ -395,14 +1240,24 @@
             container.innerHTML = html;
         }
 
-        // Save Current Dorm to Firestore
+        // Save Current Dorm Data to Firestore
         window.saveCurrentDorm = async () => {
-            const btn = document.getElementById('saveBtn');
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
+            const btnTop = document.getElementById('saveBtnTop');
+            const btnBottom = document.getElementById('saveBtnBottom');
+            
+            const setBtnState = (loading) => {
+                [btnTop, btnBottom].forEach(b => {
+                    if (!b) return;
+                    b.disabled = loading;
+                    b.innerHTML = loading 
+                        ? `<i class="fa-solid fa-spinner fa-spin"></i> <span>กำลังบันทึก...</span>`
+                        : `<i class="fa-solid fa-floppy-disk"></i> <span>บันทึกข้อมูลโครงการนี้</span>`;
+                });
+            };
+
+            setBtnState(true);
 
             try {
-                // Collect input values
                 const updatedData = Object.assign({}, currentDormData);
 
                 // Collect header
@@ -421,27 +1276,27 @@
                     }
                 });
 
-                // Write to Firestore document
+                // Write to Firestore
                 const docRef = doc(db, 'dorms', currentDormId);
                 await setDoc(docRef, updatedData, { merge: true });
 
                 currentDormData = updatedData;
-                window.showToast(`บันทึกข้อมูล ${dormMetadata[currentDormId].name} สำเร็จ!`, 'success');
+                window.showToast(`บันทึกข้อมูล ${dormMetadata[currentDormId].name} สำเร็จเรียบร้อย!`, 'success');
             } catch (err) {
                 console.error(err);
-                window.showToast(`เกิดข้อผิดพลาด: ${err.message}`, 'error');
+                window.showToast(`เกิดข้อผิดพลาดในการบันทึก: ${err.message}`, 'error');
             } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูล`;
+                setBtnState(false);
             }
         };
 
         // One-click import defaults from JS files
         window.importDefaults = () => {
-            if (confirm(`ต้องการดึงข้อมูลเริ่มต้นจากไฟล์ของโครงการนี้หรือไม่? (ข้อมูลที่ยังไม่กดบันทึกจะถูกแทนที่)`)) {
-                currentDormData = Object.assign({}, defaultDataMap[currentDormId] || {});
+            const dormName = dormMetadata[currentDormId] ? dormMetadata[currentDormId].name : currentDormId;
+            if (confirm(`คุณต้องการดึงข้อมูลเริ่มต้นจากระบบเดิมของ ${dormName} มาใส่ฟอร์มใช่หรือไม่? (ข้อมูลที่ยังไม่ได้กดบันทึกจะถูกแทนที่)`)) {
+                currentDormData = Object.assign({}, getDefaultData(currentDormId));
                 renderEditorUI(currentDormId, currentDormData);
-                window.showToast('ดึงข้อมูลเริ่มต้นเรียบร้อยแล้ว อย่าลืมกด "บันทึกข้อมูล"', 'success');
+                window.showToast('ดึงข้อมูลเริ่มต้นเรียบร้อยแล้ว อย่าลืมกด "บันทึกข้อมูล" นะครับ', 'success');
             }
         };
 
