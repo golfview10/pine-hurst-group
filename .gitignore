@@ -17,3 +17,6 @@ node_modules/
 # Security: Sensitive/utility files
 *.reg
 *.ps1
+
+# Firebase CLI cache
+.firebase/

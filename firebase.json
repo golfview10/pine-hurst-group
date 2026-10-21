@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "storage.rules",
+      ".firebaserc",
+      "**/.git/**",
+      ".git/**",
+      "**/.vscode/**",
+      ".vscode/**",
+      "**/Thumbs.db",
+      "Thumbs.db",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": [
+    {
+      "bucket": "phwillz-web-93065.firebasestorage.app",
+      "rules": "storage.rules"
+    }
+  ]
+}
