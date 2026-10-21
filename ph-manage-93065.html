@@ -849,6 +849,73 @@
             color: #34d399;
         }
 
+        /* Dynamic Item Action Buttons & Controls */
+        .btn-add-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-add-item:hover {
+            background: rgba(16, 185, 129, 0.24);
+            border-color: #10b981;
+            transform: translateY(-1px);
+            color: #ffffff;
+        }
+        .btn-item-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-item-delete:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+        .item-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .icon-select-dropdown {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-heading);
+            padding: 8px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .icon-select-dropdown:focus {
+            border-color: var(--primary);
+        }
+
         /* Sticky Bottom Bar */
         .sticky-footer {
             position: fixed;
@@ -1338,6 +1405,328 @@
             await loadDorm(dormId);
         };
 
+        // Icon Options for Dynamic Pickers
+        const FACILITY_ICONS = [
+            { value: 'fa-solid fa-person-swimming', label: '🏊 สระว่ายน้ำ (Swimming Pool)' },
+            { value: 'fa-solid fa-dumbbell', label: '🏋️ ฟิตเนส (Fitness & Gym)' },
+            { value: 'fa-solid fa-van-shuttle', label: '🚐 รถตู้รับ-ส่ง (Shuttle Van)' },
+            { value: 'fa-solid fa-shop', label: '🏪 ร้านสะดวกซื้อ / 7-Eleven' },
+            { value: 'fa-solid fa-jug-detergent', label: '🧺 บริการซักรีด (Laundry)' },
+            { value: 'fa-solid fa-tree', label: '🌳 สวนหย่อม / Green Park' },
+            { value: 'fa-solid fa-laptop', label: '💻 Co-working Space' },
+            { value: 'fa-solid fa-square-parking', label: '🚗 ลานจอดรถ / ที่จอดรถ' },
+            { value: 'fa-solid fa-utensils', label: '🍜 ศูนย์อาหาร / ร้านอาหาร' },
+            { value: 'fa-solid fa-charging-station', label: '⚡ จุดชาร์จรถไฟฟ้า EV' },
+            { value: 'fa-solid fa-wifi', label: '📶 อินเทอร์เน็ต WiFi' },
+            { value: 'fa-solid fa-mug-hot', label: '☕ คาเฟ่ / กาแฟ' },
+            { value: 'fa-solid fa-couch', label: '🛋️ ห้องรับรอง / Lounge' },
+            { value: 'fa-solid fa-elevator', label: '🛗 ลิฟต์โดยสาร' },
+            { value: 'fa-solid fa-star', label: '⭐ สิ่งอำนวยความสะดวกอื่นๆ' }
+        ];
+
+        const SECURITY_ICONS = [
+            { value: 'fa-solid fa-video', label: '📹 กล้องวงจรปิด 24 ชม. (CCTV)' },
+            { value: 'fa-solid fa-id-card', label: '💳 ระบบคีย์การ์ด (Keycard Access)' },
+            { value: 'fa-solid fa-user-shield', label: '👮 เจ้าหน้าที่ รปภ. 24 ชม.' },
+            { value: 'fa-solid fa-fingerprint', label: '👆 สแกนนิ้วมือ / สแกนใบหน้า' },
+            { value: 'fa-solid fa-door-closed', label: '🚪 ประตู Digital Door Lock' },
+            { value: 'fa-solid fa-fire-extinguisher', label: '🧯 ถังดับเพลิง / สปริงเกลอร์' },
+            { value: 'fa-solid fa-road-barrier', label: '🚧 ไม้กั้นรถยนต์อัตโนมัติ' },
+            { value: 'fa-solid fa-bell', label: '🚨 สัญญาณเตือนภัยฉุกเฉิน' },
+            { value: 'fa-solid fa-shield-halved', label: '🛡️ ระบบรักษาความปลอดภัยอื่นๆ' }
+        ];
+
+        // Ensure currentDormData has mutable arrays for rooms, facilities, securityItems
+        function normalizeDormData(dormId, data) {
+            if (!data) data = {};
+
+            // 1. Rooms Array
+            if (!Array.isArray(data.rooms) || data.rooms.length === 0) {
+                const schema = dormRoomSchemas[dormId] || [];
+                const defaultSliders = defaultRoomSliderImages[dormId] || {};
+                data.rooms = schema.map(room => {
+                    const rId = room.id;
+                    const sliderImgs = Array.isArray(data[`room${rId}Images`]) && data[`room${rId}Images`].length > 0
+                        ? data[`room${rId}Images`]
+                        : (defaultSliders[rId] || [`image/${dormId}/cover.png`]);
+                    return {
+                        id: rId,
+                        name: room.name,
+                        title: data[`room${rId}Title`] || room.name,
+                        price: data[`room${rId}Price`] || '',
+                        priceUnit: data[`room${rId}PriceUnit`] || (rId.startsWith('Daily') ? 'บาท/คืน' : 'บาท/เดือน'),
+                        size: data[`room${rId}Size`] || '',
+                        description: data[`room${rId}Description`] || room.desc || '',
+                        features: Array.isArray(data[`room${rId}Features`]) ? data[`room${rId}Features`] : ['เครื่องปรับอากาศ', 'เตียงและที่นอน', 'ตู้เสื้อผ้า'],
+                        images: sliderImgs
+                    };
+                });
+            }
+
+            // 2. Facilities Array
+            if (!Array.isArray(data.facilities) || data.facilities.length === 0) {
+                const schema = dormFacilitySchemas[dormId] || [];
+                const defaultIcons = [
+                    'fa-solid fa-person-swimming',
+                    'fa-solid fa-dumbbell',
+                    'fa-solid fa-van-shuttle',
+                    'fa-solid fa-shop',
+                    'fa-solid fa-jug-detergent',
+                    'fa-solid fa-tree',
+                    'fa-solid fa-laptop',
+                    'fa-solid fa-square-parking'
+                ];
+                data.facilities = schema.map((f, idx) => ({
+                    id: 'fac_' + (idx + 1),
+                    title: data[`facility${f.id}Title`] || f.label.replace(/^จุดที่ \d+:\s*/, ''),
+                    desc: data[`facility${f.id}Desc`] || '',
+                    icon: data[`facility${f.id}Icon`] || defaultIcons[idx % defaultIcons.length],
+                    image: data[`facility${f.id}Image`] || `image/${dormId}/facilities/${f.id}.png`
+                }));
+            }
+
+            // 3. Security Array
+            if (!Array.isArray(data.securityItems) || data.securityItems.length === 0) {
+                data.securityItems = [
+                    { id: 'sec_1', title: data.security1Title || 'กล้องวงจรปิด 24 ชม.', desc: data.security1Desc || 'ครอบคลุมทุกจุดทั่วอาคาร', icon: data.security1Icon || 'fa-solid fa-video' },
+                    { id: 'sec_2', title: data.security2Title || 'ระบบคีย์การ์ด', desc: data.security2Desc || 'ปลอดภัยเฉพาะผู้พักอาศัย', icon: data.security2Icon || 'fa-solid fa-id-card' },
+                    { id: 'sec_3', title: data.security3Title || 'เจ้าหน้าที่รักษาความปลอดภัย', desc: data.security3Desc || 'ดูแลความปลอดภัยตลอด 24 ชม.', icon: data.security3Icon || 'fa-solid fa-user-shield' }
+                ];
+            }
+
+            return data;
+        }
+
+        // Synchronize currently typed inputs into currentDormData object
+        function syncFormToDormData() {
+            // Header
+            const hTitle = document.getElementById('field_headerTitle');
+            const hSub = document.getElementById('field_headerSubtitle');
+            const hBg = document.getElementById('field_headerBgImage');
+            if (hTitle) currentDormData.headerTitle = hTitle.value.trim();
+            if (hSub) currentDormData.headerSubtitle = hSub.value.trim();
+            if (hBg) currentDormData.headerBgImage = hBg.value.trim();
+
+            // Rooms
+            if (Array.isArray(currentDormData.rooms)) {
+                currentDormData.rooms.forEach((room, idx) => {
+                    const idEl = document.getElementById(`room_${idx}_id`);
+                    const titleEl = document.getElementById(`room_${idx}_title`);
+                    const priceEl = document.getElementById(`room_${idx}_price`);
+                    const unitEl = document.getElementById(`room_${idx}_unit`);
+                    const sizeEl = document.getElementById(`room_${idx}_size`);
+                    const descEl = document.getElementById(`room_${idx}_desc`);
+                    const featEl = document.getElementById(`room_${idx}_features`);
+
+                    if (idEl) room.id = idEl.value.trim() || room.id;
+                    if (titleEl) {
+                        room.title = titleEl.value.trim();
+                        room.name = room.title;
+                    }
+                    if (priceEl) room.price = priceEl.value.trim();
+                    if (unitEl) room.priceUnit = unitEl.value.trim();
+                    if (sizeEl) room.size = sizeEl.value.trim();
+                    if (descEl) room.description = descEl.value.trim();
+                    if (featEl) room.features = featEl.value.split('\n').map(s => s.trim()).filter(Boolean);
+
+                    // Collect slider inputs for this room
+                    const slideInputs = document.querySelectorAll(`.slide-input-room-${idx}`);
+                    const imgs = [];
+                    slideInputs.forEach(inp => {
+                        const v = inp.value.trim();
+                        if (v) imgs.push(v);
+                    });
+                    room.images = imgs;
+                    room.image = imgs.length > 0 ? imgs[0] : '';
+                });
+            }
+
+            // Facilities
+            if (Array.isArray(currentDormData.facilities)) {
+                currentDormData.facilities.forEach((fac, idx) => {
+                    const tEl = document.getElementById(`fac_${idx}_title`);
+                    const dEl = document.getElementById(`fac_${idx}_desc`);
+                    const iEl = document.getElementById(`fac_${idx}_icon`);
+                    const imgEl = document.getElementById(`fac_${idx}_image`);
+
+                    if (tEl) fac.title = tEl.value.trim();
+                    if (dEl) fac.desc = dEl.value.trim();
+                    if (iEl) fac.icon = iEl.value.trim();
+                    if (imgEl) fac.image = imgEl.value.trim();
+                });
+            }
+
+            // Security
+            const secTitleEl = document.getElementById('field_securityTitle');
+            if (secTitleEl) currentDormData.securityTitle = secTitleEl.value.trim();
+            if (Array.isArray(currentDormData.securityItems)) {
+                currentDormData.securityItems.forEach((sec, idx) => {
+                    const tEl = document.getElementById(`sec_${idx}_title`);
+                    const dEl = document.getElementById(`sec_${idx}_desc`);
+                    const iEl = document.getElementById(`sec_${idx}_icon`);
+
+                    if (tEl) sec.title = tEl.value.trim();
+                    if (dEl) sec.desc = dEl.value.trim();
+                    if (iEl) sec.icon = iEl.value.trim();
+                });
+            }
+
+            // Location
+            const locTitle = document.getElementById('field_locationTitle');
+            const locDesc = document.getElementById('field_locationDesc');
+            const locMap = document.getElementById('field_locationMapUrl');
+            if (locTitle) currentDormData.locationTitle = locTitle.value.trim();
+            if (locDesc) currentDormData.locationDesc = locDesc.value.trim();
+            if (locMap) currentDormData.locationMapUrl = locMap.value.trim();
+
+            // Contact
+            const cTitle = document.getElementById('field_contactTitle');
+            const cDesc = document.getElementById('field_contactDesc');
+            const cPhone = document.getElementById('field_contactPhone');
+            const cLine = document.getElementById('field_contactLine');
+            const cLineLink = document.getElementById('field_contactLineLink');
+            const cFb = document.getElementById('field_contactFacebook');
+            const cBtn = document.getElementById('field_contactButton');
+
+            if (cTitle) currentDormData.contactTitle = cTitle.value.trim();
+            if (cDesc) currentDormData.contactDesc = cDesc.value.trim();
+            if (cPhone) currentDormData.contactPhone = cPhone.value.trim();
+            if (cLine) currentDormData.contactLine = cLine.value.trim();
+            if (cLineLink) currentDormData.contactLineLink = cLineLink.value.trim();
+            if (cFb) currentDormData.contactFacebook = cFb.value.trim();
+            if (cBtn) currentDormData.contactButton = cBtn.value.trim();
+
+            // Sync to legacy keys for 100% backward compatibility
+            if (Array.isArray(currentDormData.rooms)) {
+                currentDormData.rooms.forEach((r) => {
+                    const k = r.id;
+                    currentDormData[`room${k}Title`] = r.title;
+                    currentDormData[`room${k}Price`] = r.price;
+                    currentDormData[`room${k}PriceUnit`] = r.priceUnit;
+                    currentDormData[`room${k}Size`] = r.size;
+                    currentDormData[`room${k}Description`] = r.description;
+                    currentDormData[`room${k}Features`] = r.features;
+                    currentDormData[`room${k}Image`] = r.image;
+                    currentDormData[`room${k}Images`] = r.images;
+                });
+            }
+            if (Array.isArray(currentDormData.facilities)) {
+                currentDormData.facilities.forEach((f, idx) => {
+                    currentDormData[`facility${idx + 1}Title`] = f.title;
+                    currentDormData[`facility${idx + 1}Desc`] = f.desc;
+                    currentDormData[`facility${idx + 1}Icon`] = f.icon;
+                    currentDormData[`facility${idx + 1}Image`] = f.image;
+                });
+            }
+            if (Array.isArray(currentDormData.securityItems)) {
+                currentDormData.securityItems.forEach((s, idx) => {
+                    currentDormData[`security${idx + 1}Title`] = s.title;
+                    currentDormData[`security${idx + 1}Desc`] = s.desc;
+                    currentDormData[`security${idx + 1}Icon`] = s.icon;
+                });
+            }
+        }
+
+        // ==============================================================
+        // DYNAMIC ITEM ACTIONS (Add / Delete)
+        // ==============================================================
+        window.addNewRoom = () => {
+            syncFormToDormData();
+            const newIndex = (currentDormData.rooms || []).length + 1;
+            const newRoom = {
+                id: 'Room' + newIndex,
+                name: 'ห้องพักแบบที่ ' + newIndex,
+                title: 'ห้องพักแบบที่ ' + newIndex,
+                price: '',
+                priceUnit: 'บาท/เดือน',
+                size: '24 ตร.ม.',
+                description: 'ห้องพักตกแต่งสวยงาม สะดวกสบาย พร้อมเข้าอยู่',
+                features: ['เครื่องปรับอากาศ', 'เตียงและที่นอน', 'ตู้เสื้อผ้า', 'โต๊ะทำงาน'],
+                images: [`image/${currentDormId}/cover.png`]
+            };
+            currentDormData.rooms.push(newRoom);
+            renderEditorUI(currentDormId, currentDormData);
+            window.showToast('เพิ่มประเภทห้องพักใหม่เรียบร้อยแล้ว อย่าลืมกดบันทึกนะครับ', 'success');
+        };
+
+        window.deleteRoom = (idx) => {
+            syncFormToDormData();
+            const room = currentDormData.rooms[idx];
+            if (confirm(`คุณต้องการลบห้อง "${room.title || room.name}" ใช่หรือไม่?`)) {
+                currentDormData.rooms.splice(idx, 1);
+                renderEditorUI(currentDormId, currentDormData);
+                window.showToast('ลบห้องพักเรียบร้อยแล้ว', 'success');
+            }
+        };
+
+        window.addSlideToRoom = (roomIdx) => {
+            syncFormToDormData();
+            if (!currentDormData.rooms[roomIdx].images) {
+                currentDormData.rooms[roomIdx].images = [];
+            }
+            currentDormData.rooms[roomIdx].images.push(`image/${currentDormId}/cover.png`);
+            renderEditorUI(currentDormId, currentDormData);
+        };
+
+        window.deleteSlideFromRoom = (roomIdx, slideIdx) => {
+            syncFormToDormData();
+            if (currentDormData.rooms[roomIdx].images.length <= 1) {
+                window.showToast('แต่ละห้องต้องมีรูปภาพอย่างน้อย 1 ภาพครับ', 'error');
+                return;
+            }
+            currentDormData.rooms[roomIdx].images.splice(slideIdx, 1);
+            renderEditorUI(currentDormId, currentDormData);
+        };
+
+        window.addNewFacility = () => {
+            syncFormToDormData();
+            const newIndex = (currentDormData.facilities || []).length + 1;
+            const newFac = {
+                id: 'fac_' + Date.now(),
+                title: 'สิ่งอำนวยความสะดวกใหม่ ' + newIndex,
+                desc: 'ให้บริการสำหรับผู้พักอาศัย',
+                icon: 'fa-solid fa-star',
+                image: `image/${currentDormId}/cover.png`
+            };
+            currentDormData.facilities.push(newFac);
+            renderEditorUI(currentDormId, currentDormData);
+            window.showToast('เพิ่มสิ่งอำนวยความสะดวกใหม่เรียบร้อยแล้ว', 'success');
+        };
+
+        window.deleteFacility = (idx) => {
+            syncFormToDormData();
+            const fac = currentDormData.facilities[idx];
+            if (confirm(`คุณต้องการลบสิ่งอำนวยความสะดวก "${fac.title}" ใช่หรือไม่?`)) {
+                currentDormData.facilities.splice(idx, 1);
+                renderEditorUI(currentDormId, currentDormData);
+                window.showToast('ลบสิ่งอำนวยความสะดวกเรียบร้อยแล้ว', 'success');
+            }
+        };
+
+        window.addNewSecurityItem = () => {
+            syncFormToDormData();
+            const newIndex = (currentDormData.securityItems || []).length + 1;
+            const newSec = {
+                id: 'sec_' + Date.now(),
+                title: 'ระบบความปลอดภัย ' + newIndex,
+                desc: 'ดูแลความปลอดภัยตลอด 24 ชม.',
+                icon: 'fa-solid fa-shield-halved'
+            };
+            currentDormData.securityItems.push(newSec);
+            renderEditorUI(currentDormId, currentDormData);
+            window.showToast('เพิ่มระบบความปลอดภัยใหม่เรียบร้อยแล้ว', 'success');
+        };
+
+        window.deleteSecurityItem = (idx) => {
+            syncFormToDormData();
+            const sec = currentDormData.securityItems[idx];
+            if (confirm(`คุณต้องการลบระบบความปลอดภัย "${sec.title}" ใช่หรือไม่?`)) {
+                currentDormData.securityItems.splice(idx, 1);
+                renderEditorUI(currentDormId, currentDormData);
+                window.showToast('ลบระบบความปลอดภัยเรียบร้อยแล้ว', 'success');
+            }
+        };
+
         async function loadDorm(dormId) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
@@ -1365,6 +1754,7 @@
                 currentDormData = Object.assign({}, fallbackData);
             }
 
+            currentDormData = normalizeDormData(dormId, currentDormData);
             renderEditorUI(dormId, currentDormData);
         }
 
@@ -1379,7 +1769,6 @@
             const targetField = document.getElementById(targetFieldId);
             const statusEl = document.getElementById(statusId);
 
-            // 1. Instant local preview
             const localUrl = URL.createObjectURL(file);
             if (previewImg) previewImg.src = localUrl;
 
@@ -1387,7 +1776,6 @@
                 statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังอัปโหลด...`;
             }
 
-            // 2. Upload to Firebase Storage
             try {
                 const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
                 const storagePath = `dorms/${currentDormId}/${targetFieldId}_${Date.now()}_${safeName}`;
@@ -1403,12 +1791,15 @@
                     (error) => {
                         console.warn('Firebase Storage error:', error);
                         if (statusEl) {
-                            statusEl.innerHTML = `<span style="color:#fca5a5;"><i class="fa-solid fa-triangle-exclamation"></i> Storage ติดสิทธิ์ สามารถวาง URL แทนได้</span>`;
+                            statusEl.innerHTML = `<span style="color:#fca5a5;"><i class="fa-solid fa-triangle-exclamation"></i> สามารถวาง URL แทนได้</span>`;
                         }
                     }, 
                     async () => {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        if (targetField) targetField.value = downloadURL;
+                        if (targetField) {
+                            targetField.value = downloadURL;
+                            targetField.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
                         if (statusEl) {
                             statusEl.innerHTML = `<i class="fa-solid fa-check text-primary"></i> อัปโหลดสำเร็จ`;
                         }
@@ -1430,89 +1821,17 @@
             }
         };
 
-        // Add a new slide image slot dynamically
-        window.addSlideSlot = (roomId) => {
-            const container = document.getElementById(`sliderContainer_${roomId}`);
-            if (!container) return;
-
-            const existingCount = container.querySelectorAll('.slider-slot-item').length;
-            const newIndex = existingCount;
-            const defaultPath = `image/${currentDormId}/cover.png`;
-
-            const slotHtml = `
-            <div class="slider-slot-item" id="slot_${roomId}_${newIndex}">
-                <div class="slider-slot-header">
-                    <span class="badge-slot-slide"><i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${newIndex + 1}</span>
-                    <button type="button" class="btn-del-slide" onclick="removeSlideImage('${roomId}', ${newIndex})" title="ลบภาพนี้">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </div>
-                <div class="image-preview-group">
-                    <img id="preview_${roomId}_${newIndex}" src="${defaultPath}" alt="Slide ${newIndex + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
-                    <div class="image-upload-controls">
-                        <input type="text" class="form-input slide-url-input" id="field_${roomId}_slide_${newIndex}" data-room="${roomId}"
-                               value="" placeholder="วาง URL หรือที่อยู่ไฟล์รูปภาพใหม่ เช่น https://..."
-                               oninput="updatePreviewFromInput(this, 'preview_${roomId}_${newIndex}')">
-                        <div class="image-upload-actions">
-                            <label class="btn-upload">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                <span>อัปโหลดรูปภาพ</span>
-                                <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${roomId}_slide_${newIndex}', 'preview_${roomId}_${newIndex}', 'status_${roomId}_${newIndex}')">
-                            </label>
-                            <span id="status_${roomId}_${newIndex}" class="upload-status"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-
-            container.insertAdjacentHTML('beforeend', slotHtml);
-            const newInput = document.getElementById(`field_${roomId}_slide_${newIndex}`);
-            if (newInput) newInput.focus();
-        };
-
-        // Remove a slide image slot
-        window.removeSlideImage = (roomId, index) => {
-            const container = document.getElementById(`sliderContainer_${roomId}`);
-            if (container && container.querySelectorAll('.slider-slot-item').length <= 1) {
-                window.showToast('แต่ละห้องต้องมีรูปภาพอย่างน้อย 1 ภาพเพื่อเป็นภาพหลักครับ', 'error');
-                return;
-            }
-            const slot = document.getElementById(`slot_${roomId}_${index}`);
-            if (slot) {
-                slot.remove();
-                // Re-index remaining badges
-                const container = document.getElementById(`sliderContainer_${roomId}`);
-                if (container) {
-                    const slots = container.querySelectorAll('.slider-slot-item');
-                    slots.forEach((item, idx) => {
-                        const header = item.querySelector('.slider-slot-header');
-                        if (header) {
-                            const badgeSpan = header.querySelector('span');
-                            if (badgeSpan) {
-                                if (idx === 0) {
-                                    badgeSpan.className = 'badge-cover-slide';
-                                    badgeSpan.innerHTML = `<i class="fa-solid fa-star"></i> ภาพที่ 1 (ภาพปกหลัก)`;
-                                } else {
-                                    badgeSpan.className = 'badge-slot-slide';
-                                    badgeSpan.innerHTML = `<i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${idx + 1}`;
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        };
-
         function renderEditorUI(dormId, data) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
 
-            const defaultSliders = defaultRoomSliderImages[dormId] || {};
             const currentHeaderBg = data.headerBgImage || `image/${dormId}/header-bg.png`;
 
             let html = '';
 
+            // ==============================================================
             // Section 1: Header Information & Background Image
+            // ==============================================================
             html += `
             <div class="section-box">
                 <div class="section-header">
@@ -1538,7 +1857,6 @@
                     </div>
                 </div>
 
-                <!-- Header Background Image -->
                 <label class="form-label" style="margin-bottom: 8px;">ภาพพื้นหลังส่วนหัว (Header Background Image)</label>
                 <div class="image-preview-group">
                     <img id="preview_headerBgImage" src="${escapeHtml(currentHeaderBg)}" alt="Header Background Preview" class="image-thumbnail"
@@ -1559,194 +1877,240 @@
                 </div>
             </div>`;
 
-            // Section 2: Room Types, Pricing, and Slider Gallery Images
-            const rooms = dormRoomSchemas[dormId] || [];
-            if (rooms.length > 0) {
-                html += `
-                <div class="section-box">
-                    <div class="section-header">
-                        <div>
-                            <h3 class="section-title">
-                                <i class="fa-solid fa-bed"></i>
-                                <span>2. ข้อมูลห้องพัก ราคา และภาพสไลด์แกลเลอรี (Rooms, Pricing & Gallery)</span>
-                            </h3>
-                            <p class="section-desc">แก้ไขราคา ขนาดห้อง จุดเด่น และชุดรูปภาพที่จะนำไปแสดงสไลด์หมุนและในแกลเลอรี</p>
-                        </div>
+            // ==============================================================
+            // Section 2: Room Types, Pricing & Gallery (DYNAMIC BUILDER)
+            // ==============================================================
+            const rooms = data.rooms || [];
+            html += `
+            <div class="section-box">
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-bed"></i>
+                            <span>2. ข้อมูลห้องพัก ราคา และภาพสไลด์แกลเลอรี (Rooms, Pricing & Gallery)</span>
+                        </h3>
+                        <p class="section-desc">สามารถเพิ่มประเภทห้องใหม่ ลบห้อง แก้ไขราคา และจัดการรูปภาพสไลด์หมุนได้ตามต้องการ</p>
                     </div>
+                    <button type="button" onclick="addNewRoom()" class="btn-add-item">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>เพิ่มประเภทห้องพักใหม่</span>
+                    </button>
+                </div>
 
-                    <div class="rooms-grid">`;
+                <div class="rooms-grid">`;
 
-                rooms.forEach(room => {
-                    const rId = room.id;
-                    const titleKey = `room${rId}Title`;
-                    const priceKey = `room${rId}Price`;
-                    const unitKey = `room${rId}PriceUnit`;
-                    const descKey = `room${rId}Description`;
-                    const featKey = `room${rId}Features`;
-                    const sizeKey = `room${rId}Size`;
-                    const sliderKey = `room${rId}Images`;
+            rooms.forEach((room, roomIdx) => {
+                const title = room.title || room.name || 'ห้องพักใหม่';
+                const price = room.price || '';
+                const unit = room.priceUnit || 'บาท/เดือน';
+                const size = room.size || '';
+                const desc = room.description || '';
+                const features = Array.isArray(room.features) ? room.features : [];
+                const sliderImages = Array.isArray(room.images) && room.images.length > 0
+                    ? room.images
+                    : [`image/${dormId}/cover.png`];
 
-                    const title = data[titleKey] || room.name;
-                    const price = data[priceKey] || '';
-                    const unit = data[unitKey] || (rId.startsWith('Daily') ? 'บาท/คืน' : 'บาท/เดือน');
-                    const desc = data[descKey] || room.desc || '';
-                    const size = data[sizeKey] || '';
-                    const features = Array.isArray(data[featKey]) ? data[featKey] : [];
-                    
-                    // Determine slider images array: from data, or fallback from defaultRoomSliderImages
-                    let sliderImages = Array.isArray(data[sliderKey]) && data[sliderKey].length > 0 
-                        ? data[sliderKey] 
-                        : (defaultSliders[rId] || [`image/${dormId}/cover.png`]);
-
-                    html += `
-                    <div class="room-item-card">
-                        <div class="room-item-header">
+                html += `
+                <div class="room-item-card" id="room_card_${roomIdx}">
+                    <div class="item-card-header">
+                        <div style="display:flex; align-items:center; gap:8px;">
                             <span class="room-name-badge">
                                 <i class="fa-solid fa-door-open"></i>
-                                <span>${escapeHtml(room.name)}</span>
+                                <span>ห้องที่ ${roomIdx + 1}</span>
                             </span>
-                            <span class="room-id-tag">ID: ${rId}</span>
+                            <span style="font-size:12px; color:var(--text-faint);">รหัส:</span>
+                            <input type="text" id="room_${roomIdx}_id" value="${escapeHtml(room.id || 'Room' + (roomIdx + 1))}"
+                                   class="form-input" style="width:110px; padding:3px 8px; font-size:12px; height:auto;">
                         </div>
+                        <button type="button" onclick="deleteRoom(${roomIdx})" class="btn-item-delete" title="ลบห้องพักนี้">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>ลบห้องนี้</span>
+                        </button>
+                    </div>
 
-                        <!-- Price & Unit Row -->
-                        <div class="room-form-row">
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label class="form-label">ราคาค่าเช่า</label>
-                                <input type="text" id="field_${priceKey}" value="${escapeHtml(price)}"
-                                       class="form-input input-price" placeholder="เช่น 3,500">
-                            </div>
-                            <div class="form-group" style="margin-bottom:0;">
-                                <label class="form-label">หน่วยราคา</label>
-                                <input type="text" id="field_${unitKey}" value="${escapeHtml(unit)}"
-                                       class="form-input" placeholder="บาท/เดือน">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">ชื่อประเภทห้องพัก (Room Title)</label>
+                        <input type="text" id="room_${roomIdx}_title" value="${escapeHtml(title)}"
+                               class="form-input font-bold" placeholder="เช่น ห้อง Deluxe หรือ Studio Air">
+                    </div>
 
-                        <!-- Room Size (if applicable) -->
-                        ${data[sizeKey] !== undefined || ['Fan', 'Air', 'ReNew', 'Standard', 'Suite'].includes(rId) ? `
-                        <div class="form-group">
-                            <label class="form-label">ขนาดห้อง (Size)</label>
-                            <input type="text" id="field_${sizeKey}" value="${escapeHtml(size)}"
-                                   class="form-input" placeholder="เช่น 14 ตร.ม. หรือ 26 ตร.ม.">
-                        </div>` : ''}
-
-                        <!-- Short Description -->
-                        <div class="form-group">
-                            <label class="form-label">คำบรรยายสั้น (Description)</label>
-                            <input type="text" id="field_${descKey}" value="${escapeHtml(desc)}"
-                                   class="form-input" placeholder="คำบรรยายสั้นๆ เกี่ยวกับห้อง">
-                        </div>
-
-                        <!-- Features -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                สิ่งอำนวยความสะดวกในห้อง
-                                <span style="color:var(--text-faint); font-weight:normal;">(พิมพ์ 1 บรรทัด = 1 รายการ)</span>
-                            </label>
-                            <textarea id="field_${featKey}" class="form-input textarea-features"
-                                      placeholder="เตียง 5 ฟุต&#10;เครื่องปรับอากาศ&#10;ตู้เสื้อผ้า&#10;เครื่องทำน้ำอุ่น">${escapeHtml(features.join('\n'))}</textarea>
-                        </div>
-
-                        <!-- ================= SLIDER & GALLERY IMAGES ================= -->
+                    <div class="room-form-row">
                         <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
-                                <span><i class="fa-solid fa-images text-primary"></i> ภาพสไลด์และแกลเลอรีห้องพัก</span>
-                                <span style="font-size:11px; color:var(--text-faint); font-weight:normal;">ภาพที่ 1 คือภาพปกหน้าแรก</span>
-                            </label>
-                            
-                            <div class="slider-slots-container" id="sliderContainer_${rId}">`;
-
-                    sliderImages.forEach((imgUrl, idx) => {
-                        html += `
-                                <div class="slider-slot-item" id="slot_${rId}_${idx}">
-                                    <div class="slider-slot-header">
-                                        ${idx === 0 
-                                            ? `<span class="badge-cover-slide"><i class="fa-solid fa-star"></i> ภาพที่ 1 (ภาพปกหลัก)</span>`
-                                            : `<span class="badge-slot-slide"><i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${idx + 1}</span>`
-                                        }
-                                        ${sliderImages.length > 1 ? `
-                                        <button type="button" class="btn-del-slide" onclick="removeSlideImage('${rId}', ${idx})" title="ลบภาพนี้">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>` : ''}
-                                    </div>
-                                    <div class="image-preview-group">
-                                        <img id="preview_${rId}_${idx}" src="${escapeHtml(imgUrl)}" alt="Slide ${idx + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
-                                        <div class="image-upload-controls">
-                                            <input type="text" class="form-input slide-url-input" id="field_${rId}_slide_${idx}" data-room="${rId}"
-                                                   value="${escapeHtml(imgUrl)}" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ"
-                                                   oninput="updatePreviewFromInput(this, 'preview_${rId}_${idx}')">
-                                            <div class="image-upload-actions">
-                                                <label class="btn-upload">
-                                                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                                                    <span>เปลี่ยนรูป</span>
-                                                    <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${rId}_slide_${idx}', 'preview_${rId}_${idx}', 'status_${rId}_${idx}')">
-                                                </label>
-                                                <span id="status_${rId}_${idx}" class="upload-status"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    });
-
-                    html += `
-                            </div>
-                            
-                            <button type="button" class="btn-add-slide" onclick="addSlideSlot('${rId}')">
-                                <i class="fa-solid fa-plus-circle"></i> เพิ่มรูปภาพในสไลด์ห้องนี้
-                            </button>
+                            <label class="form-label">ราคาค่าเช่า</label>
+                            <input type="text" id="room_${roomIdx}_price" value="${escapeHtml(price)}"
+                                   class="form-input input-price" placeholder="เช่น 3,500">
                         </div>
-
-                    </div>`;
-                });
-
-                html += `</div></div>`;
-            }
-
-            // Section 3: Facilities (สิ่งอำนวยความสะดวก)
-            const facSchemas = dormFacilitySchemas[dormId] || [];
-            if (facSchemas.length > 0) {
-                html += `
-                <div class="section-box">
-                    <div class="section-header">
-                        <div>
-                            <h3 class="section-title">
-                                <i class="fa-solid fa-store"></i>
-                                <span>3. สิ่งอำนวยความสะดวก (Facilities)</span>
-                            </h3>
-                            <p class="section-desc">สิ่งอำนวยความสะดวกและบริการส่วนกลางของโครงการ</p>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">หน่วยราคา</label>
+                            <input type="text" id="room_${roomIdx}_unit" value="${escapeHtml(unit)}"
+                                   class="form-input" placeholder="เช่น บาท/เดือน หรือ บาท/คืน">
                         </div>
                     </div>
-                    <div class="form-grid-2">`;
-                
-                facSchemas.forEach(fac => {
-                    const titleKey = `facility${fac.id}Title`;
-                    const descKey = `facility${fac.id}Desc`;
-                    const currentTitle = data[titleKey] || '';
-                    const currentDesc = data[descKey] || '';
 
-                    html += `
-                    <div class="facility-edit-card" style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
-                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-                            <i class="fa-solid fa-circle-check"></i> <span>${escapeHtml(fac.label)}</span>
+                    <div class="form-group">
+                        <label class="form-label">ขนาดห้อง (Room Size)</label>
+                        <input type="text" id="room_${roomIdx}_size" value="${escapeHtml(size)}"
+                               class="form-input" placeholder="เช่น 24 ตร.ม. หรือ 32 ตร.ม.">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">คำบรรยายสั้น (Short Description)</label>
+                        <input type="text" id="room_${roomIdx}_desc" value="${escapeHtml(desc)}"
+                               class="form-input" placeholder="คำบรรยายสั้นๆ เกี่ยวกับห้อง">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            สิ่งอำนวยความสะดวกในห้อง
+                            <span style="color:var(--text-faint); font-weight:normal;">(พิมพ์ 1 บรรทัด = 1 รายการ)</span>
+                        </label>
+                        <textarea id="room_${roomIdx}_features" class="form-input textarea-features"
+                                  placeholder="เครื่องปรับอากาศ&#10;เตียง 5 ฟุต&#10;ตู้เสื้อผ้า&#10;เครื่องทำน้ำอุ่น">${escapeHtml(features.join('\n'))}</textarea>
+                    </div>
+
+                    <!-- Slide Images Management -->
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span><i class="fa-solid fa-images text-primary"></i> ภาพสไลด์และแกลเลอรี (${sliderImages.length} ภาพ)</span>
+                            <span style="font-size:11px; color:var(--text-faint); font-weight:normal;">ภาพที่ 1 คือภาพปกหน้าแรก</span>
+                        </label>
+
+                        <div class="slider-slots-container">
+                            ${sliderImages.map((imgUrl, sIdx) => `
+                            <div class="slider-slot-item">
+                                <div class="slider-slot-header">
+                                    ${sIdx === 0
+                                        ? `<span class="badge-cover-slide"><i class="fa-solid fa-star"></i> ภาพที่ 1 (ภาพปกหลัก)</span>`
+                                        : `<span class="badge-slot-slide"><i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${sIdx + 1}</span>`
+                                    }
+                                    ${sliderImages.length > 1 ? `
+                                    <button type="button" class="btn-del-slide" onclick="deleteSlideFromRoom(${roomIdx}, ${sIdx})" title="ลบภาพนี้">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>` : ''}
+                                </div>
+                                <div class="image-preview-group">
+                                    <img id="preview_r${roomIdx}_s${sIdx}" src="${escapeHtml(imgUrl)}" alt="Slide ${sIdx + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
+                                    <div class="image-upload-controls">
+                                        <input type="text" class="form-input slide-input-room-${roomIdx}" id="field_r${roomIdx}_s${sIdx}"
+                                               value="${escapeHtml(imgUrl)}" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ"
+                                               oninput="updatePreviewFromInput(this, 'preview_r${roomIdx}_s${sIdx}')">
+                                        <div class="image-upload-actions">
+                                            <label class="btn-upload">
+                                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                <span>เปลี่ยนรูป</span>
+                                                <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_r${roomIdx}_s${sIdx}', 'preview_r${roomIdx}_s${sIdx}', 'status_r${roomIdx}_s${sIdx}')">
+                                            </label>
+                                            <span id="status_r${roomIdx}_s${sIdx}" class="upload-status"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            `).join('')}
                         </div>
-                        <div class="form-group" style="margin-bottom:${fac.hasDesc ? '10px' : '0'};">
-                            <label class="form-label">ชื่อสิ่งอำนวยความสะดวก</label>
-                            <input type="text" id="field_${titleKey}" value="${escapeHtml(currentTitle)}"
-                                   class="form-input" placeholder="เช่น สระว่ายน้ำ หรือ ฟิตเนส">
+
+                        <button type="button" class="btn-add-slide" onclick="addSlideToRoom(${roomIdx})">
+                            <i class="fa-solid fa-plus-circle"></i> เพิ่มรูปภาพในสไลด์ห้องนี้
+                        </button>
+                    </div>
+
+                </div>`;
+            });
+
+            html += `
+                </div>
+            </div>`;
+
+            // ==============================================================
+            // Section 3: Facilities (DYNAMIC BUILDER)
+            // ==============================================================
+            const facilities = data.facilities || [];
+            html += `
+            <div class="section-box">
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-store"></i>
+                            <span>3. สิ่งอำนวยความสะดวก (Facilities)</span>
+                        </h3>
+                        <p class="section-desc">สามารถเพิ่มรายการสิ่งอำนวยความสะดวกใหม่ ลบรายการ และเปลี่ยนไอคอนได้อิสระ</p>
+                    </div>
+                    <button type="button" onclick="addNewFacility()" class="btn-add-item">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>เพิ่มสิ่งอำนวยความสะดวก</span>
+                    </button>
+                </div>
+
+                <div class="form-grid-3">`;
+
+            facilities.forEach((fac, facIdx) => {
+                const fTitle = fac.title || '';
+                const fDesc = fac.desc || '';
+                const fIcon = fac.icon || 'fa-solid fa-star';
+                const fImage = fac.image || `image/${dormId}/facilities/${facIdx + 1}.png`;
+
+                html += `
+                <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:14px; padding:18px;">
+                    <div class="item-card-header">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); display:flex; align-items:center; gap:8px;">
+                            <i class="${escapeHtml(fIcon)}" id="icon_display_fac_${facIdx}"></i>
+                            <span>รายการที่ ${facIdx + 1}</span>
                         </div>
-                        ${fac.hasDesc ? `
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">คำบรรยายสั้น</label>
-                            <input type="text" id="field_${descKey}" value="${escapeHtml(currentDesc)}"
-                                   class="form-input" placeholder="เช่น เครื่องออกกำลังกายทันสมัย เปิดให้บริการฟรี">
-                        </div>` : ''}
-                    </div>`;
-                });
+                        <button type="button" onclick="deleteFacility(${facIdx})" class="btn-item-delete" title="ลบรายการนี้">
+                            <i class="fa-solid fa-trash-can"></i> ลบ
+                        </button>
+                    </div>
 
-                html += `</div></div>`;
-            }
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label class="form-label">ชื่อสิ่งอำนวยความสะดวก</label>
+                        <input type="text" id="fac_${facIdx}_title" value="${escapeHtml(fTitle)}"
+                               class="form-input font-medium" placeholder="เช่น สระว่ายน้ำ หรือ ฟิตเนส">
+                    </div>
 
-            // Section 4: Security (ระบบความปลอดภัย)
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label class="form-label">คำบรรยายย่อย (ถ้ามี)</label>
+                        <input type="text" id="fac_${facIdx}_desc" value="${escapeHtml(fDesc)}"
+                               class="form-input" placeholder="เช่น สระว่ายน้ำระบบเกลือขนาดใหญ่">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label class="form-label">เลือกไอคอนสัญลักษณ์</label>
+                        <select id="fac_${facIdx}_icon" class="icon-select-dropdown" onchange="document.getElementById('icon_display_fac_${facIdx}').className = this.value">
+                            ${FACILITY_ICONS.map(ic => `
+                                <option value="${ic.value}" ${ic.value === fIcon ? 'selected' : ''}>${ic.label}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">รูปภาพประกอบ</label>
+                        <div class="image-preview-group" style="padding:8px;">
+                            <img id="preview_fac_${facIdx}" src="${escapeHtml(fImage)}" alt="Facility ${facIdx + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
+                            <div class="image-upload-controls">
+                                <input type="text" id="fac_${facIdx}_image" value="${escapeHtml(fImage)}"
+                                       class="form-input" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ"
+                                       oninput="updatePreviewFromInput(this, 'preview_fac_${facIdx}')">
+                                <div class="image-upload-actions">
+                                    <label class="btn-upload">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <span>เปลี่ยนรูป</span>
+                                        <input type="file" accept="image/*" onchange="handleImageUpload(this, 'fac_${facIdx}_image', 'preview_fac_${facIdx}', 'status_fac_${facIdx}')">
+                                    </label>
+                                    <span id="status_fac_${facIdx}" class="upload-status"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            html += `
+                </div>
+            </div>`;
+
+            // ==============================================================
+            // Section 4: Security (DYNAMIC BUILDER)
+            // ==============================================================
+            const securityItems = data.securityItems || [];
             html += `
             <div class="section-box">
                 <div class="section-header">
@@ -1755,71 +2119,69 @@
                             <i class="fa-solid fa-shield-halved"></i>
                             <span>4. ระบบความปลอดภัย (Security)</span>
                         </h3>
-                        <p class="section-desc">มาตรฐานและอุปกรณ์ความปลอดภัยที่แสดงบนหน้าเว็บไซต์</p>
+                        <p class="section-desc">สามารถเพิ่มหัวข้อความปลอดภัยใหม่ ลบรายการ และเลือกไอคอนได้อิสระ</p>
                     </div>
+                    <button type="button" onclick="addNewSecurityItem()" class="btn-add-item">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>เพิ่มระบบความปลอดภัย</span>
+                    </button>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label class="form-label">หัวข้อส่วนความปลอดภัย (Security Title)</label>
+                    <label class="form-label">หัวข้อส่วนความปลอดภัย (Section Title)</label>
                     <input type="text" id="field_securityTitle" value="${escapeHtml(data.securityTitle || 'ระบบความปลอดภัย')}"
                            class="form-input" placeholder="เช่น ระบบความปลอดภัย">
                 </div>
 
-                <div class="form-grid-3">
-                    <!-- Security 1 -->
-                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
-                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-                            <i class="fa-solid fa-video"></i> <span>ระบบที่ 1 (CCTV)</span>
+                <div class="form-grid-3">`;
+
+            securityItems.forEach((sec, secIdx) => {
+                const sTitle = sec.title || '';
+                const sDesc = sec.desc || '';
+                const sIcon = sec.icon || 'fa-solid fa-shield-halved';
+
+                html += `
+                <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:14px; padding:18px;">
+                    <div class="item-card-header">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); display:flex; align-items:center; gap:8px;">
+                            <i class="${escapeHtml(sIcon)}" id="icon_display_sec_${secIdx}"></i>
+                            <span>ระบบที่ ${secIdx + 1}</span>
                         </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label class="form-label">ชื่อหัวข้อ</label>
-                            <input type="text" id="field_security1Title" value="${escapeHtml(data.security1Title || 'กล้องวงจรปิด 24 ชม.')}"
-                                   class="form-input" placeholder="เช่น กล้องวงจรปิด 24 ชม.">
-                        </div>
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">คำบรรยาย</label>
-                            <input type="text" id="field_security1Desc" value="${escapeHtml(data.security1Desc || 'ครอบคลุมทุกจุดทั่วอาคาร')}"
-                                   class="form-input" placeholder="เช่น ครอบคลุมทุกจุดทั่วอาคาร">
-                        </div>
+                        <button type="button" onclick="deleteSecurityItem(${secIdx})" class="btn-item-delete" title="ลบรายการนี้">
+                            <i class="fa-solid fa-trash-can"></i> ลบ
+                        </button>
                     </div>
 
-                    <!-- Security 2 -->
-                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
-                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-                            <i class="fa-solid fa-id-card"></i> <span>ระบบที่ 2 (Keycard)</span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label class="form-label">ชื่อหัวข้อ</label>
-                            <input type="text" id="field_security2Title" value="${escapeHtml(data.security2Title || 'ระบบคีย์การ์ด')}"
-                                   class="form-input" placeholder="เช่น ระบบคีย์การ์ด">
-                        </div>
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">คำบรรยาย</label>
-                            <input type="text" id="field_security2Desc" value="${escapeHtml(data.security2Desc || 'ปลอดภัยเฉพาะผู้พักอาศัย')}"
-                                   class="form-input" placeholder="เช่น ปลอดภัยเฉพาะผู้พักอาศัย">
-                        </div>
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label class="form-label">ชื่อหัวข้อความปลอดภัย</label>
+                        <input type="text" id="sec_${secIdx}_title" value="${escapeHtml(sTitle)}"
+                               class="form-input font-medium" placeholder="เช่น กล้องวงจรปิด 24 ชม.">
                     </div>
 
-                    <!-- Security 3 -->
-                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
-                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-                            <i class="fa-solid fa-user-shield"></i> <span>ระบบที่ 3 (Guard / Fire Safety)</span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label class="form-label">ชื่อหัวข้อ</label>
-                            <input type="text" id="field_security3Title" value="${escapeHtml(data.security3Title || 'เจ้าหน้าที่รักษาความปลอดภัย')}"
-                                   class="form-input" placeholder="เช่น เจ้าหน้าที่รักษาความปลอดภัย หรือ อุปกรณ์ดับเพลิง">
-                        </div>
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">คำบรรยาย</label>
-                            <input type="text" id="field_security3Desc" value="${escapeHtml(data.security3Desc || 'ดูแลความปลอดภัยตลอด 24 ชม.')}"
-                                   class="form-input" placeholder="เช่น ดูแลความปลอดภัยตลอด 24 ชม.">
-                        </div>
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label class="form-label">คำบรรยาย</label>
+                        <input type="text" id="sec_${secIdx}_desc" value="${escapeHtml(sDesc)}"
+                               class="form-input" placeholder="เช่น ครอบคลุมทุกจุดทั่วอาคาร">
                     </div>
+
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">เลือกไอคอนสัญลักษณ์</label>
+                        <select id="sec_${secIdx}_icon" class="icon-select-dropdown" onchange="document.getElementById('icon_display_sec_${secIdx}').className = this.value">
+                            ${SECURITY_ICONS.map(ic => `
+                                <option value="${ic.value}" ${ic.value === sIcon ? 'selected' : ''}>${ic.label}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                </div>`;
+            });
+
+            html += `
                 </div>
             </div>`;
 
+            // ==============================================================
             // Section 5: Location & Map
+            // ==============================================================
             html += `
             <div class="section-box">
                 <div class="section-header">
@@ -1855,7 +2217,9 @@
                 </div>
             </div>`;
 
+            // ==============================================================
             // Section 6: Contact & Footer
+            // ==============================================================
             html += `
             <div class="section-box">
                 <div class="section-header">
@@ -1864,20 +2228,20 @@
                             <i class="fa-solid fa-address-book"></i>
                             <span>6. ข้อมูลติดต่อและฟุตเตอร์ (Contact & Footer)</span>
                         </h3>
-                        <p class="section-desc">เบอร์โทรศัพท์, LINE Official, Facebook และปุ่มจองห้องพัก</p>
+                        <p class="section-desc">เบอร์โทรศัพท์, LINE ID, Facebook และลิงก์ติดต่อ</p>
                     </div>
                 </div>
 
                 <div class="form-grid-2" style="margin-bottom: 20px;">
                     <div class="form-group" style="margin-bottom:0;">
-                        <label class="form-label">ชื่อแบรนด์ / หัวข้อติดต่อ (Contact Title)</label>
+                        <label class="form-label">ชื่อหัวข้อส่วนติดต่อ (Contact Title)</label>
                         <input type="text" id="field_contactTitle" value="${escapeHtml(data.contactTitle || '')}"
-                               class="form-input" placeholder="เช่น GOLF VIEW หรือ พร้อมเข้าอยู่หรือยัง?">
+                               class="form-input" placeholder="เช่น GOLF VIEW RESIDENCE">
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
-                        <label class="form-label">สโลแกน / คำอธิบายติดต่อ (Contact Description)</label>
+                        <label class="form-label">คำบรรยายส่วนติดต่อ (Contact Description)</label>
                         <input type="text" id="field_contactDesc" value="${escapeHtml(data.contactDesc || '')}"
-                               class="form-input" placeholder="เช่น หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ.">
+                               class="form-input" placeholder="เช่น หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต">
                     </div>
                 </div>
 
@@ -1938,42 +2302,13 @@
             setBtnState(true);
 
             try {
-                const updatedData = Object.assign({}, currentDormData);
-
-                // Collect all inputs with id starting with 'field_' generically
-                document.querySelectorAll('[id^="field_"]').forEach(input => {
-                    const key = input.id.replace('field_', '');
-                    if (key.includes('_slide_')) return; // Handled by slide collector
-                    if (key.endsWith('Features')) {
-                        updatedData[key] = input.value.split('\n').map(s => s.trim()).filter(Boolean);
-                    } else {
-                        updatedData[key] = input.value.trim();
-                    }
-                });
-
-                // Collect Slider & Gallery Images
-                const roomSliderMap = {};
-                document.querySelectorAll('.slide-url-input').forEach(input => {
-                    const rId = input.dataset.room;
-                    const val = input.value.trim();
-                    if (rId && val) {
-                        if (!roomSliderMap[rId]) roomSliderMap[rId] = [];
-                        roomSliderMap[rId].push(val);
-                    }
-                });
-
-                for (const [rId, imgs] of Object.entries(roomSliderMap)) {
-                    updatedData[`room${rId}Images`] = imgs;
-                    if (imgs.length > 0) {
-                        updatedData[`room${rId}Image`] = imgs[0]; // Primary cover is always 1st slide
-                    }
-                }
+                // Synchronize all typed inputs into currentDormData object
+                syncFormToDormData();
 
                 // Write to Firestore
                 const docRef = doc(db, 'dorms', currentDormId);
-                await setDoc(docRef, updatedData, { merge: true });
+                await setDoc(docRef, currentDormData, { merge: true });
 
-                currentDormData = updatedData;
                 window.showToast(`บันทึกข้อมูล ${dormMetadata[currentDormId].name} สำเร็จเรียบร้อย!`, 'success');
             } catch (err) {
                 console.error(err);
@@ -1988,6 +2323,7 @@
             const dormName = dormMetadata[currentDormId] ? dormMetadata[currentDormId].name : currentDormId;
             if (confirm(`คุณต้องการดึงข้อมูลเริ่มต้นจากระบบเดิมของ ${dormName} มาใส่ฟอร์มใช่หรือไม่? (ข้อมูลที่ยังไม่ได้กดบันทึกจะถูกแทนที่)`)) {
                 currentDormData = Object.assign({}, getDefaultData(currentDormId));
+                currentDormData = normalizeDormData(currentDormId, currentDormData);
                 renderEditorUI(currentDormId, currentDormData);
                 window.showToast('ดึงข้อมูลเริ่มต้นเรียบร้อยแล้ว อย่าลืมกด "บันทึกข้อมูล" นะครับ', 'success');
             }

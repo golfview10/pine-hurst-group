@@ -16,7 +16,7 @@
      * Update room images dynamically (from Firebase or live data)
      * Replaces carousel <img> elements and registers URLs for the gallery modal
      */
-    window.updateRoomImages = function (room, urls) {
+    window.updateRoomImages = function (room, urls, title) {
         if (!room || !Array.isArray(urls) || urls.length === 0) return;
         const normalized = room.toLowerCase().replace(/[\s_]+/g, '-');
         
@@ -25,6 +25,10 @@
         customRoomImageLists[room] = urls;
         roomImages[normalized] = urls.length;
         roomImages[room] = urls.length;
+        if (title) {
+            roomNames[normalized] = title;
+            roomNames[room] = title;
+        }
 
         // Common dorm aliases
         if (normalized === 'fan') { customRoomImageLists['studio-fan'] = urls; roomImages['studio-fan'] = urls.length; }

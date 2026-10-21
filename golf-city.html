@@ -101,7 +101,7 @@
                 <div class="hidden md:block text-slate-400 text-sm">2 รูปแบบห้อง</div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div id="roomsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
 
                 <!-- Room Card Template (Urban Style) -->
                 <!-- Studio Fan -->
@@ -227,7 +227,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 auto-rows-[280px]">
+            <div id="facilitiesContainer" class="grid grid-cols-2 md:grid-cols-4 gap-6 auto-rows-[280px]">
 
                 <!-- 1. 7-11 (Large) -->
                 <div
@@ -317,7 +317,7 @@
                         class="fa-solid fa-shield-halved"></i></span>
                 <span id="securityTitle"></span>
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="securityContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                     <div class="text-blue-600 text-2xl mb-3"><i class="fa-solid fa-video"></i></div>
                     <h4 id="security1Title" class="font-bold mb-1"></h4>
@@ -414,13 +414,18 @@
     <!-- Data & Theme -->
     <script src="js/golf-city-data.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/dorm-renderer.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const d = golfCityData;
             const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+            const renderFeatures = window.renderFeatures || function () {};
 
             const applyData = (d) => {
                 if (!d) return;
+                if (window.applyDynamicDormContent) {
+                    window.applyDynamicDormContent('golfcity', d);
+                }
                 // Header
                 if (d.headerTitle) setText('headerTitle', d.headerTitle);
                 if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);

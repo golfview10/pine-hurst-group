@@ -102,7 +102,7 @@
                 <!-- <p class="mt-4 text-stone-500 font-light">บริการทั้งรายเดือนและรายวัน</p> -->
             </div>
 
-            <div class="space-y-24">
+            <div id="roomsContainer" class="space-y-24">
 
                 <!-- Room 1: Monthly 1 Bed -->
                 <div class="flex flex-col md:flex-row gap-12 items-center fade-up delay-100">
@@ -257,7 +257,7 @@
                 <div class="w-24 h-1 bg-green-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="facilitiesContainer" class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <!-- Fitness -->
                 <div
@@ -329,6 +329,16 @@
                 </div>
 
             </div>
+        </section>
+
+        <!-- 3. Security -->
+        <section class="bg-stone-100 p-8 rounded-3xl fade-up">
+            <h2 class="text-2xl font-bold mb-8 text-stone-800 flex items-center gap-3">
+                <span class="bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center"><i
+                        class="fa-solid fa-shield-halved"></i></span>
+                <span id="securityTitle">ระบบความปลอดภัย</span>
+            </h2>
+            <div id="securityContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </section>
 
         <!-- Map -->
@@ -410,6 +420,7 @@
     <!-- Data & Theme -->
     <script src="js/maple-city-data.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/dorm-renderer.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const d = mapleCityData;
@@ -438,6 +449,9 @@
 
             const applyData = (d) => {
                 if (!d) return;
+                if (window.applyDynamicDormContent) {
+                    window.applyDynamicDormContent('maplecity', d);
+                }
                 // Header
                 if (d.headerTitle) setText('headerTitle', d.headerTitle);
                 if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
