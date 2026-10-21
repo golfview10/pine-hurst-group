@@ -754,7 +754,7 @@
     </div>
 
     <!-- City Condo Coming Soon Modal -->
-    <div id="cityCondoModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="cityCondoModalTitle">
+    <div id="cityCondoModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="cityCondoModalTitle" style="display: none;">
         <div class="relative w-full max-w-md bg-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300 text-white" id="cityCondoModalCard">
             <!-- Close button -->
             <button onclick="closeCityCondoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl w-9 h-9 flex items-center justify-center rounded-full hover:bg-slate-800 transition" aria-label="ปิดหน้าต่าง">&times;</button>
@@ -799,7 +799,10 @@
             const modal = document.getElementById('cityCondoModal');
             const card = document.getElementById('cityCondoModalCard');
             if (!modal) return;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            void modal.offsetWidth; // trigger reflow for smooth transition
+            modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
             if (card) {
                 card.classList.remove('scale-95');
@@ -812,13 +815,17 @@
             const modal = document.getElementById('cityCondoModal');
             const card = document.getElementById('cityCondoModalCard');
             if (!modal) return;
-            modal.classList.add('opacity-0', 'pointer-events-none');
             modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
             if (card) {
-                card.classList.add('scale-95');
                 card.classList.remove('scale-100');
+                card.classList.add('scale-95');
             }
-            document.body.style.overflow = '';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
         }
 
         document.getElementById('cityCondoModal')?.addEventListener('click', function(e) {
