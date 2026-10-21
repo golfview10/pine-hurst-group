@@ -38,37 +38,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Mobile Menu Logic
+    // 3. Mobile Menu Logic (with Click-Outside support)
     const mobileBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
+    const closeMobileMenu = () => {
+        if (!mobileMenu || mobileMenu.classList.contains('hidden')) return;
+        mobileMenu.classList.add('scale-y-0', 'opacity-0');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300); // Match transition duration
+    };
+
+    const openMobileMenu = () => {
+        if (!mobileMenu) return;
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            mobileMenu.classList.remove('scale-y-0', 'opacity-0');
+        }, 10);
+    };
+
     if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            // Toggle Visibility
+        mobileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (mobileMenu.classList.contains('hidden')) {
-                // OPEN
-                mobileMenu.classList.remove('hidden');
-                // Small delay to allow display:flex to apply before opacity transition
-                setTimeout(() => {
-                    mobileMenu.classList.remove('scale-y-0', 'opacity-0');
-                }, 10);
+                openMobileMenu();
             } else {
-                // CLOSE
-                mobileMenu.classList.add('scale-y-0', 'opacity-0');
-                setTimeout(() => {
-                    mobileMenu.classList.add('hidden');
-                }, 300); // Match transition duration
+                closeMobileMenu();
+            }
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
             }
         });
     }
 
     // Global toggle function for links
     window.toggleMobileMenu = () => {
-        if (mobileMenu) {
-            mobileMenu.classList.add('scale-y-0', 'opacity-0');
-            setTimeout(() => {
-                mobileMenu.classList.add('hidden');
-            }, 300);
-        }
+        closeMobileMenu();
     };
 });

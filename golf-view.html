@@ -467,77 +467,12 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/gallery.js"></script>
     <script>
-        // Gallery Config
-        const roomImages = { 'standard': 3, 'premium': 3, 'deluxe': 3, 'vip': 3, 'paradise': 3 };
-        const roomNames = { 'standard': 'Standard Room', 'premium': 'Premium Room', 'deluxe': 'Deluxe Room', 'vip': 'VIP Room', 'paradise': 'Golf Paradise' };
-
-        // Carousel Logic
-        const carouselRoomTypes = ['standard', 'premium', 'deluxe', 'vip', 'paradise'];
-        function initCarousels() {
-            carouselRoomTypes.forEach(type => {
-                let currentIndex = 0;
-                const container = document.getElementById(`carousel-${type}`);
-                if (!container) return;
-                const images = container.getElementsByTagName('img');
-                setInterval(() => {
-                    images[currentIndex].classList.remove('opacity-100');
-                    images[currentIndex].classList.add('opacity-0');
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].classList.remove('opacity-0');
-                    images[currentIndex].classList.add('opacity-100');
-                }, 3000); // 3 Seconds
-            });
-        }
-        initCarousels();
-
-        // Modal Logic
-        let currentRoom = '';
-        let currentUserId = 1;
-        function openGallery(room) {
-            currentRoom = room;
-            currentUserId = 1;
-            updateGalleryImage();
-            const modal = document.getElementById('galleryModal');
-            modal.classList.remove('hidden');
-            void modal.offsetWidth;
-            modal.classList.remove('opacity-0');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeGallery() {
-            const modal = document.getElementById('galleryModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-        function updateGalleryImage() {
-            const img = document.getElementById('galleryImage');
-            img.style.opacity = '0.5';
-            setTimeout(() => {
-                img.src = `image/golfview/${currentRoom}/${currentUserId}.png`;
-                document.getElementById('galleryCaption').innerText = roomNames[currentRoom];
-                document.getElementById('currentImageIndex').innerText = currentUserId;
-                img.onload = () => { img.style.opacity = '1'; };
-            }, 150);
-        }
-        function nextImage() {
-            currentUserId = currentUserId < roomImages[currentRoom] ? currentUserId + 1 : 1;
-            updateGalleryImage();
-        }
-        function prevImage() {
-            currentUserId = currentUserId > 1 ? currentUserId - 1 : roomImages[currentRoom];
-            updateGalleryImage();
-        }
-
-        // Listeners
-        document.getElementById('galleryModal').addEventListener('click', function (e) { if (e.target === this) closeGallery(); });
-        document.addEventListener('keydown', function (e) {
-            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
-            if (e.key === 'Escape') closeGallery();
-            if (e.key === 'ArrowRight') nextImage();
-            if (e.key === 'ArrowLeft') prevImage();
+        initGallery({
+            folder: 'golfview',
+            roomImages: { 'standard': 3, 'premium': 3, 'deluxe': 3, 'vip': 3, 'paradise': 3 },
+            roomNames: { 'standard': 'Standard Room', 'premium': 'Premium Room', 'deluxe': 'Deluxe Room', 'vip': 'VIP Room', 'paradise': 'Golf Paradise' }
         });
     </script>
 

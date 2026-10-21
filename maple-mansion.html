@@ -395,79 +395,14 @@
     </div>
 
     <!-- Scripts -->
+    <script src="js/gallery.js"></script>
     <script>
-        // Gallery Config
-        const roomImages = { 'monthly-1bed': 5, 'monthly-2bed': 5, 'daily-1bed': 5, 'daily-2bed': 2 };
-        const roomNames = { 'monthly-1bed': 'Monthly 1 Bed', 'monthly-2bed': 'Monthly 2 Bed', 'daily-1bed': 'Daily 1 Bed', 'daily-2bed': 'Daily 2 Bed' };
-
-        // Carousel Logic
-        const carouselRoomTypes = ['monthly-1bed', 'monthly-2bed', 'daily-1bed', 'daily-2bed', 'fitness', 'parking', 'lounge'];
-        function initCarousels() {
-            carouselRoomTypes.forEach(type => {
-                let currentIndex = 0;
-                const container = document.getElementById(`carousel-${type}`);
-                if (!container) return;
-                const images = container.getElementsByTagName('img');
-                if (images.length < 2) return;
-
-                setInterval(() => {
-                    images[currentIndex].classList.remove('opacity-100');
-                    images[currentIndex].classList.add('opacity-0');
-                    currentIndex = (currentIndex + 1) % images.length;
-                    images[currentIndex].classList.remove('opacity-0');
-                    images[currentIndex].classList.add('opacity-100');
-                }, 3500);
-            });
-        }
-        initCarousels();
-
-        // Modal Logic
-        let currentRoom = '';
-        let currentUserId = 1;
-        function openGallery(room) {
-            currentRoom = room;
-            currentUserId = 1;
-            updateGalleryImage();
-            const modal = document.getElementById('galleryModal');
-            modal.classList.remove('hidden');
-            void modal.offsetWidth;
-            modal.classList.remove('opacity-0');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeGallery() {
-            const modal = document.getElementById('galleryModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-        function updateGalleryImage() {
-            const img = document.getElementById('galleryImage');
-            img.style.opacity = '0.5';
-            setTimeout(() => {
-                img.src = `image/maplemansion/${currentRoom}/${currentUserId}.png`;
-                document.getElementById('galleryCaption').innerText = roomNames[currentRoom];
-                document.getElementById('currentImageIndex').innerText = currentUserId;
-                img.onload = () => { img.style.opacity = '1'; };
-            }, 150);
-        }
-        function nextImage() {
-            currentUserId = currentUserId < roomImages[currentRoom] ? currentUserId + 1 : 1;
-            updateGalleryImage();
-        }
-        function prevImage() {
-            currentUserId = currentUserId > 1 ? currentUserId - 1 : roomImages[currentRoom];
-            updateGalleryImage();
-        }
-
-        // Listeners
-        document.getElementById('galleryModal').addEventListener('click', function (e) { if (e.target === this) closeGallery(); });
-        document.addEventListener('keydown', function (e) {
-            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
-            if (e.key === 'Escape') closeGallery();
-            if (e.key === 'ArrowRight') nextImage();
-            if (e.key === 'ArrowLeft') prevImage();
+        initGallery({
+            folder: 'maplemansion',
+            roomImages: { 'monthly-1bed': 5, 'monthly-2bed': 5, 'daily-1bed': 5, 'daily-2bed': 2 },
+            roomNames: { 'monthly-1bed': 'Monthly 1 Bed', 'monthly-2bed': 'Monthly 2 Bed', 'daily-1bed': 'Daily 1 Bed', 'daily-2bed': 'Daily 2 Bed' },
+            carouselRoomTypes: ['monthly-1bed', 'monthly-2bed', 'daily-1bed', 'daily-2bed', 'fitness', 'parking', 'lounge'],
+            interval: 3500
         });
     </script>
 
