@@ -388,7 +388,7 @@
             max-width: 1280px;
             width: 100%;
             margin: 0 auto;
-            padding: 28px 24px 80px;
+            padding: 28px 24px 110px;
         }
 
         /* Project Selector Grid (5 Dorms) */
@@ -684,6 +684,72 @@
             line-height: 1.6;
         }
 
+        /* Image Preview and Upload Box */
+        .image-preview-group {
+            background: #0b1324;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .image-preview-group:hover {
+            border-color: var(--border-hover);
+        }
+        .image-thumbnail {
+            width: 110px;
+            height: 75px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #070b14;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        .image-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .image-upload-controls {
+            flex: 1;
+            min-width: 0;
+        }
+        .image-upload-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #172642;
+            color: var(--text-heading);
+            border: 1px solid var(--border-hover);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-upload:hover {
+            background: #20355c;
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+        .btn-upload input[type="file"] {
+            display: none;
+        }
+        .upload-status {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
         /* Sticky Bottom Bar */
         .sticky-footer {
             position: fixed;
@@ -816,7 +882,7 @@
                     <a href="index.html" target="_blank" class="btn-nav btn-nav-outline">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i> ดูหน้าเว็บหลัก
                     </a>
-                    <button type="button" onclick="handleLogout()" class="btn-nav btn-nav-danger">
+                    <button type="button" onclick="handleLogout()" class="btn-nav btn-nav-danger" id="logoutBtn">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
                     </button>
                 </div>
@@ -881,7 +947,7 @@
                         <span id="currentDormTitle">Golf View Residence</span>
                         <span class="project-status-tag">กำลังแก้ไขข้อมูล</span>
                     </h2>
-                    <p>แก้ไขข้อมูลและราคาในฟอร์มด้านล่างนี้ จากนั้นกดปุ่ม <strong>"บันทึกข้อมูล"</strong> เพื่อให้อัปเดตไปที่หน้าเว็บทันที</p>
+                    <p>แก้ไขข้อมูล ราคา และรูปภาพในฟอร์มด้านล่างนี้ จากนั้นกดปุ่ม <strong>"บันทึกข้อมูล"</strong> เพื่อให้อัปเดตไปที่หน้าเว็บทันที</p>
                 </div>
 
                 <div class="project-banner-actions">
@@ -929,19 +995,68 @@
     <script src="js/maple-city-data.js"></script>
     <script src="js/maple-mansion-data.js"></script>
 
-    <!-- Firebase App & Firestore Logic -->
+    <!-- Firebase App, Auth, Firestore & Storage Logic -->
     <script type="module">
         import { firebaseConfig } from './js/firebase-config.js';
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
         import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         let currentDormId = 'golfview';
         let currentDormData = {};
+
+        // Default local image paths mapping
+        const defaultDormImages = {
+            'golfview': {
+                headerBg: 'image/golfview/header-bg.png',
+                rooms: {
+                    'Standard': 'image/golfview/standard/1.png',
+                    'Premium': 'image/golfview/premium/1.png',
+                    'Deluxe': 'image/golfview/deluxe/1.png',
+                    'VIP': 'image/golfview/vip/1.png',
+                    'Paradise': 'image/golfview/paradise/1.png'
+                }
+            },
+            'golfcity': {
+                headerBg: 'image/golfcity/header-bg.png',
+                rooms: {
+                    'Fan': 'image/golfcity/studio-fan/1.png',
+                    'Air': 'image/golfcity/studio-air/1.png',
+                    'ReNew': 'image/golfcity/re-new/1.png'
+                }
+            },
+            'golfmansion': {
+                headerBg: 'image/golfmansion/header-bg.png',
+                rooms: {
+                    'Standard': 'image/golfmansion/monthly-1bed/1.png',
+                    'Suite': 'image/golfmansion/monthly-2bed/1.png'
+                }
+            },
+            'maplecity': {
+                headerBg: 'image/maplecity/header-bg.png',
+                rooms: {
+                    'Monthly1Bed': 'image/maplecity/monthly-1bed/1.png',
+                    'Monthly2Bed': 'image/maplecity/monthly-2bed/1.png',
+                    'Daily1Bed': 'image/maplecity/daily-1bed/1.png',
+                    'Daily2Bed': 'image/maplecity/daily-2bed/1.png'
+                }
+            },
+            'maplemansion': {
+                headerBg: 'image/maplemansion/header-bg.png',
+                rooms: {
+                    'Monthly1Bed': 'image/maplemansion/monthly-1bed/1.png',
+                    'Monthly2Bed': 'image/maplemansion/monthly-2bed/1.png',
+                    'Daily1Bed': 'image/maplemansion/daily-1bed/1.png',
+                    'Daily2Bed': 'image/maplemansion/daily-2bed/1.png'
+                }
+            }
+        };
 
         // Room schemas mapped to exact keys in each dorm's data file
         const dormRoomSchemas = {
@@ -1066,9 +1181,24 @@
             });
         }
 
+        // ==============================================================
+        // LOGOUT HANDLER (Guaranteed instant UI reset)
+        // ==============================================================
         window.handleLogout = async () => {
             if (confirm('คุณต้องการออกจากระบบหรือไม่?')) {
-                await signOut(auth);
+                try {
+                    await signOut(auth);
+                } catch (err) {
+                    console.warn('Sign out:', err);
+                }
+                // Instant UI change to login screen
+                const loginScreen = document.getElementById('loginScreen');
+                const adminDashboard = document.getElementById('adminDashboard');
+                if (loginScreen) loginScreen.classList.remove('hidden');
+                if (adminDashboard) adminDashboard.classList.add('hidden');
+                const pwd = document.getElementById('loginPassword');
+                if (pwd) pwd.value = '';
+                window.showToast('ออกจากระบบเรียบร้อยแล้ว', 'success');
             }
         };
 
@@ -1117,26 +1247,91 @@
             renderEditorUI(dormId, currentDormData);
         }
 
+        // ==============================================================
+        // IMAGE UPLOAD & PREVIEW HANDLER
+        // ==============================================================
+        window.handleImageUpload = async (inputElement, targetFieldId, previewImgId, statusId) => {
+            const file = inputElement.files && inputElement.files[0];
+            if (!file) return;
+
+            const previewImg = document.getElementById(previewImgId);
+            const targetField = document.getElementById(targetFieldId);
+            const statusEl = document.getElementById(statusId);
+
+            // 1. Instant local preview
+            const localUrl = URL.createObjectURL(file);
+            if (previewImg) previewImg.src = localUrl;
+
+            if (statusEl) {
+                statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังอัปโหลด...`;
+            }
+
+            // 2. Upload to Firebase Storage
+            try {
+                const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+                const storagePath = `dorms/${currentDormId}/${targetFieldId}_${Date.now()}_${safeName}`;
+                const fileRef = sRef(storage, storagePath);
+
+                const uploadTask = uploadBytesResumable(fileRef, file);
+
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                        if (statusEl) statusEl.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> ${progress}%`;
+                    }, 
+                    (error) => {
+                        console.warn('Firebase Storage error:', error);
+                        if (statusEl) {
+                            statusEl.innerHTML = `<span style="color:#fca5a5;"><i class="fa-solid fa-triangle-exclamation"></i> Storage ติดสิทธิ์ สามารถวาง URL แทนได้</span>`;
+                        }
+                    }, 
+                    async () => {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        if (targetField) targetField.value = downloadURL;
+                        if (statusEl) {
+                            statusEl.innerHTML = `<i class="fa-solid fa-check text-primary"></i> อัปโหลดสำเร็จ`;
+                        }
+                        window.showToast('อัปโหลดรูปภาพสำเร็จ! อย่าลืมกดปุ่ม "บันทึกข้อมูล" นะครับ', 'success');
+                    }
+                );
+            } catch (err) {
+                console.warn('Upload failed:', err);
+                if (statusEl) {
+                    statusEl.innerHTML = `<span style="color:#fca5a5;">สามารถวาง URL รูปภาพได้โดยตรง</span>`;
+                }
+            }
+        };
+
+        window.updatePreviewFromInput = (input, previewId) => {
+            const preview = document.getElementById(previewId);
+            if (preview && input.value.trim()) {
+                preview.src = input.value.trim();
+            }
+        };
+
         function renderEditorUI(dormId, data) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
 
+            const dormImgDefaults = defaultDormImages[dormId] || { headerBg: '', rooms: {} };
+            const currentHeaderBg = data.headerBgImage || dormImgDefaults.headerBg || `image/${dormId}/header-bg.png`;
+
             let html = '';
 
-            // Section 1: Header Information
+            // Section 1: Header Information & Background Image
             html += `
             <div class="section-box">
                 <div class="section-header">
                     <div>
                         <h3 class="section-title">
                             <i class="fa-solid fa-heading"></i>
-                            <span>1. ข้อมูลส่วนหัวหน้าเว็บ (Header)</span>
+                            <span>1. ข้อมูลส่วนหัวและภาพพื้นหลัง (Header & Cover)</span>
                         </h3>
-                        <p class="section-desc">ข้อความชื่อโครงการและสโลแกนที่จะแสดงด้านบนสุดของหน้าเว็บหอพัก</p>
+                        <p class="section-desc">ข้อความชื่อโครงการ สโลแกน และรูปภาพพื้นหลังส่วนบนสุดของหน้าเว็บหอพัก</p>
                     </div>
                 </div>
 
-                <div class="form-grid-2">
+                <div class="form-grid-2" style="margin-bottom: 20px;">
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label">ชื่อโครงการ (Header Title)</label>
                         <input type="text" id="field_headerTitle" value="${escapeHtml(data.headerTitle || '')}"
@@ -1148,9 +1343,29 @@
                                class="form-input" placeholder="เช่น หอพักใกล้ ม.ธรรมศาสตร์ ศูนย์รังสิต">
                     </div>
                 </div>
+
+                <!-- Header Background Image -->
+                <label class="form-label" style="margin-bottom: 8px;">ภาพพื้นหลังส่วนหัว (Header Background Image)</label>
+                <div class="image-preview-group">
+                    <img id="preview_headerBgImage" src="${escapeHtml(currentHeaderBg)}" alt="Header Background Preview" class="image-thumbnail"
+                         onerror="this.src='image/main/logo.png'">
+                    <div class="image-upload-controls">
+                        <input type="text" id="field_headerBgImage" value="${escapeHtml(currentHeaderBg)}"
+                               class="form-input" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ เช่น image/${dormId}/header-bg.png"
+                               oninput="updatePreviewFromInput(this, 'preview_headerBgImage')">
+                        <div class="image-upload-actions">
+                            <label class="btn-upload">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>อัปโหลดรูปภาพใหม่</span>
+                                <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_headerBgImage', 'preview_headerBgImage', 'status_headerBgImage')">
+                            </label>
+                            <span id="status_headerBgImage" class="upload-status">รองรับไฟล์ JPG, PNG, WebP หรือวาง URL ลิงก์รูปภาพ</span>
+                        </div>
+                    </div>
+                </div>
             </div>`;
 
-            // Section 2: Room Types and Pricing
+            // Section 2: Room Types, Pricing and Room Images
             const rooms = dormRoomSchemas[dormId] || [];
             if (rooms.length > 0) {
                 html += `
@@ -1159,9 +1374,9 @@
                         <div>
                             <h3 class="section-title">
                                 <i class="fa-solid fa-bed"></i>
-                                <span>2. ข้อมูลห้องพักและราคา (Rooms & Pricing)</span>
+                                <span>2. ข้อมูลห้องพัก ราคา และรูปภาพห้อง (Rooms, Pricing & Photos)</span>
                             </h3>
-                            <p class="section-desc">แก้ไขราคา ขนาดห้อง และจุดเด่นของห้องแต่ละประเภทด้านล่างนี้ได้โดยตรง</p>
+                            <p class="section-desc">แก้ไขราคา รูปภาพหน้าปก ขนาดห้อง และจุดเด่นของห้องแต่ละประเภทด้านล่างนี้ได้โดยตรง</p>
                         </div>
                     </div>
 
@@ -1175,6 +1390,7 @@
                     const descKey = `room${rId}Description`;
                     const featKey = `room${rId}Features`;
                     const sizeKey = `room${rId}Size`;
+                    const imgKey = `room${rId}Image`;
 
                     const title = data[titleKey] || room.name;
                     const price = data[priceKey] || '';
@@ -1182,6 +1398,9 @@
                     const desc = data[descKey] || room.desc || '';
                     const size = data[sizeKey] || '';
                     const features = Array.isArray(data[featKey]) ? data[featKey] : [];
+                    
+                    const defaultRoomImg = (dormImgDefaults.rooms && dormImgDefaults.rooms[rId]) || `image/${dormId}/cover.png`;
+                    const currentRoomImg = data[imgKey] || defaultRoomImg;
 
                     html += `
                     <div class="room-item-card">
@@ -1191,6 +1410,28 @@
                                 <span>${escapeHtml(room.name)}</span>
                             </span>
                             <span class="room-id-tag">ID: ${rId}</span>
+                        </div>
+
+                        <!-- Room Cover Image -->
+                        <div class="form-group">
+                            <label class="form-label">รูปภาพห้องพัก (Room Cover Image)</label>
+                            <div class="image-preview-group">
+                                <img id="preview_${imgKey}" src="${escapeHtml(currentRoomImg)}" alt="${escapeHtml(room.name)}" class="image-thumbnail"
+                                     onerror="this.src='image/main/logo.png'">
+                                <div class="image-upload-controls">
+                                    <input type="text" id="field_${imgKey}" value="${escapeHtml(currentRoomImg)}"
+                                           class="form-input" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ เช่น ${escapeHtml(defaultRoomImg)}"
+                                           oninput="updatePreviewFromInput(this, 'preview_${imgKey}')">
+                                    <div class="image-upload-actions">
+                                        <label class="btn-upload">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                            <span>เปลี่ยนรูปภาพ</span>
+                                            <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${imgKey}', 'preview_${imgKey}', 'status_${imgKey}')">
+                                        </label>
+                                        <span id="status_${imgKey}" class="upload-status"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Price & Unit Row -->
@@ -1260,13 +1501,15 @@
             try {
                 const updatedData = Object.assign({}, currentDormData);
 
-                // Collect header
+                // Collect header fields & header image
                 const hTitle = document.getElementById('field_headerTitle');
                 if (hTitle) updatedData.headerTitle = hTitle.value.trim();
                 const hSub = document.getElementById('field_headerSubtitle');
                 if (hSub) updatedData.headerSubtitle = hSub.value.trim();
+                const hImg = document.getElementById('field_headerBgImage');
+                if (hImg) updatedData.headerBgImage = hImg.value.trim();
 
-                // Collect room fields
+                // Collect room fields & room images
                 document.querySelectorAll('[id^="field_room"]').forEach(input => {
                     const key = input.id.replace('field_', '');
                     if (key.endsWith('Features')) {

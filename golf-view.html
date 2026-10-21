@@ -509,6 +509,10 @@
                 if (!d) return;
                 if (d.headerTitle) setText('headerTitle', d.headerTitle);
                 if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
+                if (d.headerBgImage) {
+                    const headerImg = document.querySelector('header img');
+                    if (headerImg) headerImg.src = d.headerBgImage;
+                }
 
                 // Inject Rooms
                 ['Standard', 'Premium', 'Deluxe', 'VIP', 'Paradise'].forEach(type => {
@@ -517,6 +521,13 @@
                     if (d[`room${type}Price`]) setText(`room${type}Price`, d[`room${type}Price`]);
                     if (d[`room${type}PriceUnit`]) setText(`room${type}PriceUnit`, d[`room${type}PriceUnit`]);
                     if (d[`room${type}Features`]) renderFeatures(`room${type}Features`, d[`room${type}Features`]);
+                    if (d[`room${type}Image`]) {
+                        const carousel = document.getElementById(`carousel-${type.toLowerCase()}`);
+                        if (carousel) {
+                            const firstImg = carousel.querySelector('img');
+                            if (firstImg) firstImg.src = d[`room${type}Image`];
+                        }
+                    }
                 });
             };
 
