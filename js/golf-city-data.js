@@ -64,12 +64,14 @@ const golfCityData = {
     // Location
     locationTitle: "ที่ตั้งโครงการ",
     locationDesc: "ติดถนนใหญ่ ใกล้ ม.กรุงเทพ เดินทางสะดวกมาก",
+    locationMapUrl: "https://maps.google.com/maps?q=14.0447244,100.6131436&hl=th&z=15&output=embed",
 
     // Contact
     contactTitle: "GOLF CITY (กอล์ฟซิตี้)",
     contactDesc: "หอพักทำเลดีที่สุด ใกล้ ม.กรุงเทพ",
     contactPhone: "099 053 4499",
     contactLine: "Line: @golfcity",
+    contactLineLink: "https://line.me/ti/p/~@golfcity",
     contactFacebook: "Golf City Apartment",
     contactButton: "ติดต่อจองห้องพัก"
 };

@@ -60,5 +60,19 @@ const mapleCityData = {
     facility2Title: "ที่จอดรถกว้างขวาง",
     facility2Desc: "พร้อมระบบรักษาความปลอดภัย",
     facility3Title: "Lounge ส่วนกลางห้องรับรอง",
-    facility3Desc: "พื้นที่นั่งเล่น พักผ่อน อ่านหนังสือ"
+    facility3Desc: "พื้นที่นั่งเล่น พักผ่อน อ่านหนังสือ",
+
+    // Location
+    locationTitle: "ทำเลที่ตั้ง",
+    locationDesc: "ใจกลางย่านชุมชน ใกล้ตลาดและร้านสะดวกซื้อใน ระยอง",
+    locationMapUrl: "https://maps.google.com/maps?q=14.045577390013962,%20100.74461975155222&z=17&output=embed",
+
+    // Contact & Footer
+    contactTitle: "ชีวิตทันสมัยในระยอง",
+    contactDesc: "มาร่วมเป็นส่วนหนึ่งกับเราได้แล้ววันนี้",
+    contactPhone: "086-987-6543",
+    contactLine: "Line: @maplecity",
+    contactLineLink: "https://line.me/ti/p/~@maplecity",
+    contactFacebook: "Maple City Resident",
+    contactButton: "แอดไลน์"
 };

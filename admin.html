@@ -614,6 +614,16 @@
             .form-grid-2 { grid-template-columns: 1fr; }
         }
 
+        /* 3-Column Grid for Security & Contacts */
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        @media (max-width: 900px) {
+            .form-grid-3 { grid-template-columns: 1fr; }
+        }
+
         /* Room Cards Grid */
         .rooms-grid {
             display: grid;
@@ -1162,6 +1172,42 @@
                 { id: 'Daily1Bed', name: 'ห้องพักรายวัน 1 เตียง', desc: 'ห้องพักรายวัน 1 เตียง เตียง 6 ฟุต' },
                 { id: 'Daily2Bed', name: 'ห้องพักรายวัน 2 เตียง', desc: 'ห้องพักรายวัน 2 เตียง เตียง 5 ฟุต (2 เตียง)' }
             ]
+        // Facility schemas mapped to each dorm
+        const dormFacilitySchemas = {
+            'golfview': [
+                { id: 1, label: 'จุดที่ 1: สระว่ายน้ำ (Pool)', hasDesc: false },
+                { id: 2, label: 'จุดที่ 2: ฟิตเนส (Fitness)', hasDesc: false },
+                { id: 3, label: 'จุดที่ 3: รถตู้รับ-ส่ง (Shuttle Van)', hasDesc: false },
+                { id: 4, label: 'จุดที่ 4: ร้านสะดวกซื้อ (Shop)', hasDesc: false },
+                { id: 5, label: 'จุดที่ 5: บริการซักรีด (Laundry)', hasDesc: false },
+                { id: 6, label: 'จุดที่ 6: สวนสาธารณะ Green Park', hasDesc: false },
+                { id: 7, label: 'จุดที่ 7: Co-working Space', hasDesc: false }
+            ],
+            'golfcity': [
+                { id: 1, label: 'จุดที่ 1: ร้านสะดวกซื้อ', hasDesc: false },
+                { id: 2, label: 'จุดที่ 2: ร้านค้าใต้ตึก แฟรนไชส์ยอดนิยม', hasDesc: false },
+                { id: 3, label: 'จุดที่ 3: บริการซักรีด', hasDesc: false },
+                { id: 4, label: 'จุดที่ 4: ศูนย์อาหาร', hasDesc: false },
+                { id: 5, label: 'จุดที่ 5: ตลาดกลางคืน Walking Street', hasDesc: false },
+                { id: 6, label: 'จุดที่ 6: อาคารจอดรถ', hasDesc: false }
+            ],
+            'golfmansion': [
+                { id: 1, label: 'จุดที่ 1: สวนหย่อม', hasDesc: true },
+                { id: 2, label: 'จุดที่ 2: ฟิตเนส', hasDesc: true },
+                { id: 3, label: 'จุดที่ 3: ศูนย์อาหาร', hasDesc: true },
+                { id: 4, label: 'จุดที่ 4: ร้านค้า', hasDesc: true },
+                { id: 5, label: 'จุดที่ 5: ที่จอดรถ', hasDesc: true }
+            ],
+            'maplecity': [
+                { id: 1, label: 'จุดที่ 1: ฟิตเนสครบวงจร', hasDesc: true },
+                { id: 2, label: 'จุดที่ 2: ที่จอดรถกว้างขวาง', hasDesc: true },
+                { id: 3, label: 'จุดที่ 3: Lounge ส่วนกลางห้องรับรอง', hasDesc: true }
+            ],
+            'maplemansion': [
+                { id: 1, label: 'จุดที่ 1: ฟิตเนสส่วนตัว (Exclusive Fitness)', hasDesc: true },
+                { id: 2, label: 'จุดที่ 2: ที่จอดรถสะดวกสบาย (Parking)', hasDesc: true },
+                { id: 3, label: 'จุดที่ 3: Co-Living Lounge', hasDesc: true }
+            ]
         };
 
         const dormMetadata = {
@@ -1654,6 +1700,221 @@
                 html += `</div></div>`;
             }
 
+            // Section 3: Facilities (สิ่งอำนวยความสะดวก)
+            const facSchemas = dormFacilitySchemas[dormId] || [];
+            if (facSchemas.length > 0) {
+                html += `
+                <div class="section-box">
+                    <div class="section-header">
+                        <div>
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-store"></i>
+                                <span>3. สิ่งอำนวยความสะดวก (Facilities)</span>
+                            </h3>
+                            <p class="section-desc">สิ่งอำนวยความสะดวกและบริการส่วนกลางของโครงการ</p>
+                        </div>
+                    </div>
+                    <div class="form-grid-2">`;
+                
+                facSchemas.forEach(fac => {
+                    const titleKey = `facility${fac.id}Title`;
+                    const descKey = `facility${fac.id}Desc`;
+                    const currentTitle = data[titleKey] || '';
+                    const currentDesc = data[descKey] || '';
+
+                    html += `
+                    <div class="facility-edit-card" style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                            <i class="fa-solid fa-circle-check"></i> <span>${escapeHtml(fac.label)}</span>
+                        </div>
+                        <div class="form-group" style="margin-bottom:${fac.hasDesc ? '10px' : '0'};">
+                            <label class="form-label">ชื่อสิ่งอำนวยความสะดวก</label>
+                            <input type="text" id="field_${titleKey}" value="${escapeHtml(currentTitle)}"
+                                   class="form-input" placeholder="เช่น สระว่ายน้ำ หรือ ฟิตเนส">
+                        </div>
+                        ${fac.hasDesc ? `
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">คำบรรยายสั้น</label>
+                            <input type="text" id="field_${descKey}" value="${escapeHtml(currentDesc)}"
+                                   class="form-input" placeholder="เช่น เครื่องออกกำลังกายทันสมัย เปิดให้บริการฟรี">
+                        </div>` : ''}
+                    </div>`;
+                });
+
+                html += `</div></div>`;
+            }
+
+            // Section 4: Security (ระบบความปลอดภัย)
+            html += `
+            <div class="section-box">
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>4. ระบบความปลอดภัย (Security)</span>
+                        </h3>
+                        <p class="section-desc">มาตรฐานและอุปกรณ์ความปลอดภัยที่แสดงบนหน้าเว็บไซต์</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="form-label">หัวข้อส่วนความปลอดภัย (Security Title)</label>
+                    <input type="text" id="field_securityTitle" value="${escapeHtml(data.securityTitle || 'ระบบความปลอดภัย')}"
+                           class="form-input" placeholder="เช่น ระบบความปลอดภัย">
+                </div>
+
+                <div class="form-grid-3">
+                    <!-- Security 1 -->
+                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                            <i class="fa-solid fa-video"></i> <span>ระบบที่ 1 (CCTV)</span>
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px;">
+                            <label class="form-label">ชื่อหัวข้อ</label>
+                            <input type="text" id="field_security1Title" value="${escapeHtml(data.security1Title || 'กล้องวงจรปิด 24 ชม.')}"
+                                   class="form-input" placeholder="เช่น กล้องวงจรปิด 24 ชม.">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">คำบรรยาย</label>
+                            <input type="text" id="field_security1Desc" value="${escapeHtml(data.security1Desc || 'ครอบคลุมทุกจุดทั่วอาคาร')}"
+                                   class="form-input" placeholder="เช่น ครอบคลุมทุกจุดทั่วอาคาร">
+                        </div>
+                    </div>
+
+                    <!-- Security 2 -->
+                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                            <i class="fa-solid fa-id-card"></i> <span>ระบบที่ 2 (Keycard)</span>
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px;">
+                            <label class="form-label">ชื่อหัวข้อ</label>
+                            <input type="text" id="field_security2Title" value="${escapeHtml(data.security2Title || 'ระบบคีย์การ์ด')}"
+                                   class="form-input" placeholder="เช่น ระบบคีย์การ์ด">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">คำบรรยาย</label>
+                            <input type="text" id="field_security2Desc" value="${escapeHtml(data.security2Desc || 'ปลอดภัยเฉพาะผู้พักอาศัย')}"
+                                   class="form-input" placeholder="เช่น ปลอดภัยเฉพาะผู้พักอาศัย">
+                        </div>
+                    </div>
+
+                    <!-- Security 3 -->
+                    <div style="background:var(--bg-card-subtle); border:1px solid var(--border); border-radius:12px; padding:16px;">
+                        <div style="font-weight:600; font-size:13px; color:var(--primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                            <i class="fa-solid fa-user-shield"></i> <span>ระบบที่ 3 (Guard / Fire Safety)</span>
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px;">
+                            <label class="form-label">ชื่อหัวข้อ</label>
+                            <input type="text" id="field_security3Title" value="${escapeHtml(data.security3Title || 'เจ้าหน้าที่รักษาความปลอดภัย')}"
+                                   class="form-input" placeholder="เช่น เจ้าหน้าที่รักษาความปลอดภัย หรือ อุปกรณ์ดับเพลิง">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">คำบรรยาย</label>
+                            <input type="text" id="field_security3Desc" value="${escapeHtml(data.security3Desc || 'ดูแลความปลอดภัยตลอด 24 ชม.')}"
+                                   class="form-input" placeholder="เช่น ดูแลความปลอดภัยตลอด 24 ชม.">
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            // Section 5: Location & Map
+            html += `
+            <div class="section-box">
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span>5. ทำเลที่ตั้งและแผนที่ (Location & Map)</span>
+                        </h3>
+                        <p class="section-desc">คำบรรยายทำเลที่ตั้งและลิงก์แผนที่ Google Maps</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2" style="margin-bottom: 20px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">หัวข้อส่วนทำเลที่ตั้ง (Location Title)</label>
+                        <input type="text" id="field_locationTitle" value="${escapeHtml(data.locationTitle || 'ทำเลที่ตั้ง')}"
+                               class="form-input" placeholder="เช่น ทำเลที่ตั้ง">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">คำบรรยายทำเล (Location Description)</label>
+                        <input type="text" id="field_locationDesc" value="${escapeHtml(data.locationDesc || '')}"
+                               class="form-input" placeholder="เช่น ใกล้ธรรมศาสตร์ รังสิต หรือ ติดถนนใหญ่ ใกล้ ม.กรุงเทพ">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">
+                        ลิงก์แผนที่ Google Maps (Embed URL)
+                        <span style="color:var(--text-faint); font-weight:normal;">(URL จากแท็ก iframe src เช่น https://maps.google.com/maps?q=...&output=embed)</span>
+                    </label>
+                    <input type="text" id="field_locationMapUrl" value="${escapeHtml(data.locationMapUrl || '')}"
+                           class="form-input" placeholder="https://maps.google.com/maps?q=...&output=embed">
+                </div>
+            </div>`;
+
+            // Section 6: Contact & Footer
+            html += `
+            <div class="section-box">
+                <div class="section-header">
+                    <div>
+                        <h3 class="section-title">
+                            <i class="fa-solid fa-address-book"></i>
+                            <span>6. ข้อมูลติดต่อและฟุตเตอร์ (Contact & Footer)</span>
+                        </h3>
+                        <p class="section-desc">เบอร์โทรศัพท์, LINE Official, Facebook และปุ่มจองห้องพัก</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2" style="margin-bottom: 20px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">ชื่อแบรนด์ / หัวข้อติดต่อ (Contact Title)</label>
+                        <input type="text" id="field_contactTitle" value="${escapeHtml(data.contactTitle || '')}"
+                               class="form-input" placeholder="เช่น GOLF VIEW หรือ พร้อมเข้าอยู่หรือยัง?">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">สโลแกน / คำอธิบายติดต่อ (Contact Description)</label>
+                        <input type="text" id="field_contactDesc" value="${escapeHtml(data.contactDesc || '')}"
+                               class="form-input" placeholder="เช่น หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ.">
+                    </div>
+                </div>
+
+                <div class="form-grid-3" style="margin-bottom: 20px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label"><i class="fa-solid fa-phone text-primary"></i> เบอร์โทรศัพท์</label>
+                        <input type="text" id="field_contactPhone" value="${escapeHtml(data.contactPhone || '')}"
+                               class="form-input" placeholder="เช่น 087-087-4343, 093-939-4442">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label"><i class="fa-brands fa-line" style="color:#06C755;"></i> LINE ID / ข้อความ Line</label>
+                        <input type="text" id="field_contactLine" value="${escapeHtml(data.contactLine || '')}"
+                               class="form-input" placeholder="เช่น Line: @golfview">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> ชื่อเพจ Facebook</label>
+                        <input type="text" id="field_contactFacebook" value="${escapeHtml(data.contactFacebook || '')}"
+                               class="form-input" placeholder="เช่น กอล์ฟวิว เรสซิเด้นท์ - Golf View Resident">
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">
+                            <i class="fa-solid fa-link text-primary"></i> ลิงก์ LINE สำหรับกดเพิ่มเพื่อน (LINE Add URL)
+                        </label>
+                        <input type="text" id="field_contactLineLink" value="${escapeHtml(data.contactLineLink || '')}"
+                               class="form-input" placeholder="https://line.me/ti/p/~@golfview">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">
+                            <i class="fa-solid fa-bullhorn text-primary"></i> ข้อความปุ่มติดต่อ/จองห้อง (Button CTA)
+                        </label>
+                        <input type="text" id="field_contactButton" value="${escapeHtml(data.contactButton || 'จองห้องพัก')}"
+                               class="form-input" placeholder="เช่น จองห้องพัก หรือ แอดไลน์">
+                    </div>
+                </div>
+            </div>`;
+
             container.innerHTML = html;
         }
 
@@ -1677,17 +1938,10 @@
             try {
                 const updatedData = Object.assign({}, currentDormData);
 
-                // Collect header fields & header image
-                const hTitle = document.getElementById('field_headerTitle');
-                if (hTitle) updatedData.headerTitle = hTitle.value.trim();
-                const hSub = document.getElementById('field_headerSubtitle');
-                if (hSub) updatedData.headerSubtitle = hSub.value.trim();
-                const hImg = document.getElementById('field_headerBgImage');
-                if (hImg) updatedData.headerBgImage = hImg.value.trim();
-
-                // Collect room text fields
-                document.querySelectorAll('[id^="field_room"]').forEach(input => {
+                // Collect all inputs with id starting with 'field_' generically
+                document.querySelectorAll('[id^="field_"]').forEach(input => {
                     const key = input.id.replace('field_', '');
+                    if (key.includes('_slide_')) return; // Handled by slide collector
                     if (key.endsWith('Features')) {
                         updatedData[key] = input.value.split('\n').map(s => s.trim()).filter(Boolean);
                     } else {

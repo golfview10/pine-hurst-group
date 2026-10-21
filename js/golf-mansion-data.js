@@ -42,4 +42,18 @@ const golfMansionData = {
     facility4Desc: "ร้านค้าอำนวยความสะดวก",
     facility5Title: "ที่จอดรถ",
     facility5Desc: "ที่จอดรถกว้างขวาง สะดวกสบาย",
+
+    // Location
+    locationTitle: "ทำเลที่ตั้ง",
+    locationDesc: "ทำเลสะดวกใกล้ ธรรมศาสตร์ รังสิต",
+    locationMapUrl: "https://maps.google.com/maps?q=14.050143,100.605178&hl=th&z=15&output=embed",
+
+    // Contact & Footer
+    contactTitle: "พร้อมเข้าอยู่หรือยัง?",
+    contactDesc: "สัมผัสบรรยากาศการพักผ่อนท่ามกลางสวนสวยได้แล้ววันนี้",
+    contactPhone: "089-123-4567",
+    contactLine: "Line: @047bxagb",
+    contactLineLink: "https://line.me/R/ti/p/@047bxagb",
+    contactFacebook: "Golf Mansion Thammasat",
+    contactButton: "แอดไลน์"
 };

@@ -57,5 +57,37 @@ const golfViewData = {
         "ห้องแอร์",
         "เฟอร์นิเจอร์และเครื่องใช้ไฟฟ้าครบ",
         "ห้องครัว ห้องน้ำแยกสัดส่วนชัดเจน"
-    ]
+    ],
+
+    // Facilities
+    facility1Title: "สระว่ายน้ำ",
+    facility2Title: "ฟิตเนส",
+    facility3Title: "รถตู้รับ-ส่ง",
+    facility4Title: "ร้านสะดวกซื้อ",
+    facility5Title: "บริการซักรีด",
+    facility6Title: "Green Park",
+    facility7Title: "Co-working Space",
+
+    // Security
+    securityTitle: "ระบบความปลอดภัย",
+    security1Title: "กล้องวงจรปิด 24 ชม.",
+    security1Desc: "ครอบคลุมทุกจุดทั่วอาคาร",
+    security2Title: "ระบบคีย์การ์ด",
+    security2Desc: "ปลอดภัยเฉพาะผู้พักอาศัย",
+    security3Title: "เจ้าหน้าที่รักษาความปลอดภัย",
+    security3Desc: "ดูแลความปลอดภัยตลอด 24 ชม.",
+
+    // Location
+    locationTitle: "ทำเลที่ตั้ง",
+    locationDesc: "ใกล้ธรรมศาสตร์ รังสิต",
+    locationMapUrl: "https://maps.google.com/maps?q=14.061280,100.598630&z=15&output=embed",
+
+    // Contact & Footer
+    contactTitle: "GOLF VIEW",
+    contactDesc: "หอพักที่มีส่วนกลางใหญ่ที่สุดใกล้ มธ.",
+    contactPhone: "087-087-4343, 093-939-4442",
+    contactLine: "Line: @golfview",
+    contactLineLink: "https://line.me/ti/p/~@golfview",
+    contactFacebook: "กอล์ฟวิว เรสซิเด้นท์ - Golf View Resident",
+    contactButton: "จองห้องพัก"
 };

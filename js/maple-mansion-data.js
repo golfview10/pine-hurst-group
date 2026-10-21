@@ -59,5 +59,19 @@ const mapleMansionData = {
     facility2Title: "Convenient Parking",
     facility2Desc: "ที่จอดรถกว้างขวาง สะดวกสบาย",
     facility3Title: "Co-Living Lounge",
-    facility3Desc: "พื้นที่ส่วนกลางสำหรับพักผ่อน"
+    facility3Desc: "พื้นที่ส่วนกลางสำหรับพักผ่อน",
+
+    // Location
+    locationTitle: "ทำเลที่ตั้ง",
+    locationDesc: "ตั้งอยู่ที่ ระยอง ใกล้เซ็นทรัล และทางด่วน",
+    locationMapUrl: "https://maps.google.com/maps?q=12.696666133082546,%20101.28677134449677&z=17&output=embed",
+
+    // Contact & Footer
+    contactTitle: "ใช้ชีวิตมีสไตล์ที่ระยอง",
+    contactDesc: "สัมผัสประสบการณ์การพักอาศัยระดับคอนโดได้แล้ววันนี้",
+    contactPhone: "082-853-3938",
+    contactLine: "Line: @maple.m",
+    contactLineLink: "https://line.me/ti/p/~@maple.m",
+    contactFacebook: "Maple Mansion Rayong",
+    contactButton: "แอดไลน์"
 };

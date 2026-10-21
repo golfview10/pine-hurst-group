@@ -334,11 +334,12 @@
         <!-- Map -->
         <section id="location" class="fade-up">
             <div class="w-full h-[450px] bg-stone-200 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
-                <iframe src="https://maps.google.com/maps?q=12.696666133082546, 101.28677134449677&z=17&output=embed"
+                <iframe id="locationMapIframe" src="https://maps.google.com/maps?q=12.696666133082546, 101.28677134449677&z=17&output=embed"
                     width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <p class="text-center mt-6 text-stone-500 font-light text-lg">ตั้งอยู่ที่ <span
-                    class="font-semibold text-stone-700">ระยอง</span> ใกล้เซ็นทรัล และทางด่วน</p>
+            <p class="text-center mt-6 text-stone-500 font-light text-lg">
+                <span id="locationDesc">ตั้งอยู่ที่ ระยอง ใกล้เซ็นทรัล และทางด่วน</span>
+            </p>
         </section>
 
     </div>
@@ -350,18 +351,18 @@
             class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">
         </div>
         <div class="container mx-auto px-6 max-w-6xl relative z-10 text-center">
-            <h2 class="text-3xl font-light mb-8">ใช้ชีวิตมีสไตล์ที่ระยอง</h2>
-            <p class="text-stone-300 max-w-xl mx-auto mb-12 font-light text-lg">
+            <h2 id="contactTitle" class="text-3xl font-light mb-8">ใช้ชีวิตมีสไตล์ที่ระยอง</h2>
+            <p id="contactDesc" class="text-stone-300 max-w-xl mx-auto mb-12 font-light text-lg">
                 สัมผัสประสบการณ์การพักอาศัยระดับคอนโดได้แล้ววันนี้</p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 mb-16">
-                <a href="tel:0828533938"
+                <a id="contactPhoneLink" href="tel:0828533938"
                     class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur border border-white/20 hover:bg-white hover:text-green-900 text-white px-8 py-4 rounded-full transition duration-300">
-                    <i class="fa-solid fa-phone"></i> 082-853-3938
+                    <i class="fa-solid fa-phone"></i> <span id="contactPhone">082-853-3938</span>
                 </a>
-                <a href="https://line.me/ti/p/~@maple.m" target="_blank" rel="noopener noreferrer"
+                <a id="contactLineLink" href="https://line.me/ti/p/~@maple.m" target="_blank" rel="noopener noreferrer"
                     class="flex items-center justify-center gap-3 bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-full shadow-lg shadow-green-900/50 transition duration-300">
-                    <i class="fa-brands fa-line text-xl"></i> แอดไลน์
+                    <i class="fa-brands fa-line text-xl"></i> <span id="contactButton">แอดไลน์</span>
                 </a>
             </div>
 
@@ -496,6 +497,35 @@
                     const c = document.getElementById('carousel-daily-2bed');
                     if (c && c.querySelector('img')) c.querySelector('img').src = d.roomDaily2BedImage;
                 }
+
+                // Facilities
+                for (let i = 1; i <= 3; i++) {
+                    if (d[`facility${i}Title`]) setText(`facility${i}Title`, d[`facility${i}Title`]);
+                    if (d[`facility${i}Desc`]) setText(`facility${i}Desc`, d[`facility${i}Desc`]);
+                }
+
+                // Location
+                if (d.locationDesc) setText('locationDesc', d.locationDesc);
+                if (d.locationMapUrl) {
+                    const mEl = document.getElementById('locationMapIframe');
+                    if (mEl) mEl.src = d.locationMapUrl;
+                }
+
+                // Contact & Footer
+                if (d.contactTitle) setText('contactTitle', d.contactTitle);
+                if (d.contactDesc) setText('contactDesc', d.contactDesc);
+                if (d.contactPhone) {
+                    setText('contactPhone', d.contactPhone);
+                    const pLink = document.getElementById('contactPhoneLink');
+                    if (pLink) pLink.href = 'tel:' + d.contactPhone.replace(/\s+|-/g, '');
+                }
+                if (d.contactLineLink) {
+                    const lLink = document.getElementById('contactLineLink');
+                    if (lLink) lLink.href = d.contactLineLink;
+                    const flBtn = document.getElementById('floatingLineBtn');
+                    if (flBtn) flBtn.href = d.contactLineLink;
+                }
+                if (d.contactButton) setText('contactButton', d.contactButton);
             };
 
             // 1. Instant local render
