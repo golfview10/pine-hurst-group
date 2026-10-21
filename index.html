@@ -457,10 +457,9 @@
                     </div>
                 </a>
 
-                <!-- 2. CITY CONDO -->
-                <a href="javascript:void(0)" onclick="openCityCondoModal(event)"
-                   class="dorm-node dorm-citycondo"
-                   style="left: 37.244%; top: 40.647%; width: 7.466%; aspect-ratio: 1;"
+                <!-- 2. CITY CONDO (Coming Soon) -->
+                <div class="dorm-node dorm-citycondo"
+                   style="left: 37.244%; top: 40.647%; width: 7.466%; aspect-ratio: 1; cursor: default;"
                    aria-label="ซิตี้ คอนโด รังสิต (เร็วๆ นี้)">
                     <div class="radar-ring"></div>
                     <div class="radar-ring-2"></div>
@@ -474,10 +473,10 @@
                             <span class="dorm-pill-title">City Condo รังสิต</span>
                             <span class="dorm-pill-sep">•</span>
                             <span class="dorm-pill-sub">ม.รังสิต</span>
-                            <span class="text-[11px] text-indigo-300 bg-indigo-500/20 px-1.5 py-0.5 rounded ml-1 font-medium">เร็วๆ นี้</span>
+                            <span class="text-[11px] text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full font-medium ml-1">เร็วๆ นี้</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
                 <!-- 3. GOLF VIEW -->
                 <a href="golf-view.html"
@@ -650,26 +649,25 @@
                         </div>
                     </a>
 
-                    <!-- 2. CITY CONDO -->
-                    <a href="javascript:void(0)" onclick="openCityCondoModal(event)"
-                        class="relative group rounded-3xl overflow-hidden shadow-lg cursor-pointer fade-up delay-100 h-[360px]">
+                    <!-- 2. CITY CONDO (Coming Soon) -->
+                    <div class="relative group rounded-3xl overflow-hidden shadow-lg fade-up delay-100 h-[360px] opacity-90">
                         <img src="image/citycondo/cover.jpg"
                             onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop'"
                             alt="City Condo รังสิต ใกล้ ม.รังสิต"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950/95 via-indigo-900/20 to-transparent">
+                            class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950/95 via-indigo-900/30 to-black/20">
                         </div>
                         <div
-                            class="absolute bottom-0 left-0 p-6 text-white transition-transform duration-500 group-hover:-translate-y-2">
+                            class="absolute bottom-0 left-0 p-6 text-white">
                             <div
                                 class="flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-widest mb-2">
                                 <i class="fa-solid fa-building-user"></i> สะดวกสบาย
-                                <span class="bg-indigo-500/80 backdrop-blur-md text-white text-[10px] tracking-wider font-semibold px-2 py-0.5 rounded-full ml-auto">เร็วๆ นี้</span>
+                                <span class="bg-amber-500/90 text-slate-950 text-[10px] tracking-wider font-bold px-2.5 py-0.5 rounded-full ml-auto">เร็วๆ นี้</span>
                             </div>
                             <h3 class="text-2xl font-light">City Condo รังสิต</h3>
-                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.รังสิต</p>
+                            <p class="text-white/70 font-light mt-1.5 text-sm">หอพักใกล้ ม.รังสิต • เตรียมพบกันเร็วๆ นี้</p>
                         </div>
-                    </a>
+                    </div>
 
                     <!-- 3. GOLF CITY -->
                     <a href="golf-city.html"
@@ -753,89 +751,8 @@
         </footer>
     </div>
 
-    <!-- City Condo Coming Soon Modal -->
-    <div id="cityCondoModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="cityCondoModalTitle" style="display: none;">
-        <div class="relative w-full max-w-md bg-slate-900 border border-indigo-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300 text-white" id="cityCondoModalCard">
-            <!-- Close button -->
-            <button onclick="closeCityCondoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-2xl w-9 h-9 flex items-center justify-center rounded-full hover:bg-slate-800 transition" aria-label="ปิดหน้าต่าง">&times;</button>
-            
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-xl">
-                    <i class="fa-solid fa-building-user"></i>
-                </div>
-                <div>
-                    <span class="text-xs font-semibold uppercase tracking-widest text-indigo-400">Coming Soon</span>
-                    <h3 id="cityCondoModalTitle" class="text-xl font-light text-white">City Condo รังสิต</h3>
-                </div>
-            </div>
-
-            <p class="text-slate-300 text-sm leading-relaxed mb-6 font-light">
-                ขณะนี้โครงการ <strong class="text-white font-medium">City Condo รังสิต (ใกล้ ม.รังสิต)</strong> อยู่ระหว่างการจัดทำข้อมูลรายละเอียดห้องพักและอัตราค่าเช่าใหม่
-            </p>
-
-            <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/50 mb-6 text-xs text-slate-300 space-y-2">
-                <div class="flex items-center gap-2 text-indigo-300 font-medium">
-                    <i class="fa-solid fa-circle-info"></i> สนใจสอบถามห้องพักหรือจองล่วงหน้า:
-                </div>
-                <p class="text-slate-400">สามารถติดต่อฝ่ายบริการลูกค้าของกลุ่ม Pinehurst ได้โดยตรงผ่าน LINE Official</p>
-            </div>
-
-            <div class="flex gap-3">
-                <a href="https://line.me/ti/p/~@golfview" target="_blank" rel="noopener noreferrer" class="flex-1 bg-[#06C755] hover:bg-[#05b34c] text-white py-3 px-4 rounded-xl text-center text-sm font-medium transition flex items-center justify-center gap-2 shadow-lg">
-                    <i class="fa-brands fa-line text-lg"></i> สอบถามทาง LINE
-                </a>
-                <button onclick="closeCityCondoModal()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition">
-                    ปิด
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Theme Logic -->
     <script src="js/theme.js"></script>
-    <script>
-        function openCityCondoModal(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            const modal = document.getElementById('cityCondoModal');
-            const card = document.getElementById('cityCondoModalCard');
-            if (!modal) return;
-            modal.style.display = 'flex';
-            modal.classList.remove('hidden');
-            void modal.offsetWidth; // trigger reflow for smooth transition
-            modal.classList.remove('opacity-0');
-            modal.classList.add('opacity-100');
-            if (card) {
-                card.classList.remove('scale-95');
-                card.classList.add('scale-100');
-            }
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCityCondoModal() {
-            const modal = document.getElementById('cityCondoModal');
-            const card = document.getElementById('cityCondoModalCard');
-            if (!modal) return;
-            modal.classList.remove('opacity-100');
-            modal.classList.add('opacity-0');
-            if (card) {
-                card.classList.remove('scale-100');
-                card.classList.add('scale-95');
-            }
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        document.getElementById('cityCondoModal')?.addEventListener('click', function(e) {
-            if (e.target === this) closeCityCondoModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeCityCondoModal();
-        });
-    </script>
 </body>
 
 </html>
