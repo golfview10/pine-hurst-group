@@ -689,18 +689,17 @@
             background: #0b1324;
             border: 1px dashed var(--border);
             border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 16px;
+            padding: 12px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
         .image-preview-group:hover {
             border-color: var(--border-hover);
         }
         .image-thumbnail {
-            width: 110px;
-            height: 75px;
+            width: 100px;
+            height: 70px;
             border-radius: 8px;
             object-fit: cover;
             background: #070b14;
@@ -729,7 +728,7 @@
             background: #172642;
             color: var(--text-heading);
             border: 1px solid var(--border-hover);
-            padding: 6px 12px;
+            padding: 5px 12px;
             border-radius: 8px;
             font-size: 12px;
             font-weight: 500;
@@ -748,6 +747,96 @@
             font-size: 11px;
             color: var(--primary);
             font-weight: 500;
+        }
+
+        /* Slider & Gallery Slots */
+        .slider-slots-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .slider-slot-item {
+            background: #0b1324;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            transition: border-color 0.2s;
+        }
+        .slider-slot-item:hover {
+            border-color: var(--border-hover);
+        }
+        .slider-slot-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .badge-cover-slide {
+            font-size: 11px;
+            font-weight: 600;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .badge-slot-slide {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            background: #17243b;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-del-slide {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        .btn-del-slide:hover {
+            color: var(--danger);
+        }
+        .slide-thumbnail {
+            width: 85px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: #070b14;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .btn-add-slide {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #152238;
+            color: var(--primary);
+            border: 1px dashed var(--border-hover);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+            transition: all 0.2s;
+            margin-bottom: 16px;
+        }
+        .btn-add-slide:hover {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: var(--primary);
+            color: #34d399;
         }
 
         /* Sticky Bottom Bar */
@@ -947,7 +1036,7 @@
                         <span id="currentDormTitle">Golf View Residence</span>
                         <span class="project-status-tag">กำลังแก้ไขข้อมูล</span>
                     </h2>
-                    <p>แก้ไขข้อมูล ราคา และรูปภาพในฟอร์มด้านล่างนี้ จากนั้นกดปุ่ม <strong>"บันทึกข้อมูล"</strong> เพื่อให้อัปเดตไปที่หน้าเว็บทันที</p>
+                    <p>แก้ไขข้อมูล ราคา ภาพพื้นหลัง และภาพสไลด์ของห้องพักด้านล่าง จากนั้นกดปุ่ม <strong>"บันทึกข้อมูล"</strong> เพื่อให้อัปเดตไปที่หน้าเว็บทันที</p>
                 </div>
 
                 <div class="project-banner-actions">
@@ -1011,50 +1100,35 @@
         let currentDormId = 'golfview';
         let currentDormData = {};
 
-        // Default local image paths mapping
-        const defaultDormImages = {
+        // Default slider images for each room across all dorms
+        const defaultRoomSliderImages = {
             'golfview': {
-                headerBg: 'image/golfview/header-bg.png',
-                rooms: {
-                    'Standard': 'image/golfview/standard/1.png',
-                    'Premium': 'image/golfview/premium/1.png',
-                    'Deluxe': 'image/golfview/deluxe/1.png',
-                    'VIP': 'image/golfview/vip/1.png',
-                    'Paradise': 'image/golfview/paradise/1.png'
-                }
+                'Standard': ['image/golfview/standard/1.png', 'image/golfview/standard/2.png', 'image/golfview/standard/3.png'],
+                'Premium': ['image/golfview/premium/1.png', 'image/golfview/premium/2.png', 'image/golfview/premium/3.png'],
+                'Deluxe': ['image/golfview/deluxe/1.png', 'image/golfview/deluxe/2.png', 'image/golfview/deluxe/3.png'],
+                'VIP': ['image/golfview/vip/1.png', 'image/golfview/vip/2.png', 'image/golfview/vip/3.png'],
+                'Paradise': ['image/golfview/paradise/1.png', 'image/golfview/paradise/2.png', 'image/golfview/paradise/3.png']
             },
             'golfcity': {
-                headerBg: 'image/golfcity/header-bg.png',
-                rooms: {
-                    'Fan': 'image/golfcity/studio-fan/1.png',
-                    'Air': 'image/golfcity/studio-air/1.png',
-                    'ReNew': 'image/golfcity/re-new/1.png'
-                }
+                'Fan': ['image/golfcity/studio-fan/1.png', 'image/golfcity/studio-fan/2.png', 'image/golfcity/studio-fan/3.png', 'image/golfcity/studio-fan/4.png', 'image/golfcity/studio-fan/5.png'],
+                'Air': ['image/golfcity/studio-air/1.png', 'image/golfcity/studio-air/2.png', 'image/golfcity/studio-air/3.png', 'image/golfcity/studio-air/4.png', 'image/golfcity/studio-air/5.png'],
+                'ReNew': ['image/golfcity/re-new/1.png', 'image/golfcity/re-new/2.png', 'image/golfcity/re-new/3.png', 'image/golfcity/re-new/4.png', 'image/golfcity/re-new/5.png', 'image/golfcity/re-new/6.png']
             },
             'golfmansion': {
-                headerBg: 'image/golfmansion/header-bg.png',
-                rooms: {
-                    'Standard': 'image/golfmansion/monthly-1bed/1.png',
-                    'Suite': 'image/golfmansion/monthly-2bed/1.png'
-                }
+                'Standard': ['image/golfmansion/monthly-1bed/1.png', 'image/golfmansion/monthly-1bed/2.png', 'image/golfmansion/monthly-1bed/3.png', 'image/golfmansion/monthly-1bed/4.png', 'image/golfmansion/monthly-1bed/5.png'],
+                'Suite': ['image/golfmansion/monthly-2bed/1.png', 'image/golfmansion/monthly-2bed/2.png', 'image/golfmansion/monthly-2bed/3.png', 'image/golfmansion/monthly-2bed/4.png', 'image/golfmansion/monthly-2bed/5.png']
             },
             'maplecity': {
-                headerBg: 'image/maplecity/header-bg.png',
-                rooms: {
-                    'Monthly1Bed': 'image/maplecity/monthly-1bed/1.png',
-                    'Monthly2Bed': 'image/maplecity/monthly-2bed/1.png',
-                    'Daily1Bed': 'image/maplecity/daily-1bed/1.png',
-                    'Daily2Bed': 'image/maplecity/daily-2bed/1.png'
-                }
+                'Monthly1Bed': ['image/maplecity/monthly-1bed/1.png', 'image/maplecity/monthly-1bed/2.png', 'image/maplecity/monthly-1bed/3.png'],
+                'Monthly2Bed': ['image/maplecity/monthly-2bed/1.png', 'image/maplecity/monthly-2bed/2.png', 'image/maplecity/monthly-2bed/3.png', 'image/maplecity/monthly-2bed/4.png'],
+                'Daily1Bed': ['image/maplecity/daily-1bed/1.png', 'image/maplecity/daily-1bed/2.png', 'image/maplecity/daily-1bed/3.png'],
+                'Daily2Bed': ['image/maplecity/daily-2bed/1.png', 'image/maplecity/daily-2bed/2.png', 'image/maplecity/daily-2bed/3.png']
             },
             'maplemansion': {
-                headerBg: 'image/maplemansion/header-bg.png',
-                rooms: {
-                    'Monthly1Bed': 'image/maplemansion/monthly-1bed/1.png',
-                    'Monthly2Bed': 'image/maplemansion/monthly-2bed/1.png',
-                    'Daily1Bed': 'image/maplemansion/daily-1bed/1.png',
-                    'Daily2Bed': 'image/maplemansion/daily-2bed/1.png'
-                }
+                'Monthly1Bed': ['image/maplemansion/monthly-1bed/1.png', 'image/maplemansion/monthly-1bed/2.png', 'image/maplemansion/monthly-1bed/3.png', 'image/maplemansion/monthly-1bed/4.png', 'image/maplemansion/monthly-1bed/5.png'],
+                'Monthly2Bed': ['image/maplemansion/monthly-2bed/1.png', 'image/maplemansion/monthly-2bed/2.png', 'image/maplemansion/monthly-2bed/3.png', 'image/maplemansion/monthly-2bed/4.png', 'image/maplemansion/monthly-2bed/5.png'],
+                'Daily1Bed': ['image/maplemansion/daily-1bed/1.png', 'image/maplemansion/daily-1bed/2.png', 'image/maplemansion/daily-1bed/3.png', 'image/maplemansion/daily-1bed/4.png'],
+                'Daily2Bed': ['image/maplemansion/daily-2bed/1.png', 'image/maplemansion/daily-2bed/2.png', 'image/maplemansion/daily-2bed/3.png', 'image/maplemansion/daily-2bed/4.png']
             }
         };
 
@@ -1191,7 +1265,6 @@
                 } catch (err) {
                     console.warn('Sign out:', err);
                 }
-                // Instant UI change to login screen
                 const loginScreen = document.getElementById('loginScreen');
                 const adminDashboard = document.getElementById('adminDashboard');
                 if (loginScreen) loginScreen.classList.remove('hidden');
@@ -1248,7 +1321,7 @@
         }
 
         // ==============================================================
-        // IMAGE UPLOAD & PREVIEW HANDLER
+        // IMAGE UPLOAD & PREVIEW HANDLER (Storage Upload)
         // ==============================================================
         window.handleImageUpload = async (inputElement, targetFieldId, previewImgId, statusId) => {
             const file = inputElement.files && inputElement.files[0];
@@ -1309,12 +1382,85 @@
             }
         };
 
+        // Add a new slide image slot dynamically
+        window.addSlideSlot = (roomId) => {
+            const container = document.getElementById(`sliderContainer_${roomId}`);
+            if (!container) return;
+
+            const existingCount = container.querySelectorAll('.slider-slot-item').length;
+            const newIndex = existingCount;
+            const defaultPath = `image/${currentDormId}/cover.png`;
+
+            const slotHtml = `
+            <div class="slider-slot-item" id="slot_${roomId}_${newIndex}">
+                <div class="slider-slot-header">
+                    <span class="badge-slot-slide"><i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${newIndex + 1}</span>
+                    <button type="button" class="btn-del-slide" onclick="removeSlideImage('${roomId}', ${newIndex})" title="ลบภาพนี้">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="image-preview-group">
+                    <img id="preview_${roomId}_${newIndex}" src="${defaultPath}" alt="Slide ${newIndex + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
+                    <div class="image-upload-controls">
+                        <input type="text" class="form-input slide-url-input" id="field_${roomId}_slide_${newIndex}" data-room="${roomId}"
+                               value="" placeholder="วาง URL หรือที่อยู่ไฟล์รูปภาพใหม่ เช่น https://..."
+                               oninput="updatePreviewFromInput(this, 'preview_${roomId}_${newIndex}')">
+                        <div class="image-upload-actions">
+                            <label class="btn-upload">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>อัปโหลดรูปภาพ</span>
+                                <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${roomId}_slide_${newIndex}', 'preview_${roomId}_${newIndex}', 'status_${roomId}_${newIndex}')">
+                            </label>
+                            <span id="status_${roomId}_${newIndex}" class="upload-status"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            container.insertAdjacentHTML('beforeend', slotHtml);
+            const newInput = document.getElementById(`field_${roomId}_slide_${newIndex}`);
+            if (newInput) newInput.focus();
+        };
+
+        // Remove a slide image slot
+        window.removeSlideImage = (roomId, index) => {
+            const container = document.getElementById(`sliderContainer_${roomId}`);
+            if (container && container.querySelectorAll('.slider-slot-item').length <= 1) {
+                window.showToast('แต่ละห้องต้องมีรูปภาพอย่างน้อย 1 ภาพเพื่อเป็นภาพหลักครับ', 'error');
+                return;
+            }
+            const slot = document.getElementById(`slot_${roomId}_${index}`);
+            if (slot) {
+                slot.remove();
+                // Re-index remaining badges
+                const container = document.getElementById(`sliderContainer_${roomId}`);
+                if (container) {
+                    const slots = container.querySelectorAll('.slider-slot-item');
+                    slots.forEach((item, idx) => {
+                        const header = item.querySelector('.slider-slot-header');
+                        if (header) {
+                            const badgeSpan = header.querySelector('span');
+                            if (badgeSpan) {
+                                if (idx === 0) {
+                                    badgeSpan.className = 'badge-cover-slide';
+                                    badgeSpan.innerHTML = `<i class="fa-solid fa-star"></i> ภาพที่ 1 (ภาพปกหลัก)`;
+                                } else {
+                                    badgeSpan.className = 'badge-slot-slide';
+                                    badgeSpan.innerHTML = `<i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${idx + 1}`;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        };
+
         function renderEditorUI(dormId, data) {
             const container = document.getElementById('dormEditorForm');
             if (!container) return;
 
-            const dormImgDefaults = defaultDormImages[dormId] || { headerBg: '', rooms: {} };
-            const currentHeaderBg = data.headerBgImage || dormImgDefaults.headerBg || `image/${dormId}/header-bg.png`;
+            const defaultSliders = defaultRoomSliderImages[dormId] || {};
+            const currentHeaderBg = data.headerBgImage || `image/${dormId}/header-bg.png`;
 
             let html = '';
 
@@ -1365,7 +1511,7 @@
                 </div>
             </div>`;
 
-            // Section 2: Room Types, Pricing and Room Images
+            // Section 2: Room Types, Pricing, and Slider Gallery Images
             const rooms = dormRoomSchemas[dormId] || [];
             if (rooms.length > 0) {
                 html += `
@@ -1374,9 +1520,9 @@
                         <div>
                             <h3 class="section-title">
                                 <i class="fa-solid fa-bed"></i>
-                                <span>2. ข้อมูลห้องพัก ราคา และรูปภาพห้อง (Rooms, Pricing & Photos)</span>
+                                <span>2. ข้อมูลห้องพัก ราคา และภาพสไลด์แกลเลอรี (Rooms, Pricing & Gallery)</span>
                             </h3>
-                            <p class="section-desc">แก้ไขราคา รูปภาพหน้าปก ขนาดห้อง และจุดเด่นของห้องแต่ละประเภทด้านล่างนี้ได้โดยตรง</p>
+                            <p class="section-desc">แก้ไขราคา ขนาดห้อง จุดเด่น และชุดรูปภาพที่จะนำไปแสดงสไลด์หมุนและในแกลเลอรี</p>
                         </div>
                     </div>
 
@@ -1390,7 +1536,7 @@
                     const descKey = `room${rId}Description`;
                     const featKey = `room${rId}Features`;
                     const sizeKey = `room${rId}Size`;
-                    const imgKey = `room${rId}Image`;
+                    const sliderKey = `room${rId}Images`;
 
                     const title = data[titleKey] || room.name;
                     const price = data[priceKey] || '';
@@ -1399,8 +1545,10 @@
                     const size = data[sizeKey] || '';
                     const features = Array.isArray(data[featKey]) ? data[featKey] : [];
                     
-                    const defaultRoomImg = (dormImgDefaults.rooms && dormImgDefaults.rooms[rId]) || `image/${dormId}/cover.png`;
-                    const currentRoomImg = data[imgKey] || defaultRoomImg;
+                    // Determine slider images array: from data, or fallback from defaultRoomSliderImages
+                    let sliderImages = Array.isArray(data[sliderKey]) && data[sliderKey].length > 0 
+                        ? data[sliderKey] 
+                        : (defaultSliders[rId] || [`image/${dormId}/cover.png`]);
 
                     html += `
                     <div class="room-item-card">
@@ -1410,28 +1558,6 @@
                                 <span>${escapeHtml(room.name)}</span>
                             </span>
                             <span class="room-id-tag">ID: ${rId}</span>
-                        </div>
-
-                        <!-- Room Cover Image -->
-                        <div class="form-group">
-                            <label class="form-label">รูปภาพห้องพัก (Room Cover Image)</label>
-                            <div class="image-preview-group">
-                                <img id="preview_${imgKey}" src="${escapeHtml(currentRoomImg)}" alt="${escapeHtml(room.name)}" class="image-thumbnail"
-                                     onerror="this.src='image/main/logo.png'">
-                                <div class="image-upload-controls">
-                                    <input type="text" id="field_${imgKey}" value="${escapeHtml(currentRoomImg)}"
-                                           class="form-input" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ เช่น ${escapeHtml(defaultRoomImg)}"
-                                           oninput="updatePreviewFromInput(this, 'preview_${imgKey}')">
-                                    <div class="image-upload-actions">
-                                        <label class="btn-upload">
-                                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                                            <span>เปลี่ยนรูปภาพ</span>
-                                            <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${imgKey}', 'preview_${imgKey}', 'status_${imgKey}')">
-                                        </label>
-                                        <span id="status_${imgKey}" class="upload-status"></span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Price & Unit Row -->
@@ -1464,7 +1590,7 @@
                         </div>
 
                         <!-- Features -->
-                        <div class="form-group" style="margin-bottom:0;">
+                        <div class="form-group">
                             <label class="form-label">
                                 สิ่งอำนวยความสะดวกในห้อง
                                 <span style="color:var(--text-faint); font-weight:normal;">(พิมพ์ 1 บรรทัด = 1 รายการ)</span>
@@ -1472,6 +1598,56 @@
                             <textarea id="field_${featKey}" class="form-input textarea-features"
                                       placeholder="เตียง 5 ฟุต&#10;เครื่องปรับอากาศ&#10;ตู้เสื้อผ้า&#10;เครื่องทำน้ำอุ่น">${escapeHtml(features.join('\n'))}</textarea>
                         </div>
+
+                        <!-- ================= SLIDER & GALLERY IMAGES ================= -->
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+                                <span><i class="fa-solid fa-images text-primary"></i> ภาพสไลด์และแกลเลอรีห้องพัก</span>
+                                <span style="font-size:11px; color:var(--text-faint); font-weight:normal;">ภาพที่ 1 คือภาพปกหน้าแรก</span>
+                            </label>
+                            
+                            <div class="slider-slots-container" id="sliderContainer_${rId}">`;
+
+                    sliderImages.forEach((imgUrl, idx) => {
+                        html += `
+                                <div class="slider-slot-item" id="slot_${rId}_${idx}">
+                                    <div class="slider-slot-header">
+                                        ${idx === 0 
+                                            ? `<span class="badge-cover-slide"><i class="fa-solid fa-star"></i> ภาพที่ 1 (ภาพปกหลัก)</span>`
+                                            : `<span class="badge-slot-slide"><i class="fa-solid fa-image"></i> ภาพสไลด์ที่ ${idx + 1}</span>`
+                                        }
+                                        ${sliderImages.length > 1 ? `
+                                        <button type="button" class="btn-del-slide" onclick="removeSlideImage('${rId}', ${idx})" title="ลบภาพนี้">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>` : ''}
+                                    </div>
+                                    <div class="image-preview-group">
+                                        <img id="preview_${rId}_${idx}" src="${escapeHtml(imgUrl)}" alt="Slide ${idx + 1}" class="slide-thumbnail" onerror="this.src='image/main/logo.png'">
+                                        <div class="image-upload-controls">
+                                            <input type="text" class="form-input slide-url-input" id="field_${rId}_slide_${idx}" data-room="${rId}"
+                                                   value="${escapeHtml(imgUrl)}" placeholder="URL หรือที่อยู่ไฟล์รูปภาพ"
+                                                   oninput="updatePreviewFromInput(this, 'preview_${rId}_${idx}')">
+                                            <div class="image-upload-actions">
+                                                <label class="btn-upload">
+                                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                    <span>เปลี่ยนรูป</span>
+                                                    <input type="file" accept="image/*" onchange="handleImageUpload(this, 'field_${rId}_slide_${idx}', 'preview_${rId}_${idx}', 'status_${rId}_${idx}')">
+                                                </label>
+                                                <span id="status_${rId}_${idx}" class="upload-status"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    });
+
+                    html += `
+                            </div>
+                            
+                            <button type="button" class="btn-add-slide" onclick="addSlideSlot('${rId}')">
+                                <i class="fa-solid fa-plus-circle"></i> เพิ่มรูปภาพในสไลด์ห้องนี้
+                            </button>
+                        </div>
+
                     </div>`;
                 });
 
@@ -1509,7 +1685,7 @@
                 const hImg = document.getElementById('field_headerBgImage');
                 if (hImg) updatedData.headerBgImage = hImg.value.trim();
 
-                // Collect room fields & room images
+                // Collect room text fields
                 document.querySelectorAll('[id^="field_room"]').forEach(input => {
                     const key = input.id.replace('field_', '');
                     if (key.endsWith('Features')) {
@@ -1518,6 +1694,24 @@
                         updatedData[key] = input.value.trim();
                     }
                 });
+
+                // Collect Slider & Gallery Images
+                const roomSliderMap = {};
+                document.querySelectorAll('.slide-url-input').forEach(input => {
+                    const rId = input.dataset.room;
+                    const val = input.value.trim();
+                    if (rId && val) {
+                        if (!roomSliderMap[rId]) roomSliderMap[rId] = [];
+                        roomSliderMap[rId].push(val);
+                    }
+                });
+
+                for (const [rId, imgs] of Object.entries(roomSliderMap)) {
+                    updatedData[`room${rId}Images`] = imgs;
+                    if (imgs.length > 0) {
+                        updatedData[`room${rId}Image`] = imgs[0]; // Primary cover is always 1st slide
+                    }
+                }
 
                 // Write to Firestore
                 const docRef = doc(db, 'dorms', currentDormId);

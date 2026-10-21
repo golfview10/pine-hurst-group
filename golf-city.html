@@ -419,83 +419,103 @@
             const d = golfCityData;
             const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
 
-            // Header
-            setText('headerTitle', d.headerTitle);
-            setText('headerSubtitle', d.headerSubtitle);
-
-            // Feature Renderer (Urban Style)
-            const renderFeatures = (id, features, iconColorClass = 'text-blue-500') => {
-                const el = document.getElementById(id);
-                if (el && Array.isArray(features)) {
-                    el.textContent = '';
-                    features.forEach(item => {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-center gap-2';
-                        const icon = document.createElement('i');
-                        icon.className = `fa-solid fa-check ${iconColorClass} text-xs`;
-                        li.appendChild(icon);
-                        li.appendChild(document.createTextNode(' ' + item));
-                        el.appendChild(li);
-                    });
+            const applyData = (d) => {
+                if (!d) return;
+                // Header
+                if (d.headerTitle) setText('headerTitle', d.headerTitle);
+                if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
+                if (d.headerBgImage) {
+                    const headerImg = document.querySelector('header img');
+                    if (headerImg) headerImg.src = d.headerBgImage;
                 }
+
+                // Room: Studio Fan
+                if (d.roomFanTitle) setText('roomFanTitle', d.roomFanTitle);
+                if (d.roomFanSize) setText('roomFanSize', d.roomFanSize);
+                if (d.roomFanDescription) setText('roomFanDescription', d.roomFanDescription);
+                if (d.roomFanPrice) setText('roomFanPrice', d.roomFanPrice);
+                if (d.roomFanPriceUnit) setText('roomFanPriceUnit', d.roomFanPriceUnit);
+                if (d.roomFanFeatures) renderFeatures('roomFanFeatures', d.roomFanFeatures, 'text-blue-500');
+                if (d.roomFanImages && window.updateRoomImages) {
+                    window.updateRoomImages('studio-fan', d.roomFanImages);
+                } else if (d.roomFanImage) {
+                    const c = document.getElementById('carousel-studio-fan');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomFanImage;
+                }
+
+                // Room: Studio Air (Orange accent override for features)
+                if (d.roomAirTitle) setText('roomAirTitle', d.roomAirTitle);
+                if (d.roomAirSize) setText('roomAirSize', d.roomAirSize);
+                if (d.roomAirDescription) setText('roomAirDescription', d.roomAirDescription);
+                if (d.roomAirPrice) setText('roomAirPrice', d.roomAirPrice);
+                if (d.roomAirPriceUnit) setText('roomAirPriceUnit', d.roomAirPriceUnit);
+                if (d.roomAirFeatures) renderFeatures('roomAirFeatures', d.roomAirFeatures, 'text-orange-500');
+                if (d.roomAirImages && window.updateRoomImages) {
+                    window.updateRoomImages('studio-air', d.roomAirImages);
+                } else if (d.roomAirImage) {
+                    const c = document.getElementById('carousel-studio-air');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomAirImage;
+                }
+
+                // Room: RE NEW
+                if (d.roomReNewTitle) setText('roomReNewTitle', d.roomReNewTitle);
+                if (d.roomReNewSize) setText('roomReNewSize', d.roomReNewSize);
+                if (d.roomReNewDescription) setText('roomReNewDescription', d.roomReNewDescription);
+                if (d.roomReNewPrice) setText('roomReNewPrice', d.roomReNewPrice);
+                if (d.roomReNewPriceUnit) setText('roomReNewPriceUnit', d.roomReNewPriceUnit);
+                if (d.roomReNewFeatures) renderFeatures('roomReNewFeatures', d.roomReNewFeatures, 'text-green-500');
+                if (d.roomReNewImages && window.updateRoomImages) {
+                    window.updateRoomImages('re-new', d.roomReNewImages);
+                } else if (d.roomReNewImage) {
+                    const c = document.getElementById('carousel-re-new');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomReNewImage;
+                }
+
+                // Facilities
+                if (d.facility1Title) setText('facility1Title', d.facility1Title);
+                if (d.facility2Title) setText('facility2Title', d.facility2Title);
+                if (d.facility3Title) setText('facility3Title', d.facility3Title);
+                if (d.facility4Title) setText('facility4Title', d.facility4Title);
+                if (d.facility5Title) setText('facility5Title', d.facility5Title);
+                if (d.facility6Title) setText('facility6Title', d.facility6Title);
+
+                // Security
+                if (d.securityTitle) setText('securityTitle', d.securityTitle);
+                if (d.security1Title) setText('security1Title', d.security1Title);
+                if (d.security1Desc) setText('security1Desc', d.security1Desc);
+                if (d.security2Title) setText('security2Title', d.security2Title);
+                if (d.security2Desc) setText('security2Desc', d.security2Desc);
+                if (d.security3Title) setText('security3Title', d.security3Title);
+                if (d.security3Desc) setText('security3Desc', d.security3Desc);
+
+                // Location
+                if (d.locationTitle) setText('locationTitle', d.locationTitle);
+                if (d.locationDesc) setText('locationDesc', d.locationDesc);
+
+                // Contact
+                if (d.contactTitle) setText('contactTitle', d.contactTitle);
+                if (d.contactDesc) setText('contactDesc', d.contactDesc);
+                if (d.contactPhone) {
+                    setText('contactPhone', d.contactPhone);
+                    const phoneLink = document.getElementById('contactPhoneLink');
+                    if (phoneLink) phoneLink.href = 'tel:' + d.contactPhone.replace(/\s+/g, '');
+                }
+                if (d.contactLine) setText('contactLine', d.contactLine);
+                if (d.contactFacebook) setText('contactFacebook', d.contactFacebook);
+                if (d.contactButton) setText('contactButton', d.contactButton);
             };
 
-            // Room: Studio Fan
-            setText('roomFanTitle', d.roomFanTitle);
-            setText('roomFanSize', d.roomFanSize);
-            setText('roomFanDescription', d.roomFanDescription);
-            setText('roomFanPrice', d.roomFanPrice);
-            setText('roomFanPriceUnit', d.roomFanPriceUnit);
-            renderFeatures('roomFanFeatures', d.roomFanFeatures, 'text-blue-500');
+            // 1. Instant local render
+            applyData(golfCityData);
+            window.applyGolfCityData = applyData;
+        });
+    </script>
 
-            // Room: Studio Air (Orange accent override for features)
-            setText('roomAirTitle', d.roomAirTitle);
-            setText('roomAirSize', d.roomAirSize);
-            setText('roomAirDescription', d.roomAirDescription);
-            setText('roomAirPrice', d.roomAirPrice);
-            setText('roomAirPriceUnit', d.roomAirPriceUnit);
-            renderFeatures('roomAirFeatures', d.roomAirFeatures, 'text-orange-500');
-
-            // Room: RE NEW
-            setText('roomReNewTitle', d.roomReNewTitle);
-            setText('roomReNewSize', d.roomReNewSize);
-            setText('roomReNewDescription', d.roomReNewDescription);
-            setText('roomReNewPrice', d.roomReNewPrice);
-            setText('roomReNewPriceUnit', d.roomReNewPriceUnit);
-            renderFeatures('roomReNewFeatures', d.roomReNewFeatures, 'text-green-500');
-
-            // Facilities
-            setText('facility1Title', d.facility1Title);
-            setText('facility2Title', d.facility2Title);
-            setText('facility3Title', d.facility3Title);
-            setText('facility4Title', d.facility4Title);
-            setText('facility5Title', d.facility5Title);
-            setText('facility6Title', d.facility6Title);
-
-            // Security
-            setText('securityTitle', d.securityTitle);
-            setText('security1Title', d.security1Title);
-            setText('security1Desc', d.security1Desc);
-            setText('security2Title', d.security2Title);
-            setText('security2Desc', d.security2Desc);
-            setText('security3Title', d.security3Title);
-            setText('security3Desc', d.security3Desc);
-
-            // Location
-            setText('locationTitle', d.locationTitle);
-            setText('locationDesc', d.locationDesc);
-
-            // Contact
-            setText('contactTitle', d.contactTitle);
-            setText('contactDesc', d.contactDesc);
-            setText('contactPhone', d.contactPhone);
-            const phoneLink = document.getElementById('contactPhoneLink');
-            if (phoneLink && d.contactPhone) {
-                phoneLink.href = 'tel:' + d.contactPhone.replace(/\s+/g, '');
-            }
-            setText('contactLine', d.contactLine);
-            setText('contactFacebook', d.contactFacebook);
-            setText('contactButton', d.contactButton);
+    <!-- Realtime Firebase Live Sync -->
+    <script type="module">
+        import { initLiveSync } from './js/live-sync.js';
+        initLiveSync('golfcity', (liveData) => {
+            if (window.applyGolfCityData) window.applyGolfCityData(liveData);
         });
     </script>
 

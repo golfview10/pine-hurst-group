@@ -435,34 +435,80 @@
                 }
             };
 
-            // Monthly 1 Bed
-            setText('roomMonthly1BedTitle', d.roomMonthly1BedTitle);
-            setText('roomMonthly1BedDescription', d.roomMonthly1BedDescription);
-            setText('roomMonthly1BedPrice', d.roomMonthly1BedPrice);
-            setText('roomMonthly1BedPriceUnit', d.roomMonthly1BedPriceUnit);
-            renderFeatures('roomMonthly1BedFeatures', d.roomMonthly1BedFeatures);
+            const applyData = (d) => {
+                if (!d) return;
+                // Header
+                if (d.headerTitle) setText('headerTitle', d.headerTitle);
+                if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
+                if (d.headerBgImage) {
+                    const headerImg = document.querySelector('header img');
+                    if (headerImg) headerImg.src = d.headerBgImage;
+                }
 
-            // Monthly 2 Bed
-            setText('roomMonthly2BedTitle', d.roomMonthly2BedTitle);
-            setText('roomMonthly2BedDescription', d.roomMonthly2BedDescription);
-            setText('roomMonthly2BedPrice', d.roomMonthly2BedPrice);
-            setText('roomMonthly2BedPriceUnit', d.roomMonthly2BedPriceUnit);
-            renderFeatures('roomMonthly2BedFeatures', d.roomMonthly2BedFeatures);
+                // Monthly 1 Bed
+                if (d.roomMonthly1BedTitle) setText('roomMonthly1BedTitle', d.roomMonthly1BedTitle);
+                if (d.roomMonthly1BedDescription) setText('roomMonthly1BedDescription', d.roomMonthly1BedDescription);
+                if (d.roomMonthly1BedPrice) setText('roomMonthly1BedPrice', d.roomMonthly1BedPrice);
+                if (d.roomMonthly1BedPriceUnit) setText('roomMonthly1BedPriceUnit', d.roomMonthly1BedPriceUnit);
+                if (d.roomMonthly1BedFeatures) renderFeatures('roomMonthly1BedFeatures', d.roomMonthly1BedFeatures);
+                if (d.roomMonthly1BedImages && window.updateRoomImages) {
+                    window.updateRoomImages('monthly-1bed', d.roomMonthly1BedImages);
+                } else if (d.roomMonthly1BedImage) {
+                    const c = document.getElementById('carousel-monthly-1bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomMonthly1BedImage;
+                }
 
-            // Daily 1 Bed
-            setText('roomDaily1BedTitle', d.roomDaily1BedTitle);
-            setText('roomDaily1BedDescription', d.roomDaily1BedDescription);
-            setText('roomDaily1BedPrice', d.roomDaily1BedPrice);
-            setText('roomDaily1BedPriceUnit', d.roomDaily1BedPriceUnit);
-            renderFeatures('roomDaily1BedFeatures', d.roomDaily1BedFeatures);
+                // Monthly 2 Bed
+                if (d.roomMonthly2BedTitle) setText('roomMonthly2BedTitle', d.roomMonthly2BedTitle);
+                if (d.roomMonthly2BedDescription) setText('roomMonthly2BedDescription', d.roomMonthly2BedDescription);
+                if (d.roomMonthly2BedPrice) setText('roomMonthly2BedPrice', d.roomMonthly2BedPrice);
+                if (d.roomMonthly2BedPriceUnit) setText('roomMonthly2BedPriceUnit', d.roomMonthly2BedPriceUnit);
+                if (d.roomMonthly2BedFeatures) renderFeatures('roomMonthly2BedFeatures', d.roomMonthly2BedFeatures);
+                if (d.roomMonthly2BedImages && window.updateRoomImages) {
+                    window.updateRoomImages('monthly-2bed', d.roomMonthly2BedImages);
+                } else if (d.roomMonthly2BedImage) {
+                    const c = document.getElementById('carousel-monthly-2bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomMonthly2BedImage;
+                }
 
-            // Daily 2 Bed
-            setText('roomDaily2BedTitle', d.roomDaily2BedTitle);
-            setText('roomDaily2BedDescription', d.roomDaily2BedDescription);
-            setText('roomDaily2BedPrice', d.roomDaily2BedPrice);
-            setText('roomDaily2BedPriceUnit', d.roomDaily2BedPriceUnit);
-            renderFeatures('roomDaily2BedFeatures', d.roomDaily2BedFeatures);
+                // Daily 1 Bed
+                if (d.roomDaily1BedTitle) setText('roomDaily1BedTitle', d.roomDaily1BedTitle);
+                if (d.roomDaily1BedDescription) setText('roomDaily1BedDescription', d.roomDaily1BedDescription);
+                if (d.roomDaily1BedPrice) setText('roomDaily1BedPrice', d.roomDaily1BedPrice);
+                if (d.roomDaily1BedPriceUnit) setText('roomDaily1BedPriceUnit', d.roomDaily1BedPriceUnit);
+                if (d.roomDaily1BedFeatures) renderFeatures('roomDaily1BedFeatures', d.roomDaily1BedFeatures);
+                if (d.roomDaily1BedImages && window.updateRoomImages) {
+                    window.updateRoomImages('daily-1bed', d.roomDaily1BedImages);
+                } else if (d.roomDaily1BedImage) {
+                    const c = document.getElementById('carousel-daily-1bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomDaily1BedImage;
+                }
 
+                // Daily 2 Bed
+                if (d.roomDaily2BedTitle) setText('roomDaily2BedTitle', d.roomDaily2BedTitle);
+                if (d.roomDaily2BedDescription) setText('roomDaily2BedDescription', d.roomDaily2BedDescription);
+                if (d.roomDaily2BedPrice) setText('roomDaily2BedPrice', d.roomDaily2BedPrice);
+                if (d.roomDaily2BedPriceUnit) setText('roomDaily2BedPriceUnit', d.roomDaily2BedPriceUnit);
+                if (d.roomDaily2BedFeatures) renderFeatures('roomDaily2BedFeatures', d.roomDaily2BedFeatures);
+                if (d.roomDaily2BedImages && window.updateRoomImages) {
+                    window.updateRoomImages('daily-2bed', d.roomDaily2BedImages);
+                } else if (d.roomDaily2BedImage) {
+                    const c = document.getElementById('carousel-daily-2bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomDaily2BedImage;
+                }
+            };
+
+            // 1. Instant local render
+            applyData(mapleMansionData);
+            window.applyMapleMansionData = applyData;
+        });
+    </script>
+
+    <!-- Realtime Firebase Live Sync -->
+    <script type="module">
+        import { initLiveSync } from './js/live-sync.js';
+        initLiveSync('maplemansion', (liveData) => {
+            if (window.applyMapleMansionData) window.applyMapleMansionData(liveData);
         });
     </script>
 

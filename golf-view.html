@@ -521,7 +521,9 @@
                     if (d[`room${type}Price`]) setText(`room${type}Price`, d[`room${type}Price`]);
                     if (d[`room${type}PriceUnit`]) setText(`room${type}PriceUnit`, d[`room${type}PriceUnit`]);
                     if (d[`room${type}Features`]) renderFeatures(`room${type}Features`, d[`room${type}Features`]);
-                    if (d[`room${type}Image`]) {
+                    if (d[`room${type}Images`] && window.updateRoomImages) {
+                        window.updateRoomImages(type.toLowerCase(), d[`room${type}Images`]);
+                    } else if (d[`room${type}Image`]) {
                         const carousel = document.getElementById(`carousel-${type.toLowerCase()}`);
                         if (carousel) {
                             const firstImg = carousel.querySelector('img');

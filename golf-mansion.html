@@ -360,52 +360,66 @@
             const d = golfMansionData;
             const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
 
-            // Header
-            setText('headerTitle', d.headerTitle);
-            setText('headerSubtitle', d.headerSubtitle);
-
-            // Feature Renderer (Garden Style - Dot)
-            const renderFeatures = (id, features) => {
-                const el = document.getElementById(id);
-                if (el && Array.isArray(features)) {
-                    el.textContent = '';
-                    features.forEach(item => {
-                        const li = document.createElement('li');
-                        li.className = 'flex items-center gap-2';
-                        const dot = document.createElement('div');
-                        dot.className = 'w-1.5 h-1.5 bg-green-500 rounded-full';
-                        li.appendChild(dot);
-                        li.appendChild(document.createTextNode(' ' + item));
-                        el.appendChild(li);
-                    });
+            const applyData = (d) => {
+                if (!d) return;
+                // Header
+                if (d.headerTitle) setText('headerTitle', d.headerTitle);
+                if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
+                if (d.headerBgImage) {
+                    const headerImg = document.querySelector('header img');
+                    if (headerImg) headerImg.src = d.headerBgImage;
                 }
+
+                // Standard
+                if (d.roomStandardTitle) setText('roomStandardTitle', d.roomStandardTitle);
+                if (d.roomStandardDescription) setText('roomStandardDescription', d.roomStandardDescription);
+                if (d.roomStandardPrice) setText('roomStandardPrice', d.roomStandardPrice);
+                if (d.roomStandardPriceUnit) setText('roomStandardPriceUnit', d.roomStandardPriceUnit);
+                if (d.roomStandardFeatures) renderFeatures('roomStandardFeatures', d.roomStandardFeatures);
+                if (d.roomStandardImages && window.updateRoomImages) {
+                    window.updateRoomImages('monthly-1bed', d.roomStandardImages);
+                } else if (d.roomStandardImage) {
+                    const c = document.getElementById('carousel-monthly-1bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomStandardImage;
+                }
+
+                // Suite
+                if (d.roomSuiteTitle) setText('roomSuiteTitle', d.roomSuiteTitle);
+                if (d.roomSuiteDescription) setText('roomSuiteDescription', d.roomSuiteDescription);
+                if (d.roomSuitePrice) setText('roomSuitePrice', d.roomSuitePrice);
+                if (d.roomSuitePriceUnit) setText('roomSuitePriceUnit', d.roomSuitePriceUnit);
+                if (d.roomSuiteFeatures) renderFeatures('roomSuiteFeatures', d.roomSuiteFeatures);
+                if (d.roomSuiteImages && window.updateRoomImages) {
+                    window.updateRoomImages('monthly-2bed', d.roomSuiteImages);
+                } else if (d.roomSuiteImage) {
+                    const c = document.getElementById('carousel-monthly-2bed');
+                    if (c && c.querySelector('img')) c.querySelector('img').src = d.roomSuiteImage;
+                }
+
+                // Facilities
+                if (d.facility1Title) setText('facility1Title', d.facility1Title);
+                if (d.facility1Desc) setText('facility1Desc', d.facility1Desc);
+                if (d.facility2Title) setText('facility2Title', d.facility2Title);
+                if (d.facility2Desc) setText('facility2Desc', d.facility2Desc);
+                if (d.facility3Title) setText("facility3Title", d.facility3Title);
+                if (d.facility3Desc) setText("facility3Desc", d.facility3Desc);
+                if (d.facility4Title) setText("facility4Title", d.facility4Title);
+                if (d.facility4Desc) setText("facility4Desc", d.facility4Desc);
+                if (d.facility5Title) setText("facility5Title", d.facility5Title);
+                if (d.facility5Desc) setText("facility5Desc", d.facility5Desc);
             };
 
-            // Standard
-            setText('roomStandardTitle', d.roomStandardTitle);
-            setText('roomStandardDescription', d.roomStandardDescription);
-            setText('roomStandardPrice', d.roomStandardPrice);
-            setText('roomStandardPriceUnit', d.roomStandardPriceUnit);
-            renderFeatures('roomStandardFeatures', d.roomStandardFeatures);
+            // 1. Instant local render
+            applyData(golfMansionData);
+            window.applyGolfMansionData = applyData;
+        });
+    </script>
 
-            // Suite
-            setText('roomSuiteTitle', d.roomSuiteTitle);
-            setText('roomSuiteDescription', d.roomSuiteDescription);
-            setText('roomSuitePrice', d.roomSuitePrice);
-            setText('roomSuitePriceUnit', d.roomSuitePriceUnit);
-            renderFeatures('roomSuiteFeatures', d.roomSuiteFeatures);
-
-            // Facilities
-            setText('facility1Title', d.facility1Title);
-            setText('facility1Desc', d.facility1Desc);
-            setText('facility2Title', d.facility2Title);
-            setText('facility2Desc', d.facility2Desc);
-            setText("facility3Title", d.facility3Title);
-            setText("facility3Desc", d.facility3Desc);
-            setText("facility4Title", d.facility4Title);
-            setText("facility4Desc", d.facility4Desc);
-            setText("facility5Title", d.facility5Title);
-            setText("facility5Desc", d.facility5Desc);
+    <!-- Realtime Firebase Live Sync -->
+    <script type="module">
+        import { initLiveSync } from './js/live-sync.js';
+        initLiveSync('golfmansion', (liveData) => {
+            if (window.applyGolfMansionData) window.applyGolfMansionData(liveData);
         });
     </script>
 
