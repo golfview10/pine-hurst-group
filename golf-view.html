@@ -505,14 +505,31 @@
                 }
             };
 
-            // Inject Rooms
-            ['Standard', 'Premium', 'Deluxe', 'VIP', 'Paradise'].forEach(type => {
-                setText(`room${type}Title`, d[`room${type}Title`]);
-                setText(`room${type}Description`, d[`room${type}Description`]);
-                setText(`room${type}Price`, d[`room${type}Price`]);
-                setText(`room${type}PriceUnit`, d[`room${type}PriceUnit`]);
-                renderFeatures(`room${type}Features`, d[`room${type}Features`]);
-            });
+            const applyData = (d) => {
+                if (!d) return;
+                if (d.headerTitle) setText('headerTitle', d.headerTitle);
+                if (d.headerSubtitle) setText('headerSubtitle', d.headerSubtitle);
+
+                // Inject Rooms
+                ['Standard', 'Premium', 'Deluxe', 'VIP', 'Paradise'].forEach(type => {
+                    if (d[`room${type}Title`]) setText(`room${type}Title`, d[`room${type}Title`]);
+                    if (d[`room${type}Description`]) setText(`room${type}Description`, d[`room${type}Description`]);
+                    if (d[`room${type}Price`]) setText(`room${type}Price`, d[`room${type}Price`]);
+                    if (d[`room${type}PriceUnit`]) setText(`room${type}PriceUnit`, d[`room${type}PriceUnit`]);
+                    if (d[`room${type}Features`]) renderFeatures(`room${type}Features`, d[`room${type}Features`]);
+                });
+            };
+
+            // 1. Initial instant render with local data
+            applyData(golfViewData);
+            window.applyGolfViewData = applyData;
+        });
+    </script>
+    <!-- Realtime Firebase Live Sync -->
+    <script type="module">
+        import { initLiveSync } from './js/live-sync.js';
+        initLiveSync('golfview', (liveData) => {
+            if (window.applyGolfViewData) window.applyGolfViewData(liveData);
         });
     </script>
 
