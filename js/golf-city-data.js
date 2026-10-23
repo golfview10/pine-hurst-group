@@ -46,11 +46,17 @@ const golfCityData = {
 
     // Facilities
     facility1Title: "ร้านสะดวกซื้อ",
+    facility1Image: "image/golfcity/facilities/7-11/1.png",
     facility2Title: "ร้านค้าใต้ตึก ร้านแฟรนไชส์ยอดนิยม ",
+    facility2Image: "image/golfcity/facilities/food/1.png",
     facility3Title: "บริการซักรีด",
+    facility3Image: "image/golfcity/facilities/laundry/1.png",
     facility4Title: "ศูนย์อาหาร",
+    facility4Image: "image/golfcity/facilities/market/1.png",
     facility5Title: "Walking Street ตลาดกลางคืน",
+    facility5Image: "image/golfcity/facilities/walkingstreet/1.png",
     facility6Title: "อาคารจอดรถ",
+    facility6Image: "image/golfcity/facilities/parking/1.png",
 
     // Security
     securityTitle: "ระบบความปลอดภัย",

@@ -109,6 +109,43 @@
         ]
     };
 
+    const dormFacilitySchemas = {
+        'golfview': [
+            { id: 'pool', image: 'image/golfview/facilities/1.png', icon: 'fa-solid fa-person-swimming' },
+            { id: 'fitness', image: 'image/golfview/facilities/2.png', icon: 'fa-solid fa-dumbbell' },
+            { id: 'van', image: 'image/golfview/facilities/3.png', icon: 'fa-solid fa-van-shuttle' },
+            { id: 'shop', image: 'image/golfview/facilities/4.png', icon: 'fa-solid fa-shop' },
+            { id: 'laundry', image: 'image/golfview/facilities/5.png', icon: 'fa-solid fa-jug-detergent' },
+            { id: 'garden', image: 'image/golfview/facilities/6.png', icon: 'fa-solid fa-tree' },
+            { id: 'coworking', image: 'image/golfview/facilities/7.png', icon: 'fa-solid fa-laptop' }
+        ],
+        'golfcity': [
+            { id: '7-11', image: 'image/golfcity/facilities/7-11/1.png', icon: 'fa-solid fa-store' },
+            { id: 'food', image: 'image/golfcity/facilities/food/1.png', icon: 'fa-solid fa-shop' },
+            { id: 'laundry', image: 'image/golfcity/facilities/laundry/1.png', icon: 'fa-solid fa-jug-detergent' },
+            { id: 'market', image: 'image/golfcity/facilities/market/1.png', icon: 'fa-solid fa-utensils' },
+            { id: 'walkingstreet', image: 'image/golfcity/facilities/walkingstreet/1.png', icon: 'fa-solid fa-street-view' },
+            { id: 'parking', image: 'image/golfcity/facilities/parking/1.png', icon: 'fa-solid fa-square-parking' }
+        ],
+        'golfmansion': [
+            { id: 'garden', image: 'image/golfmansion/facilities/garden/1.png', icon: 'fa-solid fa-tree' },
+            { id: 'fitness', image: 'image/golfmansion/facilities/fitness/1.png', icon: 'fa-solid fa-dumbbell' },
+            { id: 'food', image: 'image/golfmansion/facilities/food/1.png', icon: 'fa-solid fa-utensils' },
+            { id: 'shop', image: 'image/golfmansion/facilities/shop/1.png', icon: 'fa-solid fa-shop' },
+            { id: 'parking', image: 'image/golfmansion/facilities/parking/1.png', icon: 'fa-solid fa-square-parking' }
+        ],
+        'maplecity': [
+            { id: 'fitness', image: 'image/maplecity/facilities/fitness/1.png', icon: 'fa-solid fa-dumbbell' },
+            { id: 'parking', image: 'image/maplecity/facilities/parking/1.png', icon: 'fa-solid fa-square-parking' },
+            { id: 'lounge', image: 'image/maplecity/facilities/lounge/1.png', icon: 'fa-solid fa-couch' }
+        ],
+        'maplemansion': [
+            { id: 'fitness', image: 'image/maplemansion/facilities/fitness/1.png', icon: 'fa-solid fa-dumbbell' },
+            { id: 'parking', image: 'image/maplemansion/facilities/parking/1.png', icon: 'fa-solid fa-square-parking' },
+            { id: 'lounge', image: 'image/maplemansion/facilities/lounge/1.png', icon: 'fa-solid fa-couch' }
+        ]
+    };
+
     /**
      * Normalizes data by creating mutable arrays for rooms, facilities, and securityItems
      * if they don't already exist.
@@ -149,6 +186,7 @@
         }
 
         // 2. Facilities
+        const facSchemas = dormFacilitySchemas[dormId] || [];
         if (!Array.isArray(normalized.facilities) || normalized.facilities.length === 0) {
             const defaultIcons = [
                 'fa-solid fa-person-swimming',
@@ -161,18 +199,32 @@
                 'fa-solid fa-square-parking'
             ];
             const facList = [];
-            for (let i = 1; i <= 8; i++) {
+            const maxCount = Math.max(8, facSchemas.length);
+            for (let i = 1; i <= maxCount; i++) {
                 if (normalized[`facility${i}Title`] || normalized[`facility${i}Desc`]) {
+                    const schemaItem = facSchemas[i - 1];
+                    const defaultImg = schemaItem ? schemaItem.image : `image/${dormId}/facilities/${i}.png`;
+                    const defaultIcon = schemaItem ? schemaItem.icon : defaultIcons[(i - 1) % defaultIcons.length];
                     facList.push({
-                        id: `fac_${i}`,
+                        id: schemaItem ? schemaItem.id : `fac_${i}`,
                         title: normalized[`facility${i}Title`] || `จุดที่ ${i}`,
                         desc: normalized[`facility${i}Desc`] || '',
-                        icon: normalized[`facility${i}Icon`] || defaultIcons[(i - 1) % defaultIcons.length],
-                        image: normalized[`facility${i}Image`] || `image/${dormId}/facilities/${i}.png`
+                        icon: normalized[`facility${i}Icon`] || defaultIcon,
+                        image: normalized[`facility${i}Image`] || defaultImg
                     });
                 }
             }
             if (facList.length > 0) normalized.facilities = facList;
+        } else {
+            // Ensure facilities have proper images if defaults were invalid
+            normalized.facilities.forEach((fac, idx) => {
+                const schemaItem = facSchemas[idx];
+                if (!fac.image || fac.image === `image/${dormId}/facilities/${idx + 1}.png` || fac.image.endsWith('/cover.png')) {
+                    if (schemaItem && schemaItem.image) {
+                        fac.image = schemaItem.image;
+                    }
+                }
+            });
         }
 
         // 3. Security
@@ -230,7 +282,8 @@
             html += `
             <div onclick="openGallery('${normalizedId}')" class="group cursor-pointer fade-up" data-room-id="${normalizedId}">
                 <div id="carousel-${normalizedId}"
-                     class="relative h-[290px] bg-slate-800 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500">
+                     class="relative h-[280px] bg-slate-800 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-2xl transition-all duration-500"
+                     style="height: 280px; min-height: 280px;">
                     ${images.map((imgUrl, i) => `
                         <img src="${escapeHtml(imgUrl)}" 
                              class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${i === 0 ? 'opacity-100' : 'opacity-0'}"
@@ -273,6 +326,9 @@
         });
 
         container.innerHTML = html;
+        if (window.initScrollAnimations) {
+            window.initScrollAnimations(container);
+        }
 
         // Register images with gallery & restart carousel slideshows
         rooms.forEach((room) => {
@@ -299,10 +355,14 @@
         let html = '';
 
         facilities.forEach((fac, idx) => {
+            const schemaItem = (dormFacilitySchemas[dormId] && dormFacilitySchemas[dormId][idx]) ? dormFacilitySchemas[dormId][idx] : null;
             const title = fac.title || 'สิ่งอำนวยความสะดวก';
             const desc = fac.desc ? escapeHtml(fac.desc) : '';
-            const icon = fac.icon || 'fa-solid fa-star';
-            const imgUrl = fac.image || `image/${dormId}/facilities/${idx + 1}.png`;
+            const icon = fac.icon || (schemaItem ? schemaItem.icon : 'fa-solid fa-star');
+            let imgUrl = fac.image;
+            if (!imgUrl || imgUrl === `image/${dormId}/facilities/${idx + 1}.png` || imgUrl.endsWith('/cover.png')) {
+                imgUrl = (schemaItem && schemaItem.image) ? schemaItem.image : `image/${dormId}/facilities/${idx + 1}.png`;
+            }
 
             // Bento Hero on 1st item for golfview and golfcity
             const isHeroBento = (dormId === 'golfview' || dormId === 'golfcity') && idx === 0;
@@ -343,6 +403,9 @@
         });
 
         container.innerHTML = html;
+        if (window.initScrollAnimations) {
+            window.initScrollAnimations(container);
+        }
     };
 
     /**
@@ -382,6 +445,9 @@
         });
 
         container.innerHTML = html;
+        if (window.initScrollAnimations) {
+            window.initScrollAnimations(container);
+        }
     };
 
     /**
@@ -393,12 +459,21 @@
 
         if (Array.isArray(normalized.rooms) && normalized.rooms.length > 0) {
             window.renderDynamicRooms(dormId, normalized.rooms, 'roomsContainer');
+            // Update room count label if present in HTML
+            const countEl = document.querySelector('#rooms .text-slate-400');
+            if (countEl) {
+                countEl.textContent = `มีห้องพัก ${normalized.rooms.length} รูปแบบ`;
+            }
         }
         if (Array.isArray(normalized.facilities) && normalized.facilities.length > 0) {
             window.renderDynamicFacilities(dormId, normalized.facilities, 'facilitiesContainer');
         }
         if (Array.isArray(normalized.securityItems) && normalized.securityItems.length > 0) {
             window.renderDynamicSecurity(dormId, normalized.securityItems, 'securityContainer');
+        }
+
+        if (window.initScrollAnimations) {
+            window.initScrollAnimations();
         }
 
         return normalized;

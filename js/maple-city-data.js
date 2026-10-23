@@ -57,10 +57,13 @@ const mapleCityData = {
     // Facilities
     facility1Title: "ฟิตเนสครบวงจร",
     facility1Desc: "เครื่องออกกำลังกายทันสมัย เปิดให้บริการฟรี",
+    facility1Image: "image/maplecity/facilities/fitness/1.png",
     facility2Title: "ที่จอดรถกว้างขวาง",
     facility2Desc: "พร้อมระบบรักษาความปลอดภัย",
+    facility2Image: "image/maplecity/facilities/parking/1.png",
     facility3Title: "Lounge ส่วนกลางห้องรับรอง",
     facility3Desc: "พื้นที่นั่งเล่น พักผ่อน อ่านหนังสือ",
+    facility3Image: "image/maplecity/facilities/lounge/1.png",
 
     // Location
     locationTitle: "ทำเลที่ตั้ง",

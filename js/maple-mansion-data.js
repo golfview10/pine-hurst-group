@@ -56,10 +56,13 @@ const mapleMansionData = {
     // Facilities
     facility1Title: "Exclusive Fitness",
     facility1Desc: "ฟิตเนสส่วนตัว อุปกรณ์ครบครัน",
+    facility1Image: "image/maplemansion/facilities/fitness/1.png",
     facility2Title: "Convenient Parking",
     facility2Desc: "ที่จอดรถกว้างขวาง สะดวกสบาย",
+    facility2Image: "image/maplemansion/facilities/parking/1.png",
     facility3Title: "Co-Living Lounge",
     facility3Desc: "พื้นที่ส่วนกลางสำหรับพักผ่อน",
+    facility3Image: "image/maplemansion/facilities/lounge/1.png",
 
     // Location
     locationTitle: "ทำเลที่ตั้ง",

@@ -82,3 +82,40 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* === Room Carousel & Dynamic Card Heights === */
+[id^="carousel-"],
+.h-\[280px\],
+.h-\[290px\] {
+    height: 280px !important;
+    min-height: 280px !important;
+}
+
+.min-h-\[140px\] {
+    min-height: 140px !important;
+}
+
+.h-\[80\%\] {
+    height: 80% !important;
+}
+
+.h-\[20\%\] {
+    height: 20% !important;
+}
+
+.h-\[75\%\] {
+    height: 75% !important;
+}
+
+.h-\[25\%\] {
+    height: 25% !important;
+}
+
+/* Accessibility & fallback for animations */
+@media (prefers-reduced-motion: reduce) {
+    .fade-up, .fade-in {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

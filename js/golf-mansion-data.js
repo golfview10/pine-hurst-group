@@ -34,14 +34,19 @@ const golfMansionData = {
     // Facilities
     facility1Title: "สวนหย่อม",
     facility1Desc: "สวนธรรมชาติร่มรื่น",
+    facility1Image: "image/golfmansion/facilities/garden/1.png",
     facility2Title: "ฟิตเนส",
     facility2Desc: "ฟิตเนสเซ็นเตอร์",
+    facility2Image: "image/golfmansion/facilities/fitness/1.png",
     facility3Title: "ศูนย์อาหาร",
     facility3Desc: "ศูนย์อาหารครบวงจร",
+    facility3Image: "image/golfmansion/facilities/food/1.png",
     facility4Title: "ร้านค้า",
     facility4Desc: "ร้านค้าอำนวยความสะดวก",
+    facility4Image: "image/golfmansion/facilities/shop/1.png",
     facility5Title: "ที่จอดรถ",
     facility5Desc: "ที่จอดรถกว้างขวาง สะดวกสบาย",
+    facility5Image: "image/golfmansion/facilities/parking/1.png",
 
     // Location
     locationTitle: "ทำเลที่ตั้ง",

@@ -1,90 +1,159 @@
 // Theme Logic: Scroll Animations & Interactions (2026 Edition)
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
+    'use strict';
 
-    // 1. Intersection Observer for Scroll Reveal
+    let observer = null;
+
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.1 // Trigger when 10% visible
+        rootMargin: '50px 0px 50px 0px', // Preload slightly before appearing
+        threshold: 0.05
     };
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Animate only once
-            }
-        });
-    }, observerOptions);
-
-    // Target elements with .fade-up or .fade-in
-    const animatedElements = document.querySelectorAll('.fade-up, .fade-in');
-    animatedElements.forEach(el => observer.observe(el));
-
-
-    // 2. Navbar Scroll Effect (Glassmorphism)
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('glass', 'shadow-md');
-                navbar.classList.remove('bg-transparent', 'md:bg-transparent');
-                // Note: Specific background removal depends on the page's initial state
-            } else {
-                navbar.classList.remove('glass', 'shadow-md');
-                // Optional: Revert to transparent if needed, or let HTML classes handle it
-            }
-        });
+    if ('IntersectionObserver' in window) {
+        observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
     }
 
-    // 3. Mobile Menu Logic (with Click-Outside support)
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
+    /**
+     * Scan and register elements for scroll animations
+     * Immediately reveals elements that are already in/near viewport.
+     */
+    window.initScrollAnimations = function (container) {
+        const root = container || document;
+        const selector = '.fade-up:not(.is-visible), .fade-in:not(.is-visible)';
+        let elements = [];
 
-    const closeMobileMenu = () => {
-        if (!mobileMenu || mobileMenu.classList.contains('hidden')) return;
-        mobileMenu.classList.add('scale-y-0', 'opacity-0');
-        setTimeout(() => {
-            mobileMenu.classList.add('hidden');
-        }, 300); // Match transition duration
-    };
+        if (root.matches && root.matches(selector)) {
+            elements.push(root);
+        }
+        if (root.querySelectorAll) {
+            elements = elements.concat(Array.from(root.querySelectorAll(selector)));
+        }
 
-    const openMobileMenu = () => {
-        if (!mobileMenu) return;
-        mobileMenu.classList.remove('hidden');
-        setTimeout(() => {
-            mobileMenu.classList.remove('scale-y-0', 'opacity-0');
-        }, 10);
-    };
+        if (elements.length === 0) return;
 
-    if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (mobileMenu.classList.contains('hidden')) {
-                openMobileMenu();
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            // If already visible or near top of viewport, reveal immediately
+            if (!observer || rect.top <= viewportHeight + 100) {
+                el.classList.add('is-visible');
             } else {
-                closeMobileMenu();
+                observer.observe(el);
+            }
+        });
+    };
+
+    // Auto-watch for dynamic DOM insertions (e.g. Firebase Live Sync, dorm-renderer)
+    if ('MutationObserver' in window) {
+        const domObserver = new MutationObserver((mutations) => {
+            let shouldScan = false;
+            mutations.forEach(m => {
+                if (m.addedNodes && m.addedNodes.length > 0) {
+                    shouldScan = true;
+                }
+            });
+            if (shouldScan) {
+                window.initScrollAnimations();
             }
         });
 
-        // Close on click outside
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
-                closeMobileMenu();
+        const startObserving = () => {
+            if (document.body) {
+                domObserver.observe(document.body, { childList: true, subtree: true });
             }
-        });
+        };
 
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeMobileMenu();
-            }
-        });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startObserving);
+        } else {
+            startObserving();
+        }
     }
 
-    // Global toggle function for links
-    window.toggleMobileMenu = () => {
-        closeMobileMenu();
+    // Safety fallback: ensure nothing stays permanently hidden after 1.5s
+    setTimeout(() => {
+        const hidden = document.querySelectorAll('.fade-up:not(.is-visible), .fade-in:not(.is-visible)');
+        hidden.forEach(el => el.classList.add('is-visible'));
+    }, 1500);
+
+    const initTheme = () => {
+        // 1. Initial animation scan
+        window.initScrollAnimations();
+
+        // 2. Navbar Scroll Effect (Glassmorphism)
+        const navbar = document.querySelector('nav');
+        if (navbar) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('glass', 'shadow-md');
+                    navbar.classList.remove('bg-transparent', 'md:bg-transparent');
+                } else {
+                    navbar.classList.remove('glass', 'shadow-md');
+                }
+            });
+        }
+
+        // 3. Mobile Menu Logic (with Click-Outside support)
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        const closeMobileMenu = () => {
+            if (!mobileMenu || mobileMenu.classList.contains('hidden')) return;
+            mobileMenu.classList.add('scale-y-0', 'opacity-0');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300);
+        };
+
+        const openMobileMenu = () => {
+            if (!mobileMenu) return;
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenu.classList.remove('scale-y-0', 'opacity-0');
+            }, 10);
+        };
+
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (mobileMenu.classList.contains('hidden')) {
+                    openMobileMenu();
+                } else {
+                    closeMobileMenu();
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        }
+
+        window.toggleMobileMenu = () => {
+            closeMobileMenu();
+        };
     };
-});
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTheme);
+    } else {
+        initTheme();
+    }
+})();
